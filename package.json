@@ -1,15 +1,17 @@
 {
-  "name": "hello-express",
-  "version": "0.0.1",
+  "name": "03",
+  "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "telegraf": "^4.0.2"
-  },
-  "engines": {
-    "node": "14.x"
+    "mongoose": "^5.11.12",
+    "telegraf": "^4.0.1"
   }
 }
