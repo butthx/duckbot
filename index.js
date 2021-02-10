@@ -15,6 +15,7 @@ const loop = require('./bot/loop')
 const delete_module = require('./bot/delete')
 const report_module = require('./bot/admin')
 const ban_module = require('./bot/kick')
+const eval_module = require('./bot/eval')
 const util = require('./bot/util')
 
 const {callback_module} = require('./bot/callback')
@@ -65,6 +66,10 @@ bot.command('unpin', (ctx) => {
 bot.command('loop', (ctx) => {
   return loop.loopText(ctx)
 })
+bot.command('tele', (ctx) => {
+  return eval_module.telegraf(ctx)
+})
+
 //hears message
 bot.hears(/\@admin|\@admins/gmi,(ctx)=>{
   return report_module.report(ctx)

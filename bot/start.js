@@ -50,6 +50,11 @@ const start_module = {
       }catch(error){
         return util.error_log(ctx,error)
       }
+    },
+  id : async function (ctx){
+    if(ctx.message.reply_to_message){
+      
     }
+  }
 }
 module.exports = start_module
