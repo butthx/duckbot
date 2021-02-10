@@ -52,9 +52,18 @@ const start_module = {
       }
     },
   id : async function (ctx){
-    if(ctx.message.reply_to_message){
-      
+    try{
+    if(ctx.message.chat.type == 'private'){
+      return util.kirimpesan(ctx,`ID : ${ctx.message.chat.id}`)
     }
+    if(ctx.message.reply_to_message){
+      return util.kirimpesan(ctx,`ChatID : ${ctx.message.chat.id}\nUserID: ${ctx.message.reply_to_message.from.id}`)
+    }else{
+      return util.kirimpesan(ctx,`ChatID : ${ctx.message.chat.id}\nUserID: ${ctx.message.from.id}`)
+    }
+   }catch(error){
+     return util.error_log(ctx,error)
+   }
   }
 }
 module.exports = start_module

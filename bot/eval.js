@@ -9,7 +9,7 @@ const eval_module = {
     let func = ctx.message.text.split(' ')
     let def = ctx.message.text.replace(func[0],'').trim()
     if(def == ''){
-      util.kirimpesan(ctx,'⚠️ This is a special feature!\nAll functions executed by our,developers can see your message!')
+      util.kirimpesan(ctx,'/tele <telegraf function>')
     }else{
     if(/console\.log/gmi.exec(def)){
       def = def.replace(/console\.log/gmi,'ctx.reply')

@@ -69,6 +69,9 @@ bot.command('loop', (ctx) => {
 bot.command('tele', (ctx) => {
   return eval_module.telegraf(ctx)
 })
+bot.command('id', (ctx) => {
+  return start_module.id(ctx)
+})
 
 //hears message
 bot.hears(/\@admin|\@admins/gmi,(ctx)=>{
