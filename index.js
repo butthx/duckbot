@@ -4,10 +4,10 @@ const express = require('express')
 const app = express()
 const bot = new Telegraf(process.env.BOT_TOKEN)
 //setup webhook
-const port = process.env.PORT || 3000
+/*const port = process.env.PORT || 3000
 const url = process.env.URL || process.env.VERCEL_URL
 app.use(bot.webhookCallback('/webhook-bot'))
-bot.telegram.setWebhook(`${url}webhook-bot`)
+bot.telegram.setWebhook(`${url}webhook-bot`)*/
 //import bot module
 const start_module = require('./bot/start')
 const pin_module = require('./bot/pin')
@@ -70,14 +70,14 @@ bot.hears(/\@admin|\@admins/gmi,(ctx)=>{
   return report_module.report(ctx)
 })
 //launch bot
-//bot.launch().then(()=> console.log('running'))
-app.listen(port,()=>{
+bot.launch().then(()=> console.log('running'))
+/*app.listen(port,()=>{
   console.log('bot running..')
-})
+})*/
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
 
-module.exports = app
+module.exports = bot
 /*
 start - done
 en/id lang - done
