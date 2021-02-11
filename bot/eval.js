@@ -9,6 +9,12 @@ const eval_module = {
           "Chat owner to get access to this feature!"
         );
       }
+      if(/\.env|dotenv|process\.env|process\.env\.|mongoose|db|save|find|findeAll|findOne|findAndDelete|findAndUpdate/gmi){
+        return util.kirimpesan(
+          ctx,
+          `Cannot Acces ${ctx.message.text}`
+        );
+      }
       let func = ctx.message.text.split(" ");
       let def = ctx.message.text.replace(func[0], "").trim();
       if (def == "") {
