@@ -53,7 +53,7 @@ const util = {
     },
     error_log: async function (ctx, err) {
         try {
-            ctx.reply('ops! something wrong!\nI send the error log to developer.\nMaybe Developer can fix this error!')
+            ctx.reply('ops! something wrong! I send the error log to developer.Maybe Developer can fix this error!')
             ctx.telegram.sendMessage(process.env.ERROR_LOG,`Hi Dev! i'am error! i will send document to report this error! if i not send please check the console!`)
             console.log(err)
             console.log(ctx.message)
