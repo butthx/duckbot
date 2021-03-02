@@ -34,8 +34,6 @@ const start_module = {
     },
     setUsername : async function(ctx){
       try{
-        //config language
-            
         return ctx.replyWithAnimation('CgACAgUAAxkBAAObYAkiJAUIT51Q3ZvG8_xteDoKC9MAAvEAAx2fiVenbESkzdblXh4E',{caption : `How to set username?\n• Goto settings and fill in the username\n• Username must at least 5 letters or numbers\n• The username notification must be green text with the words 'username is available'\n#setusername\n©️ Miss Duckbot ${new Date().getFullYear()}`,reply_to_message_id : ctx.message.message_id,reply_markup:{inline_keyboard:[[{text:`❌ ${await util.getLang(ctx,'close')}`,callback_data:'close',hide:true}]]}})
 
       // change file_id with this if published!
