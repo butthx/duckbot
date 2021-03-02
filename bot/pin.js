@@ -27,13 +27,8 @@ const pin_module = {
     },
     pinnedMessage : async function(ctx){
       try{
-        //config language
-         let language = 'en'
          let spl = ctx.message.text.split(' ')
          let rpl = ctx.message.text.replace(spl[0],'').trim()
-            if (ctx.message.from.language_code && lang[ctx.message.from.language_code]) {
-                language = ctx.message.from.language_code.toLowerCase()
-            }
           //running function
         //check bot admin or not
          let botAdmin = report_module.adminCheck(ctx,ctx.botInfo.id)
@@ -47,7 +42,7 @@ const pin_module = {
           }
            return ctx.pinChatMessage(ctx.message.reply_to_message.message_id,{disable_notification : true})
         }else{
-          return util.kirimPesanPin(ctx,lang[language].mustReply)
+          return util.kirimPesanPin(ctx,`${await util.getLang(ctx,'mustReply')}`)
         }
       }catch(error){
         console.log(error) 
@@ -56,8 +51,6 @@ const pin_module = {
     },
     unpinMessage : async function(ctx){
       try{
-        //config language
-        let language = 'en'
             if (ctx.message.from.language_code && lang[ctx.message.from.language_code]) {
                 language = ctx.message.from.language_code.toLowerCase()
             }
