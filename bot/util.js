@@ -1,4 +1,5 @@
 require('dotenv').config()
+const yaml = require('js-yaml');
 const fs = require('fs')
 const { lang } = require('./lang/language')
 const util = {
@@ -88,18 +89,25 @@ const util = {
            this.error_log(ctx,error)
         }
     },
-   getLang : async function(ctx,params){
-     let language = 'en'
-     if(ctx.callbackQuery){
-       if (ctx.callbackQuery.from.language_code && lang[ctx.callbackQuery.from.language_code]) {
-        language = ctx.callbackQuery.from.language_code.toLowerCase()
-    }
-     }else{
-     if (ctx.message.from.language_code && lang[ctx.message.from.language_code]) {
-        language = ctx.message.from.language_code.toLowerCase()
-       }
-    }
-    return lang[language][params]
+   getLang : async function(lang,params){
+     try{
+       let lang = yaml.load(fs.readFileSync(`./lang/${lang}.yml`, 'utf8'));
+       let r = JSON.parse(lang)
+       return r[params]
+     }catch(error){
+       return "Error can't get language!"
+     }
+    //  let language = 'en'
+    //  if(ctx.callbackQuery){
+    //    if (ctx.callbackQuery.from.language_code && lang[ctx.callbackQuery.from.language_code]) {
+    //     language = ctx.callbackQuery.from.language_code.toLowerCase()
+    // }
+    //  }else{
+    //  if (ctx.message.from.language_code && lang[ctx.message.from.language_code]) {
+    //     language = ctx.message.from.language_code.toLowerCase()
+    //    }
+    // }
+    // return lang[language][params]
    }
 }
 module.exports = util
