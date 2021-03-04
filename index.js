@@ -102,3 +102,11 @@
 // print text? done
 // report - done
 // */
+// const yaml = require('js-yaml');
+// const fs   = require('fs');
+// try{
+//   const doc = yaml.load(fs.readFileSync('./bot/lang/en.yml', 'utf8'));
+//   console.log(doc);
+// }catch(error){
+//   console.log(error)
+// }
