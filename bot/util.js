@@ -164,8 +164,10 @@ const util = {
           user.filters.deleteOldMessage.status = false
           user.filters.deleteOldMessage.message_id = 0
           await user.save()
-        }
           return;
+        }else{
+          
+        }
       }else{
         let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
         if(data == null){
