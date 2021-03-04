@@ -14,7 +14,7 @@ const start_module = {
                 var pesan = lang.replace(/\{mention\}/gmi,mention);
                 var keyboard = [[{
                     text: `🧚🏻‍♂️ ${await util.getLang(ctx,'addGroup')}`,
-                    url: `https://t.me/${ctx.botInfo.username}?startgroup=true`
+                    url: `https://t.me/${ctx.botInfo.username}?startgroup=help`
                 }], [{
                     text: `💲 ${await  util.getLang(ctx,'donate')}`,
                     url: 'https://saweria.co/DuckBot'

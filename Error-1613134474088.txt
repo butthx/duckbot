@@ -1,6 +1,0 @@
-Error Date : Fri, 12 Feb 2021 12:54:34 GMT
-Message info :
-{"message_id":2288,"from":{"id":1087968824,"is_bot":true,"first_name":"Group","username":"GroupAnonymousBot"},"author_signature":"~ Owner","sender_chat":{"id":-1001326837355,"title":"DuckBot Testing Bot","type":"supergroup"},"chat":{"id":-1001326837355,"title":"DuckBot Testing Bot","type":"supergroup"},"date":1613134473,"text":"/start@Me_DuckBot","entities":[{"offset":0,"length":17,"type":"bot_command"}]}
-Error Info :
-{"response":{"ok":false,"error_code":400,"description":"Bad Request: can't parse inline keyboard button: Can't find field \"text\""},"on":{"method":"sendMessage","payload":{"chat_id":-1001326837355,"text":"Contact me on PM!","parse_mode":"HTML","reply_to_message_id":2288,"reply_markup":{"inline_keyboard":[[{"url":"https://t.me/Me_DuckBot?start"}]]},"disable_web_page_preview":true}}}
-Error: 400: Bad Request: can't parse inline keyboard button: Can't find field "text"
