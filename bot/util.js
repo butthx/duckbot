@@ -1,8 +1,10 @@
 require("dotenv").config();
 const yaml = require("js-yaml");
+const mongoose = require('mongoose')
 const fs = require("fs");
 const { lang } = require("./lang/language");
 const usersData = require('./database/users')
+const groupsData = require('./database/groups')
 const util = {
   makeid: function(length) {
     var result = "";
@@ -143,10 +145,11 @@ const util = {
     // }
     // return lang[language][params]
   },
-  saveUser : function(ctx){
+  saveUser : async function(ctx){
     try{
       if(ctx.message.chat.type == 'private'){
-        
+        let data = await usersData.usersData.findOne()
+        let user = new usersData()
       }else{
         
       }
