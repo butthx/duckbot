@@ -6,5 +6,10 @@ const captchasData = new Schema({
   },
   chat_id : {
     type : Number
+  },
+  captchasAnswer : {
+    type : String
   }
 })
+
+module.exports = mongoose.model("captchas",captchasData,'captchas')
