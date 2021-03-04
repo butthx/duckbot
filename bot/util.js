@@ -166,7 +166,7 @@ const util = {
           await user.save()
           return;
         }else{
-          
+          if(data){}
         }
       }else{
         let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
