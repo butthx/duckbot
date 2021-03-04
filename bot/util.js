@@ -177,7 +177,7 @@ const util = {
             change += ` username from ${data.username} to ${ctx.message.from.username}`
           }
           if((data.first_name !== ctx.message.from.first_name)||(data.last_name !== ctx.message.from.last_name)||(data.username !== ctx.message.from.username)){
-           
+            await this.kirimPesanPin(ctx,change)
             data.first_name == ctx.message.from.first_name
             data.last_name == ctx.message.from.last_name
             data.username == ctx.message.from.username
@@ -189,8 +189,10 @@ const util = {
         let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
         if(data == null){
          let user = new usersData()
+        }else{
+          let r = data.users
+          
         }
-       return;
       }
     }catch(error){
       return error
