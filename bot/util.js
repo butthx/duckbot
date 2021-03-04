@@ -152,9 +152,9 @@ const util = {
         if(data == null){
          let user = new usersData()
           user.chat_id = ctx.message.chat.id
-          user.first_name = ctx.message.chat.first_name
-          user.last_name = ctx.message.chat.last_name
-          user.username = ctx.message.chat.username
+          user.first_name = ctx.message.from.first_name
+          user.last_name = ctx.message.from.last_name
+          user.username = ctx.message.from.username
           user.warns = []
           user.language = 'en'
           user.notes.value = []
@@ -166,8 +166,25 @@ const util = {
           await user.save()
           return;
         }else{
-          if(data){}
-        }
+          let change = `user ${ctx.message.from.id} change`
+          if(data.first_name !== ctx.message.from.first_name){
+            change += ` first name from ${data.first_name} to ${ctx.message.from.first_name}`
+          }
+          if(data.last_name !== ctx.message.from.last_name){
+            change += ` last name from ${data.first_name} to ${ctx.message.from.last_name}`
+          }
+          if(data.username !== ctx.message.from.username){
+            change += ` username from ${data.username} to ${ctx.message.from.username}`
+          }
+          if((data.first_name !== ctx.message.from.first_name)||(data.last_name !== ctx.message.from.last_name)||(data.username !== ctx.message.from.username)){
+           
+            data.first_name == ctx.message.from.first_name
+            data.last_name == ctx.message.from.last_name
+            data.username == ctx.message.from.username
+            await data.save()
+          }
+         return;
+       }
       }else{
         let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
         if(data == null){
