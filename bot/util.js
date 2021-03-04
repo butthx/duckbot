@@ -148,10 +148,30 @@ const util = {
   saveUser : async function(ctx){
     try{
       if(ctx.message.chat.type == 'private'){
-        let data = await usersData.usersData.findOne()
-        let user = new usersData()
+        let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
+        if(data == null){
+         let user = new usersData()
+          user.chat_id = ctx.message.chat.id
+          user.first_name = ctx.message.chat.first_name
+          user.last_name = ctx.message.chat.last_name
+          user.username = ctx.message.chat.username
+          user.warns = []
+          user.language = 'en'
+          user.notes.value = []
+          user.notes.deleteOldMessage.status = false
+          user.notes.deleteOldMessage.message_id = 0
+          user.filters.value = []
+          user.filters.deleteOldMessage.status = false
+          user.filters.deleteOldMessage.message_id = 0
+          await user.save()
+        }
+          return;
       }else{
-        
+        let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
+        if(data == null){
+         let user = new usersData()
+        }
+       return;
       }
     }catch(error){
       return error
