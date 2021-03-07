@@ -166,7 +166,7 @@ const util = {
   saveUser : async function(ctx){
     try{
       if(ctx.message.chat.type == 'private'){
-        let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
+        let data = await usersData.findOne({chat_id:ctx.message.chat.id})
         if(data == null){
          let user = new usersData()
           user.chat_id = ctx.message.chat.id
@@ -178,7 +178,7 @@ const util = {
         }
         return;
       }else{
-        let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
+        let data = await groupsData.findOne({chat_id:ctx.message.chat.id})
         if(data == null){
           let groups = new groupsData()
           groups.chat_id = ctx.message.chat.id
