@@ -187,12 +187,26 @@ const util = {
        }
       }else{
         let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
-        if(data == null){
+        if(ctx.message.new_chat_members){
+          if(data == null){
+            
+          }else{
+            
+          }
+        }else{
+          
+        }
+        /*if(data == null){
          let user = new usersData()
         }else{
           let r = data.users
-          
-        }
+          let index = false
+          r.findIndex((item,i)=>{
+            if(item.chat_id == ctx.message.from.id || item.chat_id == ){
+              return index = i
+            }
+          })
+        }*/
       }
     }catch(error){
       return error
