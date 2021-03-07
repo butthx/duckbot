@@ -165,49 +165,18 @@ const util = {
           user.filters.deleteOldMessage.message_id = 0
           await user.save()
           return;
-        }else{
-          let change = `user ${ctx.message.from.id} change`
-          if(data.first_name !== ctx.message.from.first_name){
-            change += ` first name from ${data.first_name} to ${ctx.message.from.first_name}`
-          }
-          if(data.last_name !== ctx.message.from.last_name){
-            change += ` last name from ${data.first_name} to ${ctx.message.from.last_name}`
-          }
-          if(data.username !== ctx.message.from.username){
-            change += ` username from ${data.username} to ${ctx.message.from.username}`
-          }
-          if((data.first_name !== ctx.message.from.first_name)||(data.last_name !== ctx.message.from.last_name)||(data.username !== ctx.message.from.username)){
-            await this.kirimPesanPin(ctx,change)
-            data.first_name == ctx.message.from.first_name
-            data.last_name == ctx.message.from.last_name
-            data.username == ctx.message.from.username
-            await data.save()
-          }
-         return;
-       }
+        }
+        return;
       }else{
         let data = await usersData.usersData.findOne({chat_id:ctx.message.chat.id})
-        if(ctx.message.new_chat_members){
-          if(data == null){
-            
-          }else{
-            
-          }
-        }else{
+        if(data == null){
+          let groups = new groupsData()
+          groups.chat_id = ctx.message.chat.id
+          groups.language = 'en'
           
+         }
+        return;
         }
-        /*if(data == null){
-         let user = new usersData()
-        }else{
-          let r = data.users
-          let index = false
-          r.findIndex((item,i)=>{
-            if(item.chat_id == ctx.message.from.id || item.chat_id == ){
-              return index = i
-            }
-          })
-        }*/
-      }
     }catch(error){
       return error
     }
