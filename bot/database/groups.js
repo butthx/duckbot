@@ -8,107 +8,134 @@ const groupsData = new Schema({
     type: String
   },
   rules: {
-    type: String
+    type: String,
+    default : ''
   },
   blacklist: {
     triger: {
-      type: Array
+      type: Array,
+      default : new Array()
     },
     action: {
-      type: String
+      type: String,
+      default : 'ban'
     }
   },
   welcome: {
     status: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     captcha: {
       status: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       captchaType: {
-        type: String
+        type: String,
+        default: "number"
       },
       time: {
-        type: String
+        type: String,
+        default: "5m"
       }
     },
     deleteOldMessage: {
       status: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       message_id: {
-        type: Number
+        type: Number,
+        default: 0
       }
     },
     wlcType: {
-      type: String
+      type: String,
+      default: "text"
     },
     value: {
-      type: String
+      type: String,
+      default: "Hi,Welcome!"
     }
   },
   goodbye: {
     status: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     deleteOldMessage: {
       status: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       message_id: {
-        type: Number
+        type: Number,
+        default: 0
       }
     },
     gbType: {
-      type: String
+      type: String,
+      default: "text"
     },
     value: {
-      type: String
+      type: String,
+      default: "Have A Nice Day!"
     }
   },
   notes: {
     value: {
-      type: Array
+      type: Array,
+      default: new Array()
     },
     deleteOldMessage: {
       status: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       message_id: {
-        type: Number
+        type: Number,
+        default: 0
       }
     }
   },
   filters: {
     value: {
-      type: Array
+      type: Array,
+      default: new Array()
     },
     deleteOldMessage: {
       status: {
-        type: Boolean
+        type: Boolean,
+        default: false
       },
       message_id: {
-        type: Number
+        type: Number,
+        default: 0
       }
     }
   },
   admins: {
-    type: Array
+    type: Array,
+    default: new Array()
   },
   users: {
-    type: Array
+    type: Array,
+    default: new Array()
   },
   settings: {
     sangmata: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     cas: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     spamWatch: {
-      type: Boolean
+      type: Boolean,
+      default: true
     }
   }
 });
-module.exports = mongoose.model('groups',groupsData,'chat')
+module.exports = mongoose.model("groups", groupsData, "chat");

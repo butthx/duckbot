@@ -155,14 +155,6 @@ const util = {
           user.first_name = ctx.message.from.first_name
           user.last_name = ctx.message.from.last_name
           user.username = ctx.message.from.username
-          user.warns = []
-          user.language = 'en'
-          user.notes.value = []
-          user.notes.deleteOldMessage.status = false
-          user.notes.deleteOldMessage.message_id = 0
-          user.filters.value = []
-          user.filters.deleteOldMessage.status = false
-          user.filters.deleteOldMessage.message_id = 0
           await user.save()
           return;
         }
@@ -173,7 +165,8 @@ const util = {
           let groups = new groupsData()
           groups.chat_id = ctx.message.chat.id
           groups.language = 'en'
-          
+          await groups.save()
+          return;
          }
         return;
         }

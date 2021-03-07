@@ -14,34 +14,42 @@ const usersData = new Schema({
     type: String
   },
   warns: {
-    type: Array
+    type: Array,
+    default : new Array()
   },
   language: {
-    type: String
+    type: String,
+    default : 'en'
   },
   notes: {
     value: {
-      type: Array
+      type: Array,
+      default : new Array()
     },
     deleteOldMessage: {
       status: {
-        type: Boolean
+        type: Boolean,
+        default : false
       },
       message_id: {
-        type: Number
+        type: Number,
+        default : 0
       }
     }
   },
   filters: {
     value: {
-      type: Array
+      type: Array,
+      default : new Array()
     },
     deleteOldMessage: {
       status: {
-        type: Boolean
+        type: Boolean,
+        default : false
       },
       message_id: {
-        type: Number
+        type: Number,
+        default : 0
       }
     }
   }
