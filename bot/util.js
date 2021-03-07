@@ -125,11 +125,29 @@ const util = {
       this.error_log(ctx, error);
     }
   },
-  getLang: async function(lang, params) {
+  getLang: async function(ctx, params) {
     try {
-      let lang = yaml.load(fs.readFileSync(`./lang/${lang}.yml`, "utf8"));
-      let r = JSON.parse(lang);
-      return r[params];
+      if(ctx.message.type == 'private'){
+        let id  = ctx.message.chat.id || ctx.callbackQuery.message.chat.id
+        let data = await usersData.findOne({chat_id:id})
+        if(data == null){
+          let lang = yaml.load(fs.readFileSync(`./lang/en.yml`, "utf8"));
+          return lang[params]
+        }else{
+          let lang = yaml.load(fs.readFileSync(`./lang/${data.language.trim()}.yml`, "utf8"));
+          return lang[params]
+        }
+      }else{
+        let id  = ctx.message.chat.id || ctx.callbackQuery.message.chat.id
+        let data = await groupsData.findOne({chat_id:id})
+        if(data == null){
+          let lang = yaml.load(fs.readFileSync(`./lang/en.yml`, "utf8"));
+          return lang[params]
+        }else{
+          let lang = yaml.load(fs.readFileSync(`./lang/${data.language.trim()}.yml`, "utf8"));
+          return lang[params]
+        }
+      }
     } catch (error) {
       return "Error can't get language!";
     }
@@ -164,7 +182,6 @@ const util = {
         if(data == null){
           let groups = new groupsData()
           groups.chat_id = ctx.message.chat.id
-          groups.language = 'en'
           await groups.save()
           return;
          }

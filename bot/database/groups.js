@@ -5,7 +5,8 @@ const groupsData = new Schema({
     type: Number
   },
   language: {
-    type: String
+    type: String,
+    default : 'en'
   },
   rules: {
     type: String,
