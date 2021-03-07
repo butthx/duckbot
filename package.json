@@ -12,8 +12,12 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.17",
-    "telegraf": "^4.1.0",
-    "js-yaml": "^3.14.1"
+    "telegraf": "^4.1.2",
+    "js-yaml": "^3.14.1",
+    "moment-timezone": "^0.5.32",
+    "canvas": "^2.6.1",
+    "axios": "^0.21.1",
+    "node-fetch": "^2.6.1"
   },
   "engines": {
     "node": "14.x"
