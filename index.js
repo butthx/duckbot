@@ -1,8 +1,8 @@
-// require('dotenv').config()
-// const {Telegraf,Markup} = require('telegraf');
+require('dotenv').config()
+const {Telegraf,Markup} = require('telegraf');
 // const express = require('express')
 // const app = express()
-// const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN)
 // //setup webhook
 // /*const port = process.env.PORT || 3000
 // const url = process.env.URL || process.env.VERCEL_URL
@@ -36,9 +36,9 @@
 // bot.command('start', (ctx) => {
 //   return start_module.start(ctx)
 // })
-// bot.command('help', (ctx) => {
-//   return start_module.start(ctx)
-// })
+//bot.command('help', (ctx) => {
+ //return start_module.start(ctx)
+ //})
 // bot.command('purge',(ctx) =>{
 //   return delete_module.deleteMessage(ctx)
 // })
@@ -77,8 +77,22 @@
 // bot.hears(/\@admin|\@admins/gmi,(ctx)=>{
 //   return report_module.report(ctx)
 // })
+bot.command('start',(ctx)=>{
+  ctx.reply('ㅤㅤ',{
+    reply_markup:{
+      inline_keyboard:[[{
+        text :'hai',
+        callback_data : 'hai'
+      }]]
+    }
+  })
+  
+})
+bot.action('hai',(ctx)=>{
+  console.log(ctx)
+})
 // //launch bot
-// bot.launch().then(()=> console.log('running'))
+ bot.launch().then(()=> console.log('running'))
 // /*app.listen(port,()=>{
 //   console.log('bot running..')
 // })*/
