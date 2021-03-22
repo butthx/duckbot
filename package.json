@@ -4,7 +4,8 @@
   "description": "Powerfull telegram bot",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts"
+    "dev": "ts-node ./src/index.ts",
+    "build": "tsc"
   },
   "author": "butthx",
   "license": "MIT",

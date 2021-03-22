@@ -1,0 +1,45 @@
+start: |
+ Hi {mention}, I am DuckBot. I was created by my master to manage the group.
+ Make me the admin in your group so that all features can function properly.
+addGroup: |
+  Add me to the group
+donate: |
+  Donate
+helpButton: |
+  Help
+pmMessage: |
+  Contact me on PM!
+pmButton: |
+  Click This
+newPin: |
+  New Pinned Message
+  
+newPinButton: |
+  See Pinned Message
+botNonAdmin: |
+  I'm not an admin here
+mustReply: |
+  Reply a message!
+userNonAdmin: |
+  You are not an admin!
+noPin: |
+  No pinned message in here!
+unpinAll: |
+  Are you sure, you want to unpin all pinned messages?
+totalySure: |
+  are you totally sure?
+unpinAllButton: |
+  Yes,I'am totally sure
+yes: |
+  Yes
+no: |
+  No
+help: |
+  Here are some help available!
+close: |
+  Close 
+report: |
+  Reported!
+langAvalible: |
+  Used Language : {lang}
+  Avalibe language :
