@@ -10,7 +10,7 @@ bot.command('start',(ctx)=>{
 bot.command('ping',async (ctx)=>{
   ctx.reply(`PONG!\n${getPing(ctx)}`)
 })
-function getPing(ctx:contex){
+function getPing(ctx){
   let date = Date.now() / 1000
   let msgd = ctx.message.date
   let p = date - msgd 
