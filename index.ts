@@ -1,8 +1,10 @@
-'use strict'
-require('dotenv').config()
-const {Telegraf} = require('telegraf')
-const bot = new Telegraf(process.env.BOT_TOKEN)
-bot.command("start",(ctx)=>{
-  ctx.reply("hi")
+import dotenv from 'dotenv'
+import {Telegraf} from 'telegraf'
+dotenv.config()
+const bot = new Telegraf(process.env.BOT_TOKEN as string)
+
+bot.command('start',(ctx)=>{
+  ctx.reply("hai")
 })
-bot.launch().then(()=>console.log("running"))
+
+bot.launch().then(()=>console.log("running.."))
