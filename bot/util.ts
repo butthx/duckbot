@@ -1,8 +1,8 @@
 import dotenv from 'dotenv'
 dotenv.config()
+import fs from "fs"
 /*import yaml from "js-yaml"
 import mongoose from 'mongoose'
-import fs from "fs"
 import lang from "./lang/language"
 import usersData from './database/users'
 import groupsData from './database/groups'*/
