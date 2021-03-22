@@ -1,10 +1,11 @@
-require("dotenv").config();
-const yaml = require("js-yaml");
-const mongoose = require('mongoose')
-const fs = require("fs");
-const { lang } = require("./lang/language");
-const usersData = require('./database/users')
-const groupsData = require('./database/groups')
+import dotenv from 'dotenv'
+dotenv.config()
+/*import yaml from "js-yaml"
+import mongoose from 'mongoose'
+import fs from "fs"
+import lang from "./lang/language"
+import usersData from './database/users'
+import groupsData from './database/groups'*/
 const util = {
   makeid: function(length) {
     var result = "";
@@ -125,7 +126,7 @@ const util = {
       this.error_log(ctx, error);
     }
   },
-  getLang: async function(ctx, params) {
+  /*getLang: async function(ctx, params) {
     try {
       if(ctx.message.type == 'private'){
         let id  = ctx.message.chat.id || ctx.callbackQuery.message.chat.id
@@ -190,6 +191,13 @@ const util = {
     }catch(error){
       return error
     }
+  }*/
+  getPing : async function(ctx){
+    let date = Date.now() /1000
+    let msgd = ctx.message.date
+    let pingd = date - msgd
+    let ping = pingd.toFixed(3)
+    return ping
   }
 };
-module.exports = util;
+export {util}
