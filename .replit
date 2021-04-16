@@ -1,0 +1,3 @@
+language = "nodejs"
+run = "yarn build --unhandled-rejections=strict"
+run = "yarn start --unhandled-rejections=strict"

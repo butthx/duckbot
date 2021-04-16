@@ -4,22 +4,28 @@
   "description": "Powerfull telegram bot",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
-    "build": "tsc"
+    "dev": "ts-node ./src/index.ts",
+    "build": "tsc",
+    "start": "node ./build/index.js"
   },
   "author": "butthx",
   "license": "MIT",
   "dependencies": {
-    "canvas": "^2.6.1",
+    "@vitalets/google-translate-api": "^7.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "js-yaml": "^3.14.1",
+    "google-tts-api": "^2.0.2",
     "mongoose": "^5.11.20",
     "node-fetch": "^2.6.1",
-    "telegraf": "^4.3.0"
+    "ocr-space-api-wrapper": "^1.0.5",
+    "spamwatch": "^0.4.0",
+    "telegraf": "^4.3.0",
+    "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.10.4",
     "@types/node": "^14.14.35",
+    "js-yaml": "^4.0.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.3"
   },

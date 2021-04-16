@@ -1,0 +1,39 @@
+{
+  "name": "Duckbot",
+  "description": "Powerfull telegram bot",
+  "keywords": [
+    "bot",
+    "telegram bot",
+    "typescript telegram bot"
+  ],
+  "website": "https://butthx.vercel.app/",
+  "repository": "https://github.com/butthx/duckbot",
+  "env": {
+    "BOT_TOKEN": {
+      "description": "TOKEN BOT FROM BOT FATHER",
+      "required": true
+    },
+    "MONGGODB": {
+      "description": "MONGGO DB URI FOR DATABASE",
+      "required":true
+    },
+    "SPAMWATCH_TOKEN":{
+      "description":"API KEY FROM SPAMWATCH",
+      "required":true
+    },
+    "ERROR_LOG" : {
+      "description":"CHAT_ID TO REPORT ERROR",
+      "required":true
+    },
+    "OCR_API" :{
+      "description":"API KEY FROM OCR SPACE",
+      "required":true
+    },
+    "WEBHOOK_URL":{
+      "description":"URL FROM YOUR APPS TO SET WEBHOOK. CHANGE <your app name> WITH YOUR HEROKU APP NAME.",
+      "required":true,
+      "value":"https://<your app name>.herokuapp.com"
+    }
+    
+  }
+}
