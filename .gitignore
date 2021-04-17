@@ -105,3 +105,5 @@ dist
 
 # tesseract.js traineddata
 *.traineddata
+# build
+build/

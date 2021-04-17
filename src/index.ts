@@ -6,13 +6,12 @@ import {start,ping,setLang} from "./modules/start"
 import {tesseract,ocr} from "./modules/ocr"
 import {useLang,donate} from "./modules/callbackdata"
 import {tr} from "./modules/translate"
+import {adminCache} from "./modules/admin"
+import {getNotes,saveNotes,removeNotes,removeNotesAll} from "./modules/notes"
 dotenv.config()
 connect()
 const bot = new Telegraf(process.env.BOT_TOKEN as string)
 bot.use(saveUser)
-bot.hears(/^\/start(\@Me_DuckBot)?\s+settings$/i,(ctx)=>{
-  return replyToMessage(ctx,"Settings Avalible : ",false)
-})
 bot.action(/setlang\s+(.*)$/i,useLang)
 bot.action("setlang",setLang)
 bot.action("donate",donate)
@@ -22,5 +21,11 @@ bot.command("ping",ping)
 bot.command("ocrts",tesseract)
 bot.command("ocr",ocr)
 bot.command("tr",tr)
+bot.command("save",saveNotes)
+bot.command("notes",getNotes)
+bot.command("clear",removeNotes)
+bot.command("clearall",removeNotesAll)
+bot.command("admincache",adminCache)
+
 bot.catch(reportError)
 bot.launch().then(()=>{console.log("running..");})

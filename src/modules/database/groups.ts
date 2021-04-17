@@ -118,8 +118,7 @@ export const groupsSchema = new Schema({
       default: "Hi,Welcome!"
     },
     caption : {
-      type : String,
-      default : ""
+      type : String
     }
   },
   goodbye: {
@@ -146,8 +145,7 @@ export const groupsSchema = new Schema({
       default: "Have A Nice Day!"
     },
     caption : {
-      type : String,
-      default : ""
+      type : String
     }
   },
   notes: {

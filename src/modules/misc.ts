@@ -6,6 +6,7 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import fetch from "node-fetch"
 import Spamwatch from "spamwatch"
+import {handleNotes} from "./notes"
 dotenv.config()
 export const swClient = new Spamwatch.Client(process.env.SPAMWATCH_TOKEN as string)
 export function getPing(ctx){
@@ -132,6 +133,7 @@ export function connect(){
 export async function saveUser(ctx,next){
   try{
     next()
+    handleNotes(ctx)
     duckbotmata(ctx)
     das(ctx)
   }catch(error){
@@ -366,6 +368,7 @@ export async function parse(ctx,text){
                       .replace(/\{count\}/gmi,count)
                       .replace(/\{(full_name|fullname)\}/gmi,full_name)
                       .replace(/\{title\}/gmi,title)
+                      .replace(/\{mention\}/i,mention)
     return results
   }catch(error){
    return text
