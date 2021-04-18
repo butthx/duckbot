@@ -1,5 +1,5 @@
 ## Overview
-Hi. This is the repository of my bot (Miss_duckbot). This bot is written in typescript and then compiled into javascript.
+Hi. This is the repository of my bot ([Miss_duckbot](https://t.me/miss_duckbot)). This bot is written in typescript.
 ## License
 **MIT LICENSE**
 ## Command 
@@ -46,3 +46,6 @@ You can submit a pull request or an opened issue.
   
 
 [![corwdin](https://img.shields.io/badge/Translate%20This%20Bot-success.svg?style=flat-square&logo=crowdin)](https://crowdin.com/project/missduckbot)
+
+## Notes
+This repo is still in **beta dev** if there are bugs or incomplete features please understand!
