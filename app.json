@@ -33,7 +33,14 @@
       "description":"URL FROM YOUR APPS TO SET WEBHOOK. CHANGE <your app name> WITH YOUR HEROKU APP NAME.",
       "required":true,
       "value":"https://<your app name>.herokuapp.com"
+    },
+    "WEBHOOK" : {
+      "description":"RUNNING MODE (BECAUSE DEPLOY ON HEROKU, THEN THE RIGHT MODE IS THE WEBHOOK.) DO NOT REMOVE THIS PART",
+      "value":"true"
+    },
+    "OWNER_ID" : {
+      "description":"USER_ID FROM OWNER BOT. THIS WILL MAKE OWNER AS A SUDO USER.",
+      "required":true
     }
-    
   }
 }

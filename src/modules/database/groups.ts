@@ -50,6 +50,7 @@ interface IUser extends Document {
   admins: Array<any>;
   dateAdmin : number;
   users: Array<any>;
+  purgeFrom:number;
   duckbotmata: boolean;
   das : boolean; 
   cleanEvent : boolean;
@@ -191,6 +192,10 @@ export const groupsSchema = new Schema({
   users: {
     type: Array,
     default: new Array()
+  },
+  purgeFrom : {
+    type : Number,
+    default : 0
   },
   duckbotmata: {
     type: Boolean,

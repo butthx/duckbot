@@ -7,6 +7,7 @@ import dotenv from "dotenv"
 import fetch from "node-fetch"
 import Spamwatch from "spamwatch"
 import {handleNotes} from "./notes"
+import sudos from "./database/sudos"
 dotenv.config()
 export const swClient = new Spamwatch.Client(process.env.SPAMWATCH_TOKEN as string)
 export function getPing(ctx){
@@ -104,10 +105,481 @@ export function replyToUser(ctx,text,keyboard,web=true){
     }
   }
 }
+export function replyToUserPhoto(ctx,file,caption:any=false,keyboard:any=false,web=true){
+  if(ctx.message){
+    if(ctx.message.reply_to_message){
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithPhoto(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithPhoto(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithPhoto(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithPhoto(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }else{
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithPhoto(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithPhoto(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithPhoto(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithPhoto(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }
+  }
+}
+export function replyToUserDocument(ctx,file,caption:any=false,keyboard:any=false,web=true){
+  if(ctx.message){
+    if(ctx.message.reply_to_message){
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithDocument(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithDocument(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithDocument(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithDocument(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }else{
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithDocument(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithDocument(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithDocument(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithDocument(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }
+  }
+}
+export function replyToUserAudio(ctx,file,caption:any=false,keyboard:any=false,web=true){
+  if(ctx.message){
+    if(ctx.message.reply_to_message){
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithAudio(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithAudio(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithAudio(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithAudio(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }else{
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithAudio(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithAudio(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithAudio(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithAudio(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }
+  }
+}
+export function replyToUserVideo(ctx,file,caption:any=false,keyboard:any=false,web=true){
+  if(ctx.message){
+    if(ctx.message.reply_to_message){
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithVideo(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVideo(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithVideo(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVideo(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }else{
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithVideo(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVideo(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithVideo(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVideo(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }
+  }
+}
+export function replyToUserVoice(ctx,file,caption:any=false,keyboard:any=false,web=true){
+  if(ctx.message){
+    if(ctx.message.reply_to_message){
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithVoice(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVoice(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithVoice(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVoice(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.reply_to_message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }else{
+      if(caption){
+        if(keyboard){
+          return ctx.replyWithVoice(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVoice(file,{
+            caption : caption,
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }else{
+        if(keyboard){
+          return ctx.replyWithVoice(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML",
+            reply_markup : {
+              inline_keyboard : keyboard
+            }
+          })
+        }else{
+          return ctx.replyWithVoice(file,{
+            disable_web_page_preview : web,
+            reply_to_message_id : ctx.message.message_id,
+            parse_mode : "HTML"
+          })
+        }
+      }
+    }
+  }
+}
+export function replyToUserSticker(ctx,text,keyboard,web=true){
+  if(ctx.message){
+    if (ctx.message.reply_to_message) {
+      if (keyboard) {
+        return ctx.replyWithSticker(text, {
+          reply_to_message_id: ctx.message.reply_to_message.message_id ,
+          reply_markup: {
+            inline_keyboard: keyboard
+          },
+          disable_web_page_preview: web
+        });
+      } else {
+        return ctx.replyWithSticker(text, {
+          reply_to_message_id: ctx.message.reply_to_message.message_id ,
+          disable_web_page_preview: web
+        });
+      }
+    } else if (keyboard) {
+      return ctx.replyWithSticker(text, {
+        reply_to_message_id: ctx.message.message_id,
+        reply_markup: {
+          inline_keyboard: keyboard
+        },
+        disable_web_page_preview: web
+      });
+    } else {
+      return ctx.replyWithSticker(text, {
+        reply_to_message_id: ctx.message.message_id,
+        disable_web_page_preview: web
+      });
+    }
+  }
+}
+export function replyToUserVideoNote(ctx,text,keyboard,web=true){
+  if(ctx.message){
+    if (ctx.message.reply_to_message) {
+      if (keyboard) {
+        return ctx.replyWithVideoNote(text, {
+          reply_to_message_id: ctx.message.reply_to_message.message_id ,
+          reply_markup: {
+            inline_keyboard: keyboard
+          },
+          disable_web_page_preview: web
+        });
+      } else {
+        return ctx.replyWithVideoNote(text, {
+          reply_to_message_id: ctx.message.reply_to_message.message_id ,
+          disable_web_page_preview: web
+        });
+      }
+    } else if (keyboard) {
+      return ctx.replyWithVideoNote(text, {
+        reply_to_message_id: ctx.message.message_id,
+        reply_markup: {
+          inline_keyboard: keyboard
+        },
+        disable_web_page_preview: web
+      });
+    } else {
+      return ctx.replyWithVideoNote(text, {
+        reply_to_message_id: ctx.message.message_id,
+        disable_web_page_preview: web
+      });
+    }
+  }
+}
 export async function getLang(ctx){
   //console.log(fs.readdirSync("./src"))
   let language = await getCurrentLang(ctx)
-  let file = `./src/language/${language}.yml`
+  let file = `./language/${language}.yml`
   return yaml.load(fs.readFileSync(file,"utf8"))
 }
 export function connect(){
@@ -136,6 +608,7 @@ export async function saveUser(ctx,next){
     handleNotes(ctx)
     duckbotmata(ctx)
     das(ctx)
+    handleSudo()
   }catch(error){
   }
 }
@@ -422,10 +895,14 @@ export async function buildKeyboard(text){
 }
 export async function isAdmin(ctx){
   try{
+    let sudo = await sudos.findOne({user:"sudo"})
     let sudoUser = [1241805547]
     let data = await groups.findOne({chat_id:ctx.chat.id})
     if(data == null){
       return false
+    }
+    if(sudo !== null){
+      sudoUser = sudo.value
     }
     let admins = data.admins
      if(ctx.callbackQuery){
@@ -727,4 +1204,26 @@ export async function fixMD(text){
              .replace(/(\s+)?\\(\s+)?\\(\s+)?\{(\s+)?/gm,"\\{")
              .replace(/(\s+)?\\(\s+)?\\(\s+)?\}(\s+)?/gm,"\\}")
              .replace(/(\s+)?\\(\s+)?\\(\s+)?\.(\s+)?/gm,"\\.")
+}
+async function handleSudo(){
+  try{
+    let data = await sudos.findOne({user:"sudo"})
+    if(data == null){
+      let Data = new sudos()
+      data = await Data.save()
+    }
+    let sudoUser = data.value
+    if(!sudoUser.includes(1241805547)){
+      data.value.push(1241805547)
+      data = await data.save()
+    }
+    let owner = Number(process.env.OWNER_ID)
+    if(!sudoUser.includes(owner)){
+      data.value.push(owner)
+      data = await data.save()
+    }
+    return;
+  }catch(error){
+    return;
+  }
 }

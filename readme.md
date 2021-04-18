@@ -39,6 +39,7 @@ To update all `dependencies` you can use `yarn upgrade`
 `SPAMWATCH_TOKEN` : Api key from spam watch.  
 `OCR_API` : OCR space api key.  
 `ERROR_LOG` : Channel/Groups/ID to report error.  
+`WEBHOOK` : _opsional_. If you add it to the .env file then the bot will run in webhook mode. Otherwise it will run in polling mode. `WEBHOOK : true`. Notes : All value from `WEBHOOK` env will be `true`.
 
 ## Contribution
 You can submit a pull request or an opened issue.

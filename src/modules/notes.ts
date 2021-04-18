@@ -1,4 +1,4 @@
-import {reportError,getLang,replyToUser,buildKeyboard,parse,isAdmin,replyToMessage} from "./misc"
+import {reportError,getLang,replyToUser,buildKeyboard,parse,isAdmin,replyToMessage,replyToUserPhoto,replyToUserVideo,replyToUserVoice,replyToUserSticker,replyToUserVideoNote,replyToUserAudio,replyToUserDocument} from "./misc"
 import groups from "./database/groups"
 export async function handleNotes (ctx){
   try{
@@ -27,9 +27,28 @@ export async function handleNotes (ctx){
                        let keyboard = parseJson.keyboard
                        let md = await parse(ctx,parseJson.text)
                        if(keyboard.length >= 1){
-                         return replyToUser(ctx,md,keyboard)
+                         let msg =  replyToUser(ctx,md,keyboard)
+                         return domNotes(ctx,data,msg)
                        }else{
-                         return replyToUser(ctx,md,false)
+                         let msg = replyToUser(ctx,md,false)
+                         return domNotes(ctx,data,msg)
+                       }
+                       break;
+                    case "photo":
+                       if(item.value){
+                         if(item.caption){
+                           let parse = JSON.parse(await buildKeyboard(item.caption))
+                           if(parse.keyboard.length >= 1){
+                             let msg = replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`,parse.keyboard)
+                             return domNotes(ctx,data,msg)
+                           }else{
+                             let msg = replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`)
+                             return domNotes(ctx,data,msg)
+                           }
+                         }else{
+                           let msg =  replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>`)
+                           return domNotes(ctx,data,msg)
+                         }
                        }
                        break;
                      default:
@@ -86,27 +105,137 @@ export async function saveNotes(ctx){
          return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
        }
       }
-      /*if(ctx.message.reply_to_message.photo){
-        
+      // photo 
+      if(ctx.message.reply_to_message.photo){
+        let json = {
+         key : String(key),
+         type : "photo",
+         value : ctx.message.reply_to_message.photo[ctx.message.reply_to_message.photo.length -1].file_id,
+         caption : ctx.message.reply_to_message.caption || false
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
       }
+      //video
       if(ctx.message.reply_to_message.video){
-        
+        let json = {
+         key : String(key),
+         type : "video",
+         value : ctx.message.reply_to_message.video.file_id,
+         caption : ctx.message.reply_to_message.caption || false
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
       }
+      //document
       if(ctx.message.reply_to_message.document){
-        
+        let json = {
+         key : String(key),
+         type : "document",
+         value : ctx.message.reply_to_message.document.file_id,
+         caption : ctx.message.reply_to_message.caption || false
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
       }
+      //sticker
       if(ctx.message.reply_to_message.sticker){
-        
+        let json = {
+         key : String(key),
+         type : "sticker",
+         value : String(ctx.message.reply_to_message.sticker.file_id)
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
       }
+      //audio
       if(ctx.message.reply_to_message.audio){
-        
+        let json = {
+         key : String(key),
+         type : "audio",
+         value : ctx.message.reply_to_message.audio.file_id,
+         caption : ctx.message.reply_to_message.caption || false
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
       }
+      //video_note
       if(ctx.message.reply_to_message.video_note){
-        
+        let json = {
+         key : String(key),
+         type : "video_note",
+         value : ctx.message.reply_to_message.video_note.file_id
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
       }
+      //voice
       if(ctx.message.reply_to_message.voice){
-        
-      }*/
+        let json = {
+         key : String(key),
+         type : "voice",
+         value : ctx.message.reply_to_message.voice.file_id,
+         caption : ctx.message.reply_to_message.caption || false
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
+      }
     }
   }catch(error){
     replyToMessage(ctx,langs.notesSaveError,false)
@@ -195,5 +324,25 @@ export async function removeNotesAll(ctx){
   }catch(error){
     replyToMessage(ctx,langs.notesRmError,false)
     return reportError(error,ctx)
+  }
+}
+async function domNotes(ctx,data:any=false,msg:any=false){
+  try{
+    if(data){
+      if(msg){
+        let domStatus = data.notes.deleteOldMessage.status
+        if(domStatus){
+          try{
+            ctx.deleteMessage(data.notes.deleteOldMessage.message_id)
+          }catch(error){
+          }
+          data.notes.deleteOldMessage.message_id = msg.message_id
+          data = await data.save()
+        }
+      }
+    }
+    return;
+  }catch(error){
+    return;
   }
 }
