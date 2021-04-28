@@ -1,21 +1,26 @@
-console.log(`[${new Date()}] - STARTING BOT`)
+console.log("\x1b[36m",`[${new Date()}] STARTING BOT`)
 import dotenv from 'dotenv'
+dotenv.config()
+import {replyToMessage,connect,saveUser,reportError,buildKeyboard,parseBoolean,handleEnv} from "./modules/misc"
+handleEnv()
 import mongoose from "mongoose"
 import express from "express"
 import {Telegraf} from 'telegraf'
-import {replyToMessage,connect,saveUser,reportError,buildKeyboard} from "./modules/misc"
 import {start,ping,setLang} from "./modules/start"
 import {tesseract,ocr} from "./modules/ocr"
-import {useLang,donate,welcomedrdn,goodbyedrdn,notesdrdn,filtersdrdn} from "./modules/callbackdata"
+import {useLang,donate,settingsCallback} from "./modules/callbackdata"
 import {tr} from "./modules/translate"
-import {adminCache, settings} from "./modules/admin"
+import {adminCache, settings,handleSettings} from "./modules/admin"
 import {getNotes,saveNotes,removeNotes,removeNotesAll} from "./modules/notes"
-dotenv.config()
 connect()
 const bot = new Telegraf(process.env.BOT_TOKEN as string)
 const app = express()
-let port = Number(process.env.PORT)
-let isWebhook = Boolean(process.env.WEBHOOK)
+let port = Number(process.env.PORT) || 3000
+let isWebhook = false
+let _parseBoolean = async (_string)=>{
+  let results = await parseBoolean(_string)
+  return isWebhook = results
+}
 if(isWebhook){
   app.get("/",(req,res)=>{
     res.status(403).redirect("https://butthx.vercel.app/duckbot")
@@ -24,13 +29,10 @@ if(isWebhook){
   bot.telegram.setWebhook(process.env.WEBHOOK_URL as string)
 }
 bot.use(saveUser)
+bot.hears(new RegExp(`/start(\@${String(process.env.USERNAME).replace(/^\@/,"").trim()})? settings_(.*)`),handleSettings)
 bot.action(/setlang\s+(.*)$/i,useLang)
-bot.action("welcome drdn",welcomedrdn)
-bot.action("goodbye drdn",goodbyedrdn)
-bot.action("notes drdn",notesdrdn)
-bot.action("filters drdn",filtersdrdn)
-bot.action("setlang",setLang)
 bot.action("donate",donate)
+bot.action(/setting\s+(.*)/i,settingsCallback)
 bot.command("setlang",setLang)
 bot.command("start",start)
 bot.command("ping",ping)
@@ -46,10 +48,10 @@ bot.command("settings",settings)
 bot.catch(reportError)
 if(isWebhook){
     app.listen(port,()=>{
-    console.log("[WEBHOOK] bot running..")
+    console.log("\x1b[34m","[WEBHOOK] bot running..")
   })
 }else{
   bot.launch().then(()=>{
-    console.log("[POLLING] bot running..")
+    console.log("\x1b[35m","[POLLING] bot running..")
   })
 }

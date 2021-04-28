@@ -1,4 +1,4 @@
-import {replyToMessage,getPing,getLang,buildArray,getCurrentLang,isAdmin,reportError} from "./misc"
+import {replyToMessage,getPing,getLang,buildArray,getCurrentLang,isAdmin,reportError,parseBoolean} from "./misc"
 import groups from "./database/groups"
 import privates from "./database/private"
 export async function useLang(ctx){
@@ -45,347 +45,214 @@ export async function donate(ctx){
     return reportError(error,ctx)
   }
 }
-export async function welcomedrdn(ctx){
+export async function settingsCallback(ctx){
+  let langs = await getLang(ctx)
   try{
-    let langs = await getLang(ctx)
-    if(!await isAdmin(ctx)){
-        return ctx.answerCbQuery(langs.userNonAdmin,{show_alert:true,cache_time:60})
-      }
-    let data = await groups.findOne({chat_id:ctx.chat.id})
-    if(data !== null){
-      let json = {
-        "true" : "Enable",
-        "false" : "Disable"
-      }
-      let keyboard = [
-         [{
-           text : "WELCOME",
-           callback_data : "welcome drdn",
-           hide : true
-         },{
-           text : json[String(data.welcome.status)],
-           callback_data : `set welcome ${!data.welcome.status}`,
-           hide : true
-         }],
-         [{
-           text : "└",
-           callback_data : "text",
-           hide : true
-         },{
-           text : "DOM",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.welcome.deleteOldMessage.status)],
-           callback_data : `set welcome-dom ${!data.welcome.deleteOldMessage.status}`,
-           hide : true
-         }],
-         [{
-           text : "└",
-           callback_data : "text",
-           hide : true
-         },{
-           text : "CPH",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.welcome.captcha.status)],
-           callback_data : `set captcha ${!data.welcome.captcha.status}`,
-           hide : true
-         }],
-         [{
-           text : "GOODBYE",
-           callback_data : "goodbye drdn",
-           hide : true
-         }],
-         [{
-           text : "NOTES",
-           callback_data : "notes drdn",
-           hide : true
-         }],
-         [{
-           text : "FILTERS",
-           callback_data : "filters drdn",
-           hide : true
-         }],
-         [{
-           text : "DMATA",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.duckbotmata)],
-           callback_data : `set duckbotmata ${!data.duckbotmata}`,
-           hide : true
-         }],
-         [{
-           text : "DAS",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.das)],
-           callback_data : `set das ${!data.das}`,
-           hide : true
-         }],
-         [{
-           text : "CLEN",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.cleanEvent)],
-           callback_data : `set cleanevent ${!data.cleanEvent}`,
-           hide : true
-         }]
-        ]
-      return ctx.editMessageReplyMarkup({inline_keyboard:keyboard})
+    let json = {
+      "true":"✅",
+      "false":"❌",
+      "0":"❌",
+      "1":"❗",
+      "2":"❕",
+      "3":"⚠️",
+      "4":"✅"
     }
-    return 
-  }catch(error){
-    return reportError(error,ctx)
-  }
-}
-export async function goodbyedrdn(ctx){
-  try{
-    let langs = await getLang(ctx)
-    if(!await isAdmin(ctx)){
-        return ctx.answerCbQuery(langs.userNonAdmin,{show_alert:true,cache_time:60})
-      }
-    let data = await groups.findOne({chat_id:ctx.chat.id})
-    if(data !== null){
-      let json = {
-        "true" : "Enable",
-        "false" : "Disable"
-      }
-      let keyboard = [
-         [{
-           text : "WELCOME",
-           callback_data : "welcome drdn",
-           hide : true
-         }],
-         [{
-           text : "GOODBYE",
-           callback_data : "goodbye drdn",
-           hide : true
-         },{
-           text : json[String(data.goodbye.status)],
-           callback_data : `set goodbye ${!data.goodbye.status}`,
-           hide : true
-         }],
-         [{
-           text : "└",
-           callback_data : "text",
-           hide : true
-         },{
-           text : "DOM",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.goodbye.deleteOldMessage.status)],
-           callback_data : `set goodbye-dom ${!data.goodbye.deleteOldMessage.status}`,
-           hide : true
-         }],
-         [{
-           text : "NOTES",
-           callback_data : "notes drdn",
-           hide : true
-         }],
-         [{
-           text : "FILTERS",
-           callback_data : "filters drdn",
-           hide : true
-         }],
-         [{
-           text : "DMATA",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.duckbotmata)],
-           callback_data : `set duckbotmata ${!data.duckbotmata}`,
-           hide : true
-         }],
-         [{
-           text : "DAS",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.das)],
-           callback_data : `set das ${!data.das}`,
-           hide : true
-         }],
-         [{
-           text : "CLEN",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.cleanEvent)],
-           callback_data : `set cleanevent ${!data.cleanEvent}`,
-           hide : true
-         }]
-        ]
-      return ctx.editMessageReplyMarkup({inline_keyboard:keyboard})
+    let value = ctx.callbackQuery.data.split(" ")
+    let chat_id = Number(value[2])
+    let data = await groups.findOne({chat_id:chat_id})
+    if(data == null) return
+    let admin = data.admins.findIndex(el=>el.user.id==ctx.from.id)
+    if(admin == -1 ){
+      return ctx.answerCbQuery(langs.userNonAdmin,{show_alert:true,cache_time:60})
     }
-    return 
-  }catch(error){
-    return reportError(error,ctx)
-  }
-}
-export async function notesdrdn(ctx){
-  try{
-    let langs = await getLang(ctx)
-    if(!await isAdmin(ctx)){
-        return ctx.answerCbQuery(langs.userNonAdmin,{show_alert:true,cache_time:60})
+    if(value[1] == "adminCache"){
+      let date = new Date(data.dateAdmin)
+      let now = new Date(Date.now())
+      let abs = Math.abs(now.getMinutes() - date.getMinutes())
+      if(now.getFullYear() > date.getFullYear()){
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
+        data.dateAdmin = Date.now()
+        data = await data.save()
+        return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
       }
-    let data = await groups.findOne({chat_id:ctx.chat.id})
-    if(data !== null){
-      let json = {
-        "true" : "Enable",
-        "false" : "Disable"
+      if(now.getMonth() > date.getMonth()){
+        data.admins = await ctx.getChatAdministrators()
+        data.dateAdmin = Date.now()
+        data = await data.save()
+        return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
       }
-      let keyboard = [
-         [{
-           text : "WELCOME",
-           callback_data : "welcome drdn",
-           hide : true
-         }],
-         [{
-           text : "GOODBYE",
-           callback_data : "goodbye drdn",
-           hide : true
-         }],
-         [{
-           text : "NOTES",
-           callback_data : "notes drdn",
-           hide : true
-         }],
-         [{
-           text : "└",
-           callback_data : "text",
-           hide : true
-         },{
-           text : "DOM",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.notes.deleteOldMessage.status)],
-           callback_data : `set notes-dom ${!data.notes.deleteOldMessage.status}`,
-           hide : true
-         }],
-         [{
-           text : "FILTERS",
-           callback_data : "filters drdn",
-           hide : true
-         }],
-         [{
-           text : "DMATA",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.duckbotmata)],
-           callback_data : `set duckbotmata ${!data.duckbotmata}`,
-           hide : true
-         }],
-         [{
-           text : "DAS",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.das)],
-           callback_data : `set das ${!data.das}`,
-           hide : true
-         }],
-         [{
-           text : "CLEN",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.cleanEvent)],
-           callback_data : `set cleanevent ${!data.cleanEvent}`,
-           hide : true
-         }]
-        ]
-      return ctx.editMessageReplyMarkup({inline_keyboard:keyboard})
+      if(now.getDay() > date.getDay()){
+        data.admins = await ctx.getChatAdministrators()
+        data.dateAdmin = Date.now()
+        data = await data.save()
+        return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
+      }
+      if(now.getHours() > date.getHours()){
+        data.admins = await ctx.getChatAdministrators()
+        data.dateAdmin = Date.now()
+        data = await data.save()
+        return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
+      }
+      if(abs >= 10){
+        data.admins = await ctx.getChatAdministrators()
+        data.dateAdmin = Date.now()
+        data = await data.save()
+        return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
+      }
+      return ctx.answerCbQuery(langs.adminCacheFailed,{show_alert:true,cache_time:60})
     }
-    return 
-  }catch(error){
-    return reportError(error,ctx)
-  }
-}
-export async function filtersdrdn(ctx){
-  try{
-    let langs = await getLang(ctx)
-    if(!await isAdmin(ctx)){
-        return ctx.answerCbQuery(langs.userNonAdmin,{show_alert:true,cache_time:60})
-      }
-    let data = await groups.findOne({chat_id:ctx.chat.id})
-    if(data !== null){
-      let json = {
-        "true" : "Enable",
-        "false" : "Disable"
-      }
-      let keyboard = [
-         [{
-           text : "WELCOME",
-           callback_data : "welcome drdn",
-           hide : true
-         }],
-         [{
-           text : "GOODBYE",
-           callback_data : "goodbye drdn",
-           hide : true
-         }],
-         [{
-           text : "NOTES",
-           callback_data : "notes drdn",
-           hide : true
-         }],
-         [{
-           text : "FILTERS",
-           callback_data : "filters drdn",
-           hide : true
-         }],
-         [{
-           text : "└",
-           callback_data : "text",
-           hide : true
-         },{
-           text : "DOM",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.filters.deleteOldMessage.status)],
-           callback_data : `set filters-dom ${!data.filters.deleteOldMessage.status}`,
-           hide : true
-         }],
-         [{
-           text : "DMATA",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.duckbotmata)],
-           callback_data : `set duckbotmata ${!data.duckbotmata}`,
-           hide : true
-         }],
-         [{
-           text : "DAS",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.das)],
-           callback_data : `set das ${!data.das}`,
-           hide : true
-         }],
-         [{
-           text : "CLEN",
-           callback_data : "text",
-           hide : true
-         },{
-           text : json[String(data.cleanEvent)],
-           callback_data : `set cleanevent ${!data.cleanEvent}`,
-           hide : true
-         }]
-        ]
-      return ctx.editMessageReplyMarkup({inline_keyboard:keyboard})
+    switch(value[1]){
+      case "welcome":
+        data.welcome.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "welcome-dom":
+        data.welcome.deleteOldMessage.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "goodbye":
+        data.goodbye.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "goodbye-dom":
+        data.goodbye.deleteOldMessage.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "notes":
+        data.notes.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "notes-dom":
+        data.notes.deleteOldMessage.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "filters":
+        data.filters.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "filters-dom":
+        data.filters.deleteOldMessage.status = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "das":
+        data.das = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "duckbotmata":
+        data.duckbotmata = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "cleanEvent":
+        data.cleanEvent.status = await parseBoolean(value[3])
+        data.cleanEvent.pin = await parseBoolean(value[3])
+        data.cleanEvent.welcome = await parseBoolean(value[3])
+        data.cleanEvent.goodbye = await parseBoolean(value[3])
+        data.cleanEvent.voiceChat = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "pin":
+        data.cleanEvent.pin = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "join":
+        data.cleanEvent.welcome = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "left":
+        data.cleanEvent.goodbye = await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      case "voiceChat":
+        data.cleanEvent.voiceChat= await parseBoolean(value[3])
+        data = await data.save()
+        break;
+      default:
     }
-    return 
+    let event = data.cleanEvent
+    if((!event.pin)&&(!event.welcome)&&(!event.goodbye)&&(!event.voiceChat)){
+      data.cleanEvent.status = false
+      data = await data.save()
+    }else{
+      data.cleanEvent.status = true
+      data = await data.save()
+    }
+    let active = 4
+    for(let element of Object.entries(event)){
+      if(element[0] !== "status"){
+        if(String(element[1]) !== "true"){
+          active = Number(active-1)
+        }
+      }
+    }
+    if(active <= 0) active = 0
+    let keyboard = [
+      [{
+        text : `${json[String(data.welcome.status)]} Welcome`,
+        callback_data : `setting welcome ${chat_id} ${!data.welcome.status}`,
+        hide:true
+      },{
+        text : `${json[String(data.goodbye.status)]} Goodbye`,
+        callback_data : `setting goodbye ${chat_id} ${!data.goodbye.status}`,
+        hide:true
+      }],[{
+        text : `${json[String(data.welcome.deleteOldMessage.status)]} Clean Welcome`,
+        callback_data : `setting welcome-dom ${chat_id} ${!data.welcome.deleteOldMessage.status}`,
+        hide:true
+      },{
+        text : `${json[String(data.goodbye.deleteOldMessage.status)]} Clean Goodbye`,
+        callback_data : `setting goodbye-dom ${chat_id} ${!data.goodbye.deleteOldMessage.status}`,
+        hide:true
+      }],[{
+        text : `${json[String(data.notes.status)]} Notes`,
+        callback_data : `setting notes ${chat_id} ${!data.notes.status}`,
+        hide:true
+      },{
+        text : `${json[String(data.filters.status)]} Filters`,
+        callback_data : `setting filters ${chat_id} ${!data.filters.status}`,
+        hide:true
+      }],[{
+        text : `${json[String(data.notes.deleteOldMessage.status)]} Clean Notes`,
+        callback_data : `setting notes-dom ${chat_id} ${!data.notes.deleteOldMessage.status}`,
+        hide:true
+      },{
+        text : `${json[String(data.filters.deleteOldMessage.status)]} Clean Filters`,
+        callback_data : `setting filters-dom ${chat_id} ${!data.filters.deleteOldMessage.status}`,
+        hide:true
+      }],[{
+        text : `${json[String(data.das)]} Anti Spam`,
+        callback_data : `setting das ${chat_id} ${!data.das}`,
+        hide:true
+      },{
+        text : `${json[String(data.duckbotmata)]} Duckbot Mata`,
+        callback_data : `setting duckbotmata ${chat_id} ${!data.duckbotmata}`,
+        hide:true
+      }],[{
+        text : `${json[String(active)]} Clean Event`,
+        callback_data : `setting cleanEvent ${chat_id} ${!event.status}`,
+        hide:true
+      },{
+        text : `${json[String(event.pin)]} Pinned Message`,
+        callback_data : `setting pin ${chat_id} ${!event.pin}`,
+        hide:true
+      }],[{
+        text : `${json[String(event.welcome)]} Join`,
+        callback_data : `setting join ${chat_id} ${!event.welcome}`,
+        hide:true
+      },{
+        text : `${json[String(event.goodbye)]} Left`,
+        callback_data : `setting left ${chat_id} ${!event.goodbye}`,
+        hide:true
+      }],[{
+        text : `${json[String(event.voiceChat)]} Voice Chat`,
+        callback_data : `setting voiceChat ${chat_id} ${!event.voiceChat}`,
+        hide:true
+      },{
+        text : `🔄 Admin Cache`,
+        callback_data : `setting adminCache ${chat_id}`,
+        hide:true
+      }]
+      ]
+      return ctx.editMessageReplyMarkup({inline_keyboard:keyboard})
   }catch(error){
     return reportError(error,ctx)
   }

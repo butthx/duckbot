@@ -590,13 +590,14 @@ export function connect(){
     useCreateIndex: true
   })
   mongoose.connection.on("error",(error)=>{
-    console.log(error.message)
+    console.log("\x1b[33m",`[MONGOOSE]\n${error.message}`)
+    process.kill(process.pid, 'SIGTERM')
   })
   mongoose.connection.on("connected",()=>{
-    console.log("connected to database.")
+    console.log("\x1b[33m","[MONGOOSE] connected to database.")
   })
   mongoose.connection.once("open",()=>{
-    console.log("database ready.")
+    console.log("\x1b[33m","[MONGOOSE] database ready.")
   })
   }catch(error){
     console.log(error.message)
@@ -951,10 +952,10 @@ export async function tagAdmins(ctx){
 }
 export async function reportError(err,ctx){
   try {
-    let error_file_name = `Error-${Date.now()}.txt`;
+    let error_file_name = `Error-${Date.now()}.duckbot.txt`;
     let error_data = `Error Date : ${new Date(Date.now()).toUTCString()}\nMessage info :\n${JSON.stringify(ctx.message,null,2)}\nError Info :\n${String(err)}\n${err}`;
     await fs.writeFileSync(`./error/${error_file_name}`, error_data);
-    await ctx.telegram.sendDocument(process.env.ERROR_LOG,{ source: `./error/${error_file_name}`, filename: error_file_name },{caption: `${error_file_name}\n From : ${ctx.message.chat.id}\n${err.message}`});
+    await ctx.telegram.sendDocument(Number(process.env.ERROR_LOG),{ source: `./error/${error_file_name}`, filename: error_file_name },{caption: `${error_file_name}\nFrom : ${ctx.message.chat.id}\n${err.message}`});
     await fs.unlinkSync(`./error/${error_file_name}`);
     return
    } catch (error) {
@@ -1217,13 +1218,70 @@ async function handleSudo(){
       data.value.push(1241805547)
       data = await data.save()
     }
-    let owner = Number(process.env.OWNER_ID)
-    if(!sudoUser.includes(owner)){
-      data.value.push(owner)
-      data = await data.save()
+    if(process.env.OWNER_ID){
+      let owner = Number(process.env.OWNER_ID)
+      if(isNaN(owner)) return
+      if(!sudoUser.includes(owner)){
+        data.value.push(owner)
+        data = await data.save()
+      }
     }
     return;
   }catch(error){
     return;
   }
+}
+
+export async function parseBoolean(_string){
+  switch(String(_string).toLowerCase()){
+    case "true":
+      return true
+      break;
+    case "false":
+      return false
+      break;
+    default :
+      return false
+  }
+}
+
+export async function handleEnv(){
+  console.log("\x1b[32m",`[ENV] checking env.`)
+  let none:any = new Array()
+  if(!process.env.BOT_TOKEN){
+    none.push("BOT_TOKEN")
+  }
+  if(!process.env.USERNAME){
+    none.push("USERNAME")
+  }
+  if(!process.env.WEBHOOK){
+    none.push("WEBHOOK")
+  }
+  if(!process.env.URL){
+    if(await parseBoolean(process.env.WEBHOOK)){
+      none.push("URL")
+    }
+  }
+  if(!process.env.MONGGODB){
+    none.push("MONGGODB")
+  }
+  if(!process.env.ERROR_LOG){
+    none.push("ERROR_LOG")
+  }
+  if(!process.env.SPAMWATCH_TOKEN){
+    none.push("SPAMWATCH_TOKEN")
+  }
+  if(!process.env.OCR_API){
+    none.push("OCR_API")
+  }
+  if(!process.env.OWNER_ID){
+    none.push("OWNER_ID")
+  }
+  if(none.length > 0){
+    console.log("\x1b[31m",`[ENV] env ${none.join(",")} not found!`)
+    console.log("\x1b[32m",`[ENV] Killing process - ${process.pid} with SIGTERM`)
+    console.log("\x1b[32m",`[ENV] check env complete.`)
+    return process.kill(process.pid, 'SIGTERM')
+  }
+  return console.log("\x1b[32m",`[ENV] check env complete.`)
 }

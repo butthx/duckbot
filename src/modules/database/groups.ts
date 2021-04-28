@@ -34,6 +34,7 @@ interface IUser extends Document {
     caption:string;
   };
   notes: {
+    status : boolean;
     value: Array<any>;
     deleteOldMessage: {
       status: boolean;
@@ -41,6 +42,7 @@ interface IUser extends Document {
     }
   };
   filters: {
+    status : boolean;
     value: Array<any>;
     deleteOldMessage: {
       status: boolean;
@@ -53,7 +55,13 @@ interface IUser extends Document {
   purgeFrom:number;
   duckbotmata: boolean;
   das : boolean; 
-  cleanEvent : boolean;
+  cleanEvent : {
+    status : boolean
+    pin : boolean;
+    welcome : boolean;
+    goodbye : boolean;
+    voiceChat : boolean;
+  }
 }
 export const groupsSchema = new Schema({
   chat_id: {
@@ -150,6 +158,10 @@ export const groupsSchema = new Schema({
     }
   },
   notes: {
+    status: {
+      type: Boolean,
+      default: true
+    },
     value: {
       type: Array,
       default: new Array()
@@ -166,6 +178,10 @@ export const groupsSchema = new Schema({
     }
   },
   filters: {
+    status: {
+      type: Boolean,
+      default: true
+    },
     value: {
       type: Array,
       default: new Array()
@@ -206,8 +222,26 @@ export const groupsSchema = new Schema({
     default : true
   },
   cleanEvent : {
-    type : Boolean,
-    default : true
+    status: {
+      type: Boolean,
+      default: true
+    },
+    pin : {
+      type: Boolean,
+      default: true
+    },
+    welcome : {
+      type: Boolean,
+      default: true
+    },
+    goodbye : {
+      type: Boolean,
+      default: true
+    },
+    voiceChat : {
+      type: Boolean,
+      default: true
+    }
   }
 })
 const groups = mongoose.model<IUser>("groups",groupsSchema)
