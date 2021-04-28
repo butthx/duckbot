@@ -955,7 +955,7 @@ export async function reportError(err,ctx){
     let error_file_name = `Error-${Date.now()}.duckbot.txt`;
     let error_data = `Error Date : ${new Date(Date.now()).toUTCString()}\nMessage info :\n${JSON.stringify(ctx.message,null,2)}\nError Info :\n${String(err)}\n${err}`;
     await fs.writeFileSync(`./error/${error_file_name}`, error_data);
-    await ctx.telegram.sendDocument(Number(process.env.ERROR_LOG),{ source: `./error/${error_file_name}`, filename: error_file_name },{caption: `${error_file_name}\nFrom : ${ctx.message.chat.id}\n${err.message}`});
+    await ctx.telegram.sendDocument(Number(process.env.ERROR_LOG),{ source: `./error/${error_file_name}`, filename: error_file_name},{caption: `${error_file_name}\nFrom : ${ctx.message.chat.id}\n${err.message}`});
     await fs.unlinkSync(`./error/${error_file_name}`);
     return
    } catch (error) {

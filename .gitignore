@@ -208,3 +208,5 @@ vie.traineddata
 yid.traineddata
 # build
 build/
+#error file
+error/Error*

@@ -1,6 +1,0 @@
-Error Date : Wed, 28 Apr 2021 02:17:00 GMT
-Message info :
-undefined
-Error Info :
-Error: 400: Bad Request: there are no administrators in the private chat
-Error: 400: Bad Request: there are no administrators in the private chat
