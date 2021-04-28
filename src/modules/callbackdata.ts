@@ -76,25 +76,25 @@ export async function settingsCallback(ctx){
         return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
       }
       if(now.getMonth() > date.getMonth()){
-        data.admins = await ctx.getChatAdministrators()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
       }
       if(now.getDay() > date.getDay()){
-        data.admins = await ctx.getChatAdministrators()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
       }
       if(now.getHours() > date.getHours()){
-        data.admins = await ctx.getChatAdministrators()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
       }
       if(abs >= 10){
-        data.admins = await ctx.getChatAdministrators()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess,{show_alert:true})
