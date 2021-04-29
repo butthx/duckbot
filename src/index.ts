@@ -12,6 +12,8 @@ import {useLang,donate,settingsCallback} from "./modules/callbackdata"
 import {tr} from "./modules/translate"
 import {adminCache, settings,handleSettings} from "./modules/admin"
 import {getNotes,saveNotes,removeNotes,removeNotesAll} from "./modules/notes"
+import {npm} from "./modules/npm"
+import {inline_query} from "./modules/inlineQuery"
 connect()
 const bot = new Telegraf(process.env.BOT_TOKEN as string)
 const app = express()
@@ -26,7 +28,7 @@ if(isWebhook){
     res.status(403).redirect("https://butthx.vercel.app/duckbot")
   })
   app.use(bot.webhookCallback("/"))
-  bot.telegram.setWebhook(process.env.WEBHOOK_URL as string)
+  bot.telegram.setWebhook(process.env.URL as string)
 }
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env.USERNAME).replace(/^\@/,"").trim()})? settings_(.*)`),handleSettings)
@@ -45,6 +47,8 @@ bot.command("clear",removeNotes)
 bot.command("clearall",removeNotesAll)
 bot.command("admincache",adminCache)
 bot.command("settings",settings)
+bot.command("npm",npm)
+bot.on("inline_query",inline_query)
 bot.catch(reportError)
 if(isWebhook){
     app.listen(port,()=>{

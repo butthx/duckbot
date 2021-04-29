@@ -16,7 +16,7 @@ export function getPing(ctx){
   let p = date - msgd 
   return `${p.toFixed(3)} s`
 }
-export function replyToMessage(ctx,text, keyboard, web = true){
+export function replyToMessage(ctx,text, keyboard:any=false, web = true){
   if(ctx.message){
     if (keyboard) {
       return ctx.reply(text, {
@@ -52,7 +52,7 @@ export function replyToMessage(ctx,text, keyboard, web = true){
     }
   }
 }
-export function replyToUser(ctx,text,keyboard,web=true){
+export function replyToUser(ctx,text,keyboard:any=false,web=true){
   if(ctx.message){
     if (ctx.message.reply_to_message) {
       if (keyboard) {
