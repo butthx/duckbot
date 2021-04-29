@@ -41,10 +41,10 @@ To deploy on replit when a build not found module error appears, please run the 
 `SPAMWATCH_TOKEN` : Api key from spam watch.  
 `OCR_API` : OCR space api key.  
 `ERROR_LOG` : Channel/Groups/ID to report error.  
-`WEBHOOK` : running mode if `true` bot will running on webhook mode. if `falss` bot will running on polling mode.
-`OWNER_ID` : your user id 
-`URL` : webhook url. if `webhook=true` this env required
-`USERNAME` : **username** your bot.
+`WEBHOOK` : running mode if `true` bot will running on webhook mode. if `false` bot will running on polling mode.  
+`OWNER_ID` : your user id   
+`URL` : webhook url. if `webhook=true` this env required  
+`USERNAME` : **username** your bot.  
 
 
 ## Contribution
