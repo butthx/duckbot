@@ -12,6 +12,7 @@ import {useLang,donate,settingsCallback} from "./modules/callbackdata"
 import {tr} from "./modules/translate"
 import {adminCache, settings,handleSettings} from "./modules/admin"
 import {getNotes,saveNotes,removeNotes,removeNotesAll} from "./modules/notes"
+import {getFilters,saveFilters,removeFilters,removeFiltersAll} from "./modules/filters"
 import {npm} from "./modules/npm"
 import {inline_query} from "./modules/inlineQuery"
 connect()
@@ -48,6 +49,10 @@ bot.command("clearall",removeNotesAll)
 bot.command("admincache",adminCache)
 bot.command("settings",settings)
 bot.command("npm",npm)
+bot.command("filter",saveFilters)
+bot.command("filters",getFilters)
+bot.command("stop",removeFilters)
+bot.command("stopall",removeFiltersAll)
 bot.on("inline_query",inline_query)
 bot.catch(reportError)
 if(isWebhook){

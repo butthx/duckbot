@@ -12,6 +12,7 @@ export async function handleNotes (ctx){
       if(text){
        let data = await groups.findOne({chat_id:ctx.chat.id})
        if(data !== null){
+         if(!data.notes.status) return
          let list = data.notes.value
          if(list.length >= 1){
            entities.forEach(async(el,i)=>{
@@ -27,10 +28,10 @@ export async function handleNotes (ctx){
                        let keyboard = parseJson.keyboard
                        let md = await parse(ctx,parseJson.text)
                        if(keyboard.length >= 1){
-                         let msg =  replyToUser(ctx,md,keyboard)
+                         let msg = await   replyToUser(ctx,md,keyboard)
                          return domNotes(ctx,data,msg)
                        }else{
-                         let msg = replyToUser(ctx,md,false)
+                         let msg = await  replyToUser(ctx,md,false)
                          return domNotes(ctx,data,msg)
                        }
                        break;
@@ -39,16 +40,96 @@ export async function handleNotes (ctx){
                          if(item.caption){
                            let parse = JSON.parse(await buildKeyboard(item.caption))
                            if(parse.keyboard.length >= 1){
-                             let msg = replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`,parse.keyboard)
+                             let msg = await  replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`,parse.keyboard)
                              return domNotes(ctx,data,msg)
                            }else{
-                             let msg = replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`)
+                             let msg = await  replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`)
                              return domNotes(ctx,data,msg)
                            }
                          }else{
-                           let msg =  replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>`)
+                           let msg = await   replyToUserPhoto(ctx,item.value,`<code>#${item.key}</code>`)
                            return domNotes(ctx,data,msg)
                          }
+                       }
+                       break;
+                    case "video":
+                       if(item.value){
+                         if(item.caption){
+                           let parse = JSON.parse(await buildKeyboard(item.caption))
+                           if(parse.keyboard.length >= 1){
+                             let msg = await  replyToUserVideo(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`,parse.keyboard)
+                             return domNotes(ctx,data,msg)
+                           }else{
+                             let msg = await  replyToUserVideo(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`)
+                             return domNotes(ctx,data,msg)
+                           }
+                         }else{
+                           let msg = await   replyToUserVideo(ctx,item.value,`<code>#${item.key}</code>`)
+                           return domNotes(ctx,data,msg)
+                         }
+                       }
+                       break;
+                    case "document":
+                       if(item.value){
+                         if(item.caption){
+                           let parse = JSON.parse(await buildKeyboard(item.caption))
+                           if(parse.keyboard.length >= 1){
+                             let msg = await  replyToUserDocument(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`,parse.keyboard)
+                             return domNotes(ctx,data,msg)
+                           }else{
+                             let msg = await  replyToUserDocument(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`)
+                             return domNotes(ctx,data,msg)
+                           }
+                         }else{
+                           let msg = await   replyToUserDocument(ctx,item.value,`<code>#${item.key}</code>`)
+                           return domNotes(ctx,data,msg)
+                         }
+                       }
+                       break;
+                    case "audio":
+                       if(item.value){
+                         if(item.caption){
+                           let parse = JSON.parse(await buildKeyboard(item.caption))
+                           if(parse.keyboard.length >= 1){
+                             let msg = await  replyToUserAudio(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`,parse.keyboard)
+                             return domNotes(ctx,data,msg)
+                           }else{
+                             let msg = await  replyToUserAudio(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`)
+                             return domNotes(ctx,data,msg)
+                           }
+                         }else{
+                           let msg = await   replyToUserAudio(ctx,item.value,`<code>#${item.key}</code>`)
+                           return domNotes(ctx,data,msg)
+                         }
+                       }
+                       break;
+                    case "voice":
+                       if(item.value){
+                         if(item.caption){
+                           let parse = JSON.parse(await buildKeyboard(item.caption))
+                           if(parse.keyboard.length >= 1){
+                             let msg = await  replyToUserVoice(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`,parse.keyboard)
+                             return domNotes(ctx,data,msg)
+                           }else{
+                             let msg = await  replyToUserVoice(ctx,item.value,`<code>#${item.key}</code>\n${parse.text}`)
+                             return domNotes(ctx,data,msg)
+                           }
+                         }else{
+                           let msg = await   replyToUserVoice(ctx,item.value,`<code>#${item.key}</code>`)
+                           return domNotes(ctx,data,msg)
+                         }
+                       }
+                       break;
+                    case "video_note":
+                       if(item.value){
+                         let msg = await   replyToUserVideoNote(ctx,item.value)
+                         return domNotes(ctx,data,msg)
+                       }
+                       break;
+                    case "sticker":
+                       if(item.value){
+                         let msg = await  replyToUserSticker(ctx,item.value)
+                         return domNotes(ctx,data,msg)
                        }
                        break;
                      default:
@@ -86,6 +167,7 @@ export async function saveNotes(ctx){
     if(!key){
       return replyToMessage(ctx,langs.notesSaveError,false)
     }
+    if(!data.notes.status) return
     let index =  data.notes.value.findIndex((item)=> item.key == key)
     if(ctx.message.reply_to_message){
       if(ctx.message.reply_to_message.text){
@@ -236,6 +318,22 @@ export async function saveNotes(ctx){
          return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
        }
       }
+    }else{
+      let json = {
+         key : String(key),
+         type : "text",
+         value : String(ctx.message.text.split(" ").splice(1,1).splice(0,1).join(" "))
+       }
+       if(index == -1){
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesSaved.replace(/\{key\}/i,key),false)
+       }else{
+         data.notes.value.splice(index,1)
+         data.notes.value.push(json)
+         data = await data.save()
+         return replyToMessage(ctx,langs.notesUpdate.replace(/\{key\}/i,key),false)
+       }
     }
   }catch(error){
     replyToMessage(ctx,langs.notesSaveError,false)
@@ -252,6 +350,7 @@ export async function getNotes(ctx){
     if(data == null){
       return replyToMessage(ctx,langs.notesNotFound,false)
     }
+    if(!data.notes.status) return
     let notes = data.notes.value
     if(notes.length >= 1){
       let result = langs.notesGet.replace(/\{title\}/i,ctx.chat.title)
@@ -285,6 +384,7 @@ export async function removeNotes(ctx){
     if(!key){
       return replyToMessage(ctx,langs.notesRmError,false)
     }
+    if(!data.notes.status) return
     let notes = data.notes.value
     if(notes.length >= 1){
       let index = notes.findIndex((el)=> el.key == key)
@@ -314,6 +414,7 @@ export async function removeNotesAll(ctx){
     if(data == null){
       return replyToMessage(ctx,langs.notesNotFound,false)
     }
+    if(!data.notes.status) return
     let notes = data.notes.value
     if(notes.length >= 1){
       data.notes.value = new Array()

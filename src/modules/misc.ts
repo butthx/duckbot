@@ -7,6 +7,8 @@ import dotenv from "dotenv"
 import fetch from "node-fetch"
 import Spamwatch from "spamwatch"
 import {handleNotes} from "./notes"
+import {handleFilters} from "./filters"
+import {cleanEvent} from "./cleanEvent"
 import sudos from "./database/sudos"
 dotenv.config()
 export const swClient = new Spamwatch.Client(process.env.SPAMWATCH_TOKEN as string)
@@ -510,7 +512,7 @@ export function replyToUserVoice(ctx,file,caption:any=false,keyboard:any=false,w
     }
   }
 }
-export function replyToUserSticker(ctx,text,keyboard,web=true){
+export function replyToUserSticker(ctx,text,keyboard:any=false,web=true){
   if(ctx.message){
     if (ctx.message.reply_to_message) {
       if (keyboard) {
@@ -543,7 +545,7 @@ export function replyToUserSticker(ctx,text,keyboard,web=true){
     }
   }
 }
-export function replyToUserVideoNote(ctx,text,keyboard,web=true){
+export function replyToUserVideoNote(ctx,text,keyboard:any=false,web=true){
   if(ctx.message){
     if (ctx.message.reply_to_message) {
       if (keyboard) {
@@ -605,9 +607,11 @@ export function connect(){
 }
 export async function saveUser(ctx,next){
   try{
-    next()
-    handleNotes(ctx)
     duckbotmata(ctx)
+    next()
+    cleanEvent(ctx)
+    handleNotes(ctx)
+    handleFilters(ctx)
     das(ctx)
     handleSudo()
   }catch(error){
@@ -634,14 +638,26 @@ export async function das(ctx){
     }]]
     let text = `Dear Admins,\nMy system detects this user is a spamer.\nInfo :`
     if(cas.ok){
-      text += `\nThis user get banned on CAS.`
+      text += `\nThis user get banned on CAS (Combot Anti Spam).`
     }
     if(swBan){
       text += `\nThis user get banned on SpamWatch.`
     }
     if((cas.ok || swBan) && Boolean(data.das)){
-      text += `\n I suggest to ban this user from this groups!${admins}`
-      return replyToMessage(ctx,text,keyboard)
+      text += `\nI suggest to ban this user from this groups!${admins}`
+      ctx.restrictChatMember(ctx.from.id,{
+        permissions : {
+          can_send_messages : false,
+          can_send_media_messages : false,
+          can_send_polls : false,
+          can_send_other_messages : false,
+          can_add_web_page_previews : false,
+          can_change_info : false,
+          can_invite_users : false,
+          can_pin_messages : false
+        }
+      })
+      return replyToMessage(ctx,text)
     }
   }catch(error){
     return
