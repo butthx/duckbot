@@ -1,7 +1,7 @@
 ## Overview
 Hi. This is the repository of my bot ([Miss_duckbot](https://t.me/miss_duckbot)). This bot is written in typescript.
 ## License
-**MIT LICENSE**
+[**MIT LICENSE**](/LICENSE)
 ## Command 
 - `/start` - starting bot
 - `/setlang` - setting current language
@@ -14,7 +14,6 @@ and any more.
 - Translate
 - Duckbot Mata
 - Anti Spam
-- Kick,ban,mute  
 and any more.
 ## Docs 
 Available on [https://butthx.now.sh/duckbot](https://butthx.now.sh/duckbot)

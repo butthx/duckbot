@@ -13,7 +13,7 @@ import {tr} from "./modules/translate"
 import {adminCache, settings,handleSettings} from "./modules/admin"
 import {getNotes,saveNotes,removeNotes,removeNotesAll} from "./modules/notes"
 import {getFilters,saveFilters,removeFilters,removeFiltersAll} from "./modules/filters"
-import {npm} from "./modules/npm"
+import {npm,pypi} from "./modules/npm"
 import {inline_query} from "./modules/inlineQuery"
 connect()
 const bot = new Telegraf(process.env.BOT_TOKEN as string)
@@ -53,6 +53,7 @@ bot.command("filter",saveFilters)
 bot.command("filters",getFilters)
 bot.command("stop",removeFilters)
 bot.command("stopall",removeFiltersAll)
+bot.command("pypi",pypi)
 bot.on("inline_query",inline_query)
 bot.catch(reportError)
 if(isWebhook){

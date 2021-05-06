@@ -72,3 +72,38 @@ export async function npmInline(ctx){
     return error
   }
 }
+
+export async function pypiScrapt(query){
+  try{
+    let data = await axios.get(`https://pypi.org/search/?q=${encodeURI(query)}`)
+    if(data.status == 200){
+      let result = ``
+      let $ = cheerio.load(data.data)
+      $(".unstyled").each((i,el)=>{
+        console.log(i)
+        /*let href = $(el).find("li").find(".package-snippet").attr("href")
+        let title = $(el).find("li").find(".package-snippet__title").find(".package-snippet__name").text().replace(/\s\s+/g, '');
+        let version = $(el).find("li").find(".package-snippet__title").find(".package-snippet__version").text().replace(/\s\s+/g, '');
+        let date = $(el).find("li").find(".package-snippet__title").find(".package-snippet__released").text().replace(/\s\s+/g, '');
+        let desc = $(el).find("li").find(".package-snippet__description").text().replace(/\s\s+/g, '');
+        result += `<a href="https://pypi.org${href}">${title}</a>\n    <b>${desc}</b>\n    <i>${version} • ${date}</i>\n`*/
+      })
+      console.log(result)
+    }
+    return false
+  }catch(error){
+    return false
+  }
+}
+
+export async function pypi(ctx){
+  try{
+    let text = ctx.message.text.split(" ")
+    text.splice(0,1)
+    if(text.length == 0) return
+    text = text.join(" ")
+    return pypiScrapt(text)
+  }catch(error){
+    return error
+  }
+}
