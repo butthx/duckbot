@@ -330,12 +330,19 @@ export async function handleNotes (ctx) {
           }
         }
       } else {
-        let textSplit = ctx.message.text.split(" ")
-        textSplit.splice(1, 1).splice(0, 1)
+        key = ctx.message.text.split(" ")[1]
+        let valueText = ctx.message.text.split(" ") || false
+        if (valueText) {
+          valueText.splice(1, 1)
+          valueText.splice(0, 1)
+          valueText = valueText.join(" ")
+        } else {
+          valueText = "undefined"
+        }
         let json = {
           key: String(key),
           type: "text",
-          value: String(textSplit.join(" "))
+          value: String(valueText)
         }
         if (index == -1) {
           data.notes.value.push(json)
