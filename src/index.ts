@@ -52,12 +52,13 @@ import {
   removeFiltersAll
 } from "./modules/filters"
 connect()
-const bot = new Telegraf(process.env.BOT_TOKEN as string)
+const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 const app = express()
-let port = Number(process.env.PORT) || 3000
+let port = Number(process.env["PORT"]) || 3000
 let isWebhook = false
 async ()=> {
-  let results = await parseBoolean(process.env.WEBHOOK)
+  let results = await parseBoolean(process.env["WEBHOOK"])
+  console.log(results)
   return isWebhook = results
 }
 if (isWebhook) {
@@ -65,11 +66,11 @@ if (isWebhook) {
     res.status(403).redirect("https://butthx.vercel.app")
   })
   app.use(bot.webhookCallback("/"))
-  bot.telegram.setWebhook(process.env.URL as string)
+  bot.telegram.setWebhook(process.env["URL"] as string)
 }
 bot.use(saveUser)
-bot.hears(new RegExp(`/start(\@${String(process.env.USERNAME).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
-bot.hears(new RegExp(`\@admin(s)?(\@${String(process.env.USERNAME).replace(/^\@/, "").trim()})?`), reportAdmin)
+bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
+bot.hears(new RegExp(`\@admin(s)?(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`), reportAdmin)
 bot.action(/setlang\s+(.*)$/i, useLang)
 bot.action("donate", donate)
 bot.action(/setting\s+(.*)/i, settingsCallback)
@@ -94,10 +95,10 @@ bot.command("report", reportAdmin)
 bot.catch(reportError)
 if (isWebhook) {
   app.listen(port, ()=> {
-    console.log("\x1b[34m", "[WEBHOOK] bot running..")
+    console.log("\x1b[34m%%\x1b[0m", "[WEBHOOK] bot running..")
   })
 } else {
   bot.launch().then(()=> {
-    console.log("\x1b[35m", "[POLLING] bot running..")
+    console.log("\x1b[35m%s\x1b[0m", "[POLLING] bot running..")
   })
 }
