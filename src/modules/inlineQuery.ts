@@ -1,13 +1,15 @@
-import {npmInline} from "./npm"
+/*import {
+  npmInline
+} from "./npm"
 
-export async function inline_query(ctx){
-  try{
+export async function inline_query(ctx) {
+  try {
     let command = ctx.update.inline_query.query.split(" ")
-    if(String(command[0]).toLowerCase() == "npm"){
+    if (String(command[0]).toLowerCase() == "npm") {
       return npmInline(ctx)
     }
     return;
-  }catch(error){
+  }catch(error) {
     return error
   }
-}
+}*/
