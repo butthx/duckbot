@@ -36,7 +36,8 @@ import {
 import {
   adminCache,
   settings,
-  handleSettings
+  handleSettings,
+  reportAdmin
 } from "./modules/admin"
 import {
   getNotes,
@@ -68,6 +69,7 @@ if (isWebhook) {
 }
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env.USERNAME).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
+bot.hears(new RegExp(`\@admin(s)?(\@${String(process.env.USERNAME).replace(/^\@/, "").trim()})?`), reportAdmin)
 bot.action(/setlang\s+(.*)$/i, useLang)
 bot.action("donate", donate)
 bot.action(/setting\s+(.*)/i, settingsCallback)
@@ -87,6 +89,7 @@ bot.command("filter", saveFilters)
 bot.command("filters", getFilters)
 bot.command("stop", removeFilters)
 bot.command("stopall", removeFiltersAll)
+bot.command("report", reportAdmin)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (isWebhook) {
