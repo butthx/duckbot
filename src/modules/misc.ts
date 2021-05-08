@@ -1384,7 +1384,7 @@ async function handleSudo() {
   }
 }
 
-export async function parseBoolean(_string) {
+export function parseBoolean(_string) {
   switch (String(_string).toLowerCase()) {
     case "true":
       return true
@@ -1399,7 +1399,6 @@ export async function parseBoolean(_string) {
 
   export async function handleEnv() {
     console.log("\x1b[32m%s\x1b[0m", `[ENV] checking env.`)
-    console.log("\x1b[32m%s\x1b[0m", process.env)
     let none: any = new Array()
     if (!process.env["BOT_TOKEN"]) {
       none.push("BOT_TOKEN")

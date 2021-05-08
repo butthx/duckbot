@@ -1,27 +1,28 @@
 import axios from "axios"
 import cheerio from "cheerio"
 import {
-  replyToUser
+  replyToUser,
+  getPing
 } from "./misc"
 
-/*async function scrapt(query) {
+async function scrapt(query) {
   try {
     let header = {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36'
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 10; Redmi 5A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.91 Mobile Safari/537.36'
       }}
     let baseUrl = `https://www.npmjs.com/search?q=${encodeURI(query)}`
     let html = await axios.get(baseUrl, header)
     if (html.status == 200) {
       let $ = cheerio.load(html.data)
       let result = ""
-      $("section").each(async (i, el)=> {
+      $("section").each((i, el)=> {
         let num = i+1
         let item = $(el).find(".items-end").find("a")
-        let title = item.find("h3").text().replace(/\s\s+/g, '');
-        let desc = $(el).find("p").text().replace(/\s\s+/g, '');
-        let href = item.attr("href")
-        let version = $(el).find("span").text().replace(/(\s\s+)|(exact match)/gi, '');
+        let title = item.find("h3").text().replace(/\s\s+/g, '').replace(/\&/gmi, "&amp;").replace(/\</gmi, "&lt;").replace(/\>/gmi, "&gt;").replace(/\"/gmi, "&quot;");
+        let desc = $(el).find("p").text().replace(/\s\s+/g, '').replace(/\&/gmi, "&amp;").replace(/\</gmi, "&lt;").replace(/\>/gmi, "&gt;").replace(/\"/gmi, "&quot;");
+        let href = item.attr("href");
+        let version = $(el).find("span").text().replace(/(\s\s+)|(exact match)/gi, '').replace(/\&/gmi, "&amp;").replace(/\</gmi, "&lt;").replace(/\>/gmi, "&gt;").replace(/\"/gmi, "&quot;");
         result += `${num}. <a href="https://npmjs.com${href}">${title}</a>\n   <b>${desc}</b>\n   <i>${version}</i>\n   <code>npm i ${title}</code>\n`
       })
       return {
@@ -37,13 +38,14 @@ import {
 
 export async function npm(ctx) {
   try {
+    let c = await getPing(ctx)
     let spl = ctx.message.text.split(" ")
     spl.splice(0, 1)
     if (spl.length == 0) return
-    let msg = await replyToUser(ctx, `Searching..`)
+    let msg = await replyToUser(ctx, `Searching..\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
     let data = await scrapt(spl.join(" "))
-    if (!data) return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, `Not Found!`)
-    return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, data.text, {
+    if (!data) return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, `Not Found!\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
+    return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, `${data.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
       parse_mode: "HTML",
       reply_markup: {
         inline_keyboard: [[{
@@ -83,4 +85,4 @@ export async function npmInline(ctx) {
   }catch(error) {
     return error
   }
-}*/
+}

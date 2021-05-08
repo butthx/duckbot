@@ -51,17 +51,16 @@ import {
   removeFilters,
   removeFiltersAll
 } from "./modules/filters"
+
+import {
+  npm
+} from "./modules/npm"
+
 connect()
 const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 const app = express()
 let port = Number(process.env["PORT"]) || 3000
-let isWebhook = false
-async ()=> {
-  let results = await parseBoolean(process.env["WEBHOOK"])
-  console.log(results)
-  return isWebhook = results
-}
-if (isWebhook) {
+if (parseBoolean(process.env["WEBHOOK"])) {
   app.get("/", (req, res)=> {
     res.status(403).redirect("https://butthx.vercel.app")
   })
@@ -91,11 +90,12 @@ bot.command("filters", getFilters)
 bot.command("stop", removeFilters)
 bot.command("stopall", removeFiltersAll)
 bot.command("report", reportAdmin)
+bot.command("npm", npm)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
-if (isWebhook) {
+if (parseBoolean(process.env["WEBHOOK"])) {
   app.listen(port, ()=> {
-    console.log("\x1b[34m%%\x1b[0m", "[WEBHOOK] bot running..")
+    console.log("\x1b[34m%s\x1b[0m", "[WEBHOOK] bot running..")
   })
 } else {
   bot.launch().then(()=> {
