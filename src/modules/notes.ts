@@ -330,10 +330,12 @@ export async function handleNotes (ctx) {
           }
         }
       } else {
+        let textSplit = ctx.message.text.split(" ")
+        textSplit.splice(1, 1).splice(0, 1)
         let json = {
           key: String(key),
           type: "text",
-          value: String(ctx.message.text.split(" ").splice(1, 1).splice(0, 1).join(" "))
+          value: String(textSplit.join(" "))
         }
         if (index == -1) {
           data.notes.value.push(json)
