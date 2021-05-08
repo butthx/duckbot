@@ -56,14 +56,13 @@ const bot = new Telegraf(process.env.BOT_TOKEN as string)
 const app = express()
 let port = Number(process.env.PORT) || 3000
 let isWebhook = false
-let _parseBoolean = async (_string)=> {
-  let results = await parseBoolean(_string)
+async ()=> {
+  let results = await parseBoolean(process.env.WEBHOOK)
   return isWebhook = results
 }
-_parseBoolean(process.env.WEBHOOK)
 if (isWebhook) {
   app.get("/", (req, res)=> {
-    res.status(403).redirect("https://butthx.vercel.app/duckbot")
+    res.status(403).redirect("https://butthx.vercel.app")
   })
   app.use(bot.webhookCallback("/"))
   bot.telegram.setWebhook(process.env.URL as string)
