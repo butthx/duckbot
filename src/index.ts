@@ -60,6 +60,7 @@ let _parseBoolean = async (_string)=> {
   let results = await parseBoolean(_string)
   return isWebhook = results
 }
+_parseBoolean(process.env.WEBHOOK)
 if (isWebhook) {
   app.get("/", (req, res)=> {
     res.status(403).redirect("https://butthx.vercel.app/duckbot")

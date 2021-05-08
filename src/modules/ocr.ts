@@ -140,9 +140,7 @@ export async function tesseract(ctx) {
       })
       file.on("finish", async ()=> {
         try {
-          let data = await Tesseract.recognize(`./ocr/${file_name}`, langOcr, {
-            logger: m=> {
-              console.log(m.status)}})
+          let data = await Tesseract.recognize(`./ocr/${file_name}`, langOcr, {})
           let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, langOcr)}\n${data.data.text}`
           /*{logger: m => {
             ctx.telegram.editMessageText(msg.chat.id,msg.message_id,undefined,`${langs.ocrLoading.replace(/\{langs\}/i,langOcr)}\nStatus: ${m.status}`,{parse_mode:"HTML"})
