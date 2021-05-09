@@ -1000,19 +1000,17 @@ export async function tagAdmins(ctx) {
 export function reportError(err, ctx) {
   try {
     let error_file_name = `Error-${Date.now()}.duckbot.txt`;
-    let error_data = `Error Date : ${new Date(Date.now()).toUTCString()}\nMessage info :\n${JSON.stringify(ctx.message, null, 2)}\nError Info :\n${String(err)}\n${err}`;
+    let error_data = `Error Date : ${new Date(Date.now()).toUTCString()}\nMessage info :\n${JSON.stringify(ctx.update, null, 2)}\nError Info :\n${err.stack}`;
     fs.writeFileSync(`./error/${error_file_name}`, error_data);
-    let msg = ctx.telegram.sendDocument(Number(process.env["ERROR_LOG"]), {
+    ctx.telegram.sendDocument(Number(process.env["ERROR_LOG"]), {
       source: `./error/${error_file_name}`,
       filename: error_file_name
     }, {
-      caption: `${error_file_name}\nFrom : ${ctx.message.chat.id}\n${err.message}`
+      caption: `${error_file_name}\nFrom : ${ctx.chat.id}\n${err.message}`
     });
-    console.log(msg)
     return fs.unlinkSync(`./error/${error_file_name}`);
   } catch (error) {
-    ctx.telegram.sendMessage(Number(process.env["ERROR_LOG"]), "Can't send docs")
-    return console.log(error)
+    return ctx.telegram.sendMessage(Number(process.env["ERROR_LOG"]), "Can't send docs")
   }
 }
 export async function parseHTML(text, entities) {

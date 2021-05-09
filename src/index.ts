@@ -56,6 +56,10 @@ import {
   npm
 } from "./modules/npm"
 
+import {
+  getTTS
+} from "./modules/tts"
+
 connect()
 const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 const app = express()
@@ -91,6 +95,7 @@ bot.command("stop", removeFilters)
 bot.command("stopall", removeFiltersAll)
 bot.command("report", reportAdmin)
 bot.command("npm", npm)
+bot.command("tts", getTTS)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {
