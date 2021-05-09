@@ -62,8 +62,10 @@ import {
 import {
   setUsername
 } from "./modules/setusername"
-
 import update from "./modules/update"
+import {
+  purge
+} from "./modules/purge"
 
 connect()
 const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
@@ -103,6 +105,7 @@ bot.command("report", reportAdmin)
 bot.command("npm", npm)
 bot.command("tts", getTTS)
 bot.command("update", update)
+bot.command("purge", purge)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {
