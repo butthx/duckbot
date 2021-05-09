@@ -1,1 +1,1 @@
-~‰]z»h±«Ş¡Êâ™¨
+this folder to save image. The image will ocr

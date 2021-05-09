@@ -1,1 +1,1 @@
-‰]z»h±«Þzºè®Z 
+This folder to save all error log. if bot send "can't send docs" in your chat (ERROR_LOG) please check this folder

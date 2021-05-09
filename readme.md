@@ -16,7 +16,7 @@ and any more.
 - Anti Spam
 and any more.
 ## Docs
-Available on [https://butthx.now.sh/duckbot](https://butthx.now.sh/duckbot)
+Available on [https://butthx.now.sh](https://butthx.now.sh/)
 ## Deploy
 - `git clone https://github.com/butthx/duckbot`
 - `cd duckbot`
@@ -29,7 +29,7 @@ fill `.env` file with [env value](#env)
 
 To update all `dependencies` you can use `yarn upgrade`
 
-[![replit deploy](https://camo.githubusercontent.com/34fe397bff4498f3cc17458b9c76f87687ffe300aec7291eea4d468551bcbabe/68747470733a2f2f7265706c2e69742f62616467652f6769746875622f7265706c69742f64617461626173652d6e6f6465)](https://repl.it/github/butthx/duckbot)
+[![replit deploy](https://replit.com/badge/github/butthx/duckbot)](https://repl.it/github/butthx/duckbot)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/butthx/duckbot)
 
 To deploy on replit when a build not found module error appears, please run the command `yarn build`
