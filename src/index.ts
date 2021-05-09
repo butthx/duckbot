@@ -59,6 +59,11 @@ import {
 import {
   getTTS
 } from "./modules/tts"
+import {
+  setUsername
+} from "./modules/setusername"
+
+import update from "./modules/update"
 
 connect()
 const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
@@ -73,6 +78,7 @@ if (parseBoolean(process.env["WEBHOOK"])) {
 }
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
+bot.hears(new RegExp(`\#setusername(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`, ""), setUsername)
 bot.hears(new RegExp(`\@admin(s)?(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`), reportAdmin)
 bot.action(/setlang\s+(.*)$/i, useLang)
 bot.action("donate", donate)
@@ -96,6 +102,7 @@ bot.command("stopall", removeFiltersAll)
 bot.command("report", reportAdmin)
 bot.command("npm", npm)
 bot.command("tts", getTTS)
+bot.command("update", update)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {

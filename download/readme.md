@@ -1,0 +1,1 @@
+this folder to save download file like tts,sticker and anymore. don't delete this folder.

@@ -6,6 +6,9 @@ import {
   getCurrentLang,
   isIso
 } from "./misc"
+import https from "https"
+import fs from "fs"
+import path from "path"
 
 export async function getTTS(ctx) {
   let langs = await getLang(ctx)
@@ -33,10 +36,23 @@ export async function getTTS(ctx) {
       slow: slow,
       host: 'https://translate.google.com',
     })
-    return ctx.replyWithAudio(audio, {
-      title: `${Date.now()}.duckbot.mp3`,
-      reply_to_message: ctx.message.reply_to_message.message_id || ctx.message.message_id
+    let file_name = `tts-${Date.now()}.duckbot.mp3`
+    https.get(audio, async (res)=> {
+      let file = fs.createWriteStream(`./download/${file_name}`)
+      res.pipe(file)
+      file.on("error", async (error)=> {
+        return replyToMessage(ctx, langs.ocrError, false)
+      })
+      file.on("finish", async ()=> {
+        await ctx.replyWithAudio({
+          source: `./download/${file_name}`
+        }, {
+          reply_to_message: ctx.message.message_id
+        })
+        return fs.unlinkSync(`./download/${file_name}`)
+      })
     })
+    return
   }catch(error) {
     replyToMessage(ctx, langs.ttsError, false)
     return reportError(error, ctx)

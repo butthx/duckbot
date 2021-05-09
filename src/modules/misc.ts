@@ -1008,7 +1008,14 @@ export function reportError(err, ctx) {
     }, {
       caption: `${error_file_name}\nFrom : ${ctx.chat.id}\n${err.message}`
     });
-    return fs.unlinkSync(`./error/${error_file_name}`);
+    setTimeout(()=> {
+      try {
+        return fs.unlinkSync(`./error/${error_file_name}`);
+      }catch(error) {
+        return
+      }
+    }, 5000)
+    return
   } catch (error) {
     return ctx.telegram.sendMessage(Number(process.env["ERROR_LOG"]), "Can't send docs")
   }
@@ -1402,6 +1409,9 @@ export function parseBoolean(_string) {
     let none: any = new Array()
     if (!process.env["BOT_TOKEN"]) {
       none.push("BOT_TOKEN")
+    }
+    if (!process.env["BETA"]) {
+      none.push("BETA")
     }
     if (!process.env["USERNAME"]) {
       none.push("USERNAME")

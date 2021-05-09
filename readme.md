@@ -44,7 +44,7 @@ To deploy on replit when a build not found module error appears, please run the 
 `OWNER_ID` : your user id
 `URL` : webhook url. if `webhook=true` this env required
 `USERNAME` : **username** your bot.
-
+`BETA` : If `true` bot will using beta script when the `/update` command is executed. If `false`, the bot will use the stable script.
 
 ## Contribution
 You can submit a pull request or an opened issue.
