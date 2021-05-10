@@ -15,6 +15,7 @@ import {
   replyToUserDocument
 } from "./misc"
 import groups from "./database/groups"
+import privates from "./database/private"
 export async function handleNotes (ctx) {
   try {
     if ("message" in ctx.update) {
@@ -159,18 +160,32 @@ export async function handleNotes (ctx) {
   export async function saveNotes(ctx) {
     let langs = await getLang(ctx)
     try {
+      let chat_id = ctx.chat.id
+      let connected = false
       if (ctx.chat.type == "private") {
-        return replyToMessage(ctx, langs.groupsOnly, false)
+        let data = await privates.findOne({
+          chat_id: ctx.chat.id
+        })
+        if (data !== null) {
+          if (data.connected !== 0) {
+            chat_id = data.connected
+            connected = true
+          } else {
+            return replyToMessage(ctx, langs.groupsOnly, false)
+          }
+        } else {
+          return replyToMessage(ctx, langs.groupsOnly, false)
+        }
       }
       let admin = await isAdmin(ctx)
-      if (!admin) {
+      if ((!admin) && (!connected)) {
         return replyToMessage(ctx, langs.userNonAdmin, false)
       }
       let text = ctx.message.text
       let spl = text.split(" ")
       let key: any = spl[1] || false
       let data = await groups.findOne({
-        chat_id: ctx.chat.id
+        chat_id: chat_id
       })
       if (data == null) {
         return
@@ -363,11 +378,25 @@ export async function handleNotes (ctx) {
   export async function getNotes(ctx) {
     let langs = await getLang(ctx)
     try {
+      let chat_id = ctx.chat.id
+      let connected = false
       if (ctx.chat.type == "private") {
-        return replyToMessage(ctx, langs.groupsOnly, false)
+        let data = await privates.findOne({
+          chat_id: ctx.chat.id
+        })
+        if (data !== null) {
+          if (data.connected !== 0) {
+            chat_id = data.connected
+            connected = true
+          } else {
+            return replyToMessage(ctx, langs.groupsOnly, false)
+          }
+        } else {
+          return replyToMessage(ctx, langs.groupsOnly, false)
+        }
       }
       let data = await groups.findOne({
-        chat_id: ctx.chat.id
+        chat_id: chat_id
       })
       if (data == null) {
         return replyToMessage(ctx, langs.notesNotFound, false)
@@ -391,15 +420,29 @@ export async function handleNotes (ctx) {
   export async function removeNotes(ctx) {
     let langs = await getLang(ctx)
     try {
+      let chat_id = ctx.chat.id
+      let connected = false
       if (ctx.chat.type == "private") {
-        return replyToMessage(ctx, langs.groupsOnly, false)
+        let data = await privates.findOne({
+          chat_id: ctx.chat.id
+        })
+        if (data !== null) {
+          if (data.connected !== 0) {
+            chat_id = data.connected
+            connected = true
+          } else {
+            return replyToMessage(ctx, langs.groupsOnly, false)
+          }
+        } else {
+          return replyToMessage(ctx, langs.groupsOnly, false)
+        }
       }
       let admin = await isAdmin(ctx)
-      if (!admin) {
+      if ((!admin) && (!connected)) {
         return replyToMessage(ctx, langs.userNonAdmin, false)
       }
       let data = await groups.findOne({
-        chat_id: ctx.chat.id
+        chat_id: chat_id
       })
       let key: any = ctx.message.text.split(" ")[1] || false
       if (data == null) {
@@ -427,15 +470,29 @@ export async function handleNotes (ctx) {
   export async function removeNotesAll(ctx) {
     let langs = await getLang(ctx)
     try {
+      let chat_id = ctx.chat.id
+      let connected = false
       if (ctx.chat.type == "private") {
-        return replyToMessage(ctx, langs.groupsOnly, false)
+        let data = await privates.findOne({
+          chat_id: ctx.chat.id
+        })
+        if (data !== null) {
+          if (data.connected !== 0) {
+            chat_id = data.connected
+            connected = true
+          } else {
+            return replyToMessage(ctx, langs.groupsOnly, false)
+          }
+        } else {
+          return replyToMessage(ctx, langs.groupsOnly, false)
+        }
       }
       let admin = await isAdmin(ctx)
-      if (!admin) {
+      if ((!admin) && (!connected)) {
         return replyToMessage(ctx, langs.userNonAdmin, false)
       }
       let data = await groups.findOne({
-        chat_id: ctx.chat.id
+        chat_id: chat_id
       })
       if (data == null) {
         return replyToMessage(ctx, langs.notesNotFound, false)

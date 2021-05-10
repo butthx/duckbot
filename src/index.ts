@@ -37,7 +37,8 @@ import {
   adminCache,
   settings,
   handleSettings,
-  reportAdmin
+  reportAdmin,
+  connecting
 } from "./modules/admin"
 import {
   getNotes,
@@ -106,6 +107,7 @@ bot.command("npm", npm)
 bot.command("tts", getTTS)
 bot.command("update", update)
 bot.command("purge", purge)
+bot.command("connect", connecting)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {
