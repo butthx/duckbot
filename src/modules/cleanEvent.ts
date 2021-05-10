@@ -4,13 +4,13 @@ import {
 } from "./misc"
 export async function cleanEvent(ctx) {
   try {
-    if (ctx.chat.type == "private") return
-    let data = await groups.findOne({
-      chat_id: ctx.chat.id
-    })
-    if (data == null) return
-    if (!data.cleanEvent.status) return
-    if (ctx.message) {
+    if ("message" in ctx.update) {
+      if (ctx.chat.type == "private") return
+      let data = await groups.findOne({
+        chat_id: ctx.chat.id
+      })
+      if (data == null) return
+      if (!data.cleanEvent.status) return
       if (ctx.message.pinned_message && data.cleanEvent.pin) {
         try {
           return ctx.deleteMessage(ctx.message.message_id)

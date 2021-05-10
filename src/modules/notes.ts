@@ -29,7 +29,7 @@ export async function handleNotes (ctx) {
           let list = data.notes.value
           if (list.length >= 1) {
             list.forEach(async (item, index)=> {
-              let regex = new RegExp(`#${item.key.replace(/\s+/i, "").trim()}$`, "")
+              let regex = new RegExp(`#${item.key.replace(/\s+/i, "").trim()}`, "")
               if (regex.exec(text)) {
                 let type = item.type.toLowerCase()
                 switch (type) {
