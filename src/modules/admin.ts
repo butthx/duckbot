@@ -222,7 +222,7 @@ export async function connecting(ctx) {
   let langs = await getLang(ctx)
   try {
     if (ctx.chat.type == "private") {
-      return replyToMessage(ctx, langs.groupOnly)
+      return replyToMessage(ctx, langs.groupsOnly)
     }
     if (!ctx.message.reply_to_message) {
       return replyToMessage(ctx, langs.mustReply)
@@ -230,7 +230,9 @@ export async function connecting(ctx) {
     if (!await isAdmin(ctx)) {
       return replyToMessage(ctx, langs.userNonAdmin)
     }
-    let data = await privates.findOne(ctx.message.reply_to_message.from.id)
+    let data = await privates.findOne({
+      chat_id: ctx.message.reply_to_message.from.id
+    })
     if (data == null) {
       return replyToMessage(ctx, langs.pmMessage, [[{
         text: langs.pmButton,
