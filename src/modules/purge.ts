@@ -29,9 +29,7 @@ export async function purge(ctx) {
         chat_id: ctx.chat.id,
         message_id: yesterday++
       }, (now, list)=> {
-        ctx.telegram.deleteMessage(now.chat_id, now.message_id).catch(e) {
-          return e
-        }
+        ctx.telegram.deleteMessage(now.chat_id, now.message_id).catch((e)=>return e)
       })
     }
   }catch(error) {
