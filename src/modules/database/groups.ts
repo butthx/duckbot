@@ -1,248 +1,88 @@
-import mongoose,{Schema,Document} from "mongoose"
+import mongoose, {
+  Schema,
+  Document
+} from "mongoose"
 interface IUser extends Document {
-  chat_id : number;
-  lang : string;
-  rules : string;
-  blacklist : {
-    triger : Array<any>;
-    action : string;
-  };
+  chat_id: number;
+  lang: string;
+  more: any;
+}
+
+let defaultObject = {
+  rules: "",
+  blacklist: {
+    triger: [],
+    action: "ban"
+  },
   welcome: {
-    status: boolean;
+    status: true,
     captcha: {
-      status: boolean;
-      captchaType: string;
-      time: string;
-      action : string;
-    };
+      status: false,
+      captchaType: "number",
+      time: "5m",
+      action: "kick"
+    },
     deleteOldMessage: {
-      status: boolean;
-      message_id: number;
-    };
-    wlcType: string;
-    value: string;
-    caption : string;
-  };
+      status: true,
+      message_id: 1
+    },
+    wlcType: "text",
+    value: "Hi, Welcome!",
+    caption: ""
+  },
   goodbye: {
-    status: boolean;
+    status: true,
     deleteOldMessage: {
-      status: boolean;
-      message_id: number;
-    };
-    gbType: string;
-    value: string;
-    caption:string;
-  };
+      status: true,
+      message_id: 1
+    },
+    gbType: "text",
+    value: "Hi, Have A Nice Day!",
+    caption: ""
+  },
   notes: {
-    status : boolean;
-    value: Array<any>;
+    status: true,
+    value: [],
     deleteOldMessage: {
-      status: boolean;
-      message_id: number;
+      status: true,
+      message_id: 1
     }
-  };
+  },
   filters: {
-    status : boolean;
-    value: Array<any>;
+    status: true,
+    value: [],
     deleteOldMessage: {
-      status: boolean;
-      message_id: number;
+      status: true,
+      message_id: 1
     }
-  };
-  admins: Array<any>;
-  dateAdmin : number;
-  users: Array<any>;
-  purgeFrom:number;
-  duckbotmata: boolean;
-  das : boolean; 
-  cleanEvent : {
-    status : boolean
-    pin : boolean;
-    welcome : boolean;
-    goodbye : boolean;
-    voiceChat : boolean;
+  },
+  admins: [],
+  dateAdmin: Number(Date.now()),
+  users: [],
+  purgeFrom: 0,
+  duckbotmata: true,
+  das: true,
+  cleanEvent: {
+    status: true,
+    pin: true,
+    welcome: true,
+    goodbye: true,
+    voiceChat: true
   }
 }
+
 export const groupsSchema = new Schema({
   chat_id: {
     type: Number
   },
   lang: {
     type: String,
-    default : 'en'
-  },
-  rules: {
-    type: String,
-    default : ''
-  },
-  blacklist: {
-    triger: {
-      type: Array,
-      default : new Array()
+    default: 'en'
     },
-    action: {
-      type: String,
-      default : 'ban'
-    }
-  },
-  welcome: {
-    status: {
-      type: Boolean,
-      default: true
-    },
-    captcha: {
-      status: {
-        type: Boolean,
-        default: false
-      },
-      captchaType: {
-        type: String,
-        default: "number"
-      },
-      time: {
-        type: String,
-        default: "5m"
-      },
-      action : {
-        type : String,
-        default: "kick"
+    more: {
+      type: Object,
+      default: defaultObject
       }
-    },
-    deleteOldMessage: {
-      status: {
-        type: Boolean,
-        default: false
-      },
-      message_id: {
-        type: Number,
-        default: 0
-      }
-    },
-    wlcType: {
-      type: String,
-      default: "text"
-    },
-    value: {
-      type: String,
-      default: "Hi,Welcome!"
-    },
-    caption : {
-      type : String
-    }
-  },
-  goodbye: {
-    status: {
-      type: Boolean,
-      default: true
-    },
-    deleteOldMessage: {
-      status: {
-        type: Boolean,
-        default: false
-      },
-      message_id: {
-        type: Number,
-        default: 0
-      }
-    },
-    gbType: {
-      type: String,
-      default: "text"
-    },
-    value: {
-      type: String,
-      default: "Have A Nice Day!"
-    },
-    caption : {
-      type : String
-    }
-  },
-  notes: {
-    status: {
-      type: Boolean,
-      default: true
-    },
-    value: {
-      type: Array,
-      default: new Array()
-    },
-    deleteOldMessage: {
-      status: {
-        type: Boolean,
-        default: false
-      },
-      message_id: {
-        type: Number,
-        default: 0
-      }
-    }
-  },
-  filters: {
-    status: {
-      type: Boolean,
-      default: true
-    },
-    value: {
-      type: Array,
-      default: new Array()
-    },
-    deleteOldMessage: {
-      status: {
-        type: Boolean,
-        default: false
-      },
-      message_id: {
-        type: Number,
-        default: 0
-      }
-    }
-  },
-  admins: {
-    type: Array,
-    default: new Array()
-  },
-  dateAdmin : {
-    type : Number,
-    default : Date.now()
-  },
-  users: {
-    type: Array,
-    default: new Array()
-  },
-  purgeFrom : {
-    type : Number,
-    default : 0
-  },
-  duckbotmata: {
-    type: Boolean,
-    default: true
-  },
-  das : {
-    type : Boolean,
-    default : true
-  },
-  cleanEvent : {
-    status: {
-      type: Boolean,
-      default: true
-    },
-    pin : {
-      type: Boolean,
-      default: true
-    },
-    welcome : {
-      type: Boolean,
-      default: true
-    },
-    goodbye : {
-      type: Boolean,
-      default: true
-    },
-    voiceChat : {
-      type: Boolean,
-      default: true
-    }
-  }
-})
-const groups = mongoose.model<IUser>("groups",groupsSchema)
-export default groups
+    })
+  const groups = mongoose.model < IUser > ("groups", groupsSchema)
+  export default groups

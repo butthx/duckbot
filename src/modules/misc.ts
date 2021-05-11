@@ -24,11 +24,11 @@ export function getPing(ctx) {
   let p = date - msgd
   return `${p.toFixed(3)} s`
 }
-export function replyToMessage(ctx, text, keyboard: any = false, web = true) {
+export function replyToMessage(ctx, text, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
     if (keyboard) {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         reply_to_message_id: ctx.message.message_id,
         reply_markup: {
           inline_keyboard: keyboard
@@ -37,7 +37,7 @@ export function replyToMessage(ctx, text, keyboard: any = false, web = true) {
       });
     } else {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         reply_to_message_id: ctx.message.message_id,
         disable_web_page_preview: web
       });
@@ -46,7 +46,7 @@ export function replyToMessage(ctx, text, keyboard: any = false, web = true) {
   if (ctx.callbackQuery) {
     if (keyboard) {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         reply_markup: {
           inline_keyboard: keyboard
         },
@@ -54,18 +54,18 @@ export function replyToMessage(ctx, text, keyboard: any = false, web = true) {
       });
     } else {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         disable_web_page_preview: web
       });
     }
   }
 }
-export function replyToUser(ctx, text, keyboard: any = false, web = true) {
+export function replyToUser(ctx, text, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
     if (ctx.message.reply_to_message) {
       if (keyboard) {
         return ctx.reply(text, {
-          parse_mode: "HTML",
+          parse_mode: parse_mode,
           reply_to_message_id: ctx.message.reply_to_message.message_id,
           reply_markup: {
             inline_keyboard: keyboard
@@ -74,14 +74,14 @@ export function replyToUser(ctx, text, keyboard: any = false, web = true) {
         });
       } else {
         return ctx.reply(text, {
-          parse_mode: "HTML",
+          parse_mode: parse_mode,
           reply_to_message_id: ctx.message.reply_to_message.message_id,
           disable_web_page_preview: web
         });
       }
     } else if (keyboard) {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         reply_to_message_id: ctx.message.message_id,
         reply_markup: {
           inline_keyboard: keyboard
@@ -90,7 +90,7 @@ export function replyToUser(ctx, text, keyboard: any = false, web = true) {
       });
     } else {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         reply_to_message_id: ctx.message.message_id,
         disable_web_page_preview: web
       });
@@ -99,7 +99,7 @@ export function replyToUser(ctx, text, keyboard: any = false, web = true) {
   if (ctx.callbackQuery) {
     if (keyboard) {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         reply_markup: {
           inline_keyboard: keyboard
         },
@@ -107,13 +107,13 @@ export function replyToUser(ctx, text, keyboard: any = false, web = true) {
       });
     } else {
       return ctx.reply(text, {
-        parse_mode: "HTML",
+        parse_mode: parse_mode,
         disable_web_page_preview: web
       });
     }
   }
 }
-export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any = false, web = true) {
+export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
     if (ctx.message.reply_to_message) {
       if (caption) {
@@ -122,7 +122,7 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -132,7 +132,7 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -140,7 +140,7 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithPhoto(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -149,7 +149,7 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithPhoto(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
@@ -160,7 +160,7 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -170,7 +170,7 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -178,7 +178,7 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithPhoto(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -187,14 +187,14 @@ export function replyToUserPhoto(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithPhoto(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
     }
   }
 }
-export function replyToUserDocument(ctx, file, caption: any = false, keyboard: any = false, web = true) {
+export function replyToUserDocument(ctx, file, caption: any = false, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
     if (ctx.message.reply_to_message) {
       if (caption) {
@@ -203,7 +203,7 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -213,7 +213,7 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -221,7 +221,7 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
           return ctx.replyWithDocument(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -230,7 +230,7 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
           return ctx.replyWithDocument(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
@@ -241,7 +241,7 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -251,7 +251,7 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -259,7 +259,7 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
           return ctx.replyWithDocument(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -268,14 +268,14 @@ export function replyToUserDocument(ctx, file, caption: any = false, keyboard: a
           return ctx.replyWithDocument(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
     }
   }
 }
-export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any = false, web = true) {
+export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
     if (ctx.message.reply_to_message) {
       if (caption) {
@@ -284,7 +284,7 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -294,7 +294,7 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -302,7 +302,7 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithAudio(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -311,7 +311,7 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithAudio(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
@@ -322,7 +322,7 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -332,7 +332,7 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -340,7 +340,7 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithAudio(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -349,14 +349,14 @@ export function replyToUserAudio(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithAudio(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
     }
   }
 }
-export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any = false, web = true) {
+export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
     if (ctx.message.reply_to_message) {
       if (caption) {
@@ -365,7 +365,7 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -375,7 +375,7 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -383,7 +383,7 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVideo(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -392,7 +392,7 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVideo(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
@@ -403,7 +403,7 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -413,7 +413,7 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -421,7 +421,7 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVideo(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -430,14 +430,14 @@ export function replyToUserVideo(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVideo(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
     }
   }
 }
-export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any = false, web = true) {
+export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
     if (ctx.message.reply_to_message) {
       if (caption) {
@@ -446,7 +446,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -456,7 +456,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -464,7 +464,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVoice(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -473,7 +473,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVoice(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.reply_to_message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
@@ -484,7 +484,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -494,7 +494,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
             caption: caption,
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       } else {
@@ -502,7 +502,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVoice(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML",
+            parse_mode: parse_mode,
             reply_markup: {
               inline_keyboard: keyboard
             }
@@ -511,7 +511,7 @@ export function replyToUserVoice(ctx, file, caption: any = false, keyboard: any 
           return ctx.replyWithVoice(file, {
             disable_web_page_preview: web,
             reply_to_message_id: ctx.message.message_id,
-            parse_mode: "HTML"
+            parse_mode: parse_mode
           })
         }
       }
@@ -651,7 +651,7 @@ export async function das(ctx) {
     if (swBan) {
       text += `\nThis user get banned on SpamWatch.`
     }
-    if ((cas.ok || swBan) && Boolean(data.das)) {
+    if ((cas.ok || swBan) && Boolean(data.more.das)) {
       text += `\nI suggest to ban this user from this groups!${admins}`
       ctx.restrictChatMember(ctx.from.id, {
         permissions: {
@@ -689,14 +689,14 @@ export async function duckbotmata(ctx) {
         if (data == null) {
           let Data = new privates()
           Data.chat_id = chat_id
-          Data.value = history.length
+          Data.more.value = history.length
           data = await Data.save()
         }
-        if (history.length > Number(data.value)) {
+        if (history.length > Number(data.more.value)) {
           let changeFirst_name = false
           let changeLast_name = false
           let changeUsername = false
-          let value = history[Number(data.value) -1]
+          let value = history[Number(data.more.value) -1]
           let first_name = msg.from.first_name
           let last_name = msg.from.last_name
           let username = msg.from.username
@@ -715,11 +715,11 @@ export async function duckbotmata(ctx) {
           if (changeUsername || changeLast_name || changeFirst_name) {
             replyToMessage(ctx, text, false)
           }
-          data.value = history.length
+          data.more.value = history.length
           data = await data.save()
         }
-        if (history.length < Number(data.value)) {
-          data.value = history.length
+        if (history.length < Number(data.more.value)) {
+          data.more.value = history.length
           data = await data.save()
         }
       } else {
@@ -731,11 +731,11 @@ export async function duckbotmata(ctx) {
         if (data == null) {
           let Data = new groups()
           Data.chat_id = chat_id
-          Data.admins = await ctx.getChatAdministrators()
+          Data.more.admins = await ctx.getChatAdministrators()
           data = await Data.save()
         }
-        let notif = Boolean(data.duckbotmata)
-        let users = data.users
+        let notif = Boolean(data.more.duckbotmata)
+        let users = data.more.users
         let index = users.findIndex((i)=> i.id == user_id)
         let obj = {
           id: user_id,
@@ -771,13 +771,13 @@ export async function duckbotmata(ctx) {
               replyToMessage(ctx, text, false)
             }
           }
-          data.users.splice(index, 1)
-          data.users.push(obj)
+          data.more.users.splice(index, 1)
+          data.more.users.push(obj)
           data = await data.save()
         }
         if (history.length < Number(user.value)) {
-          data.users.splice(index, 1)
-          data.users.push(obj)
+          data.more.users.splice(index, 1)
+          data.more.users.push(obj)
           data = await data.save()
         }
       }
@@ -950,7 +950,7 @@ export async function isAdmin(ctx) {
     if (sudo !== null) {
       sudoUser = sudo.value
     }
-    let admins = data.admins
+    let admins = data.more.admins
     if (ctx.callbackQuery) {
       let cb = ctx.callbackQuery
       let user_id = cb.from.id
@@ -984,7 +984,7 @@ export async function tagAdmins(ctx) {
       chat_id: ctx.chat.id
     })
     if (data !== null) {
-      let admins = data.admins
+      let admins = data.more.admins
       let results = ""
       admins.forEach((el, i)=> {
         results += `<a href="tg://user?id=${el.user.id}">&#x200b;</a>`

@@ -21,8 +21,10 @@ export async function purge(ctx) {
   let langs = await getLang(ctx)
   try {
     if (!ctx.message.reply_to_message) return replyToMessage(ctx, langs.mustReply)
-    if (!await isAdmin(ctx)) {
-      return replyToMessage(ctx, langs.userNonAdmin)
+    if (ctx.chat.type !== "private") {
+      if (!await isAdmin(ctx)) {
+        return replyToMessage(ctx, langs.userNonAdmin)
+      }
     }
     let split = ctx.message.text.split(" ")
     let silent = split[1] || false

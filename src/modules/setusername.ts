@@ -25,7 +25,7 @@ export async function setUsername(ctx) {
         caption: langs.setUsername
       })
     }
-    let notes = data.notes.value.findIndex((el, i)=> el.key == "setusername")
+    let notes = data.more.notes.value.findIndex((el, i)=> el.key == "setusername")
     if (notes !== -1) return
     return ctx.replyWithAnimation({
       source: "./download/setusername.gif"
