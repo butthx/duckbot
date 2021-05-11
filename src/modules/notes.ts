@@ -29,8 +29,8 @@ export async function handleNotes (ctx) {
           chat_id: chat_id
         })
         if (data !== null) {
-          if (!data.more.notes.status) return
-          let list = data.more.notes.value
+          if (!data.notes.status) return
+          let list = data.notes.value
           if (list.length >= 1) {
             list.forEach(async (item, index)=> {
               let regex = new RegExp(`#${item.key.replace(/\s+/i, "").trim()}`, "")
@@ -170,8 +170,8 @@ export async function handleNotes (ctx) {
           chat_id: ctx.chat.id
         })
         if (data !== null) {
-          if (data.more.connected !== 0) {
-            chat_id = data.more.connected
+          if (data.connected !== 0) {
+            chat_id = data.connected
             connected = true
           } else {
             return replyToMessage(ctx, langs.groupsOnly, false)
@@ -196,8 +196,8 @@ export async function handleNotes (ctx) {
       if (!key) {
         return replyToMessage(ctx, langs.notesSaveError, false)
       }
-      if (!data.more.notes.status) return
-      let index = data.more.notes.value.findIndex((item)=> item.key == key)
+      if (!data.notes.status) return
+      let index = data.notes.value.findIndex((item)=> item.key == key)
       if (ctx.message.reply_to_message) {
         if (ctx.message.reply_to_message.text) {
           let json = {
@@ -206,12 +206,12 @@ export async function handleNotes (ctx) {
             value: String(ctx.message.reply_to_message.text)
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -225,12 +225,12 @@ export async function handleNotes (ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -244,12 +244,12 @@ export async function handleNotes (ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -263,12 +263,12 @@ export async function handleNotes (ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -281,12 +281,12 @@ export async function handleNotes (ctx) {
             value: String(ctx.message.reply_to_message.sticker.file_id)
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -300,12 +300,12 @@ export async function handleNotes (ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -318,12 +318,12 @@ export async function handleNotes (ctx) {
             value: ctx.message.reply_to_message.video_note.file_id
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -337,12 +337,12 @@ export async function handleNotes (ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.notes.value.push(json)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.notes.value.splice(index, 1)
-            data.more.notes.value.push(json)
+            data.notes.value.splice(index, 1)
+            data.notes.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
           }
@@ -363,12 +363,12 @@ export async function handleNotes (ctx) {
           value: String(valueText)
         }
         if (index == -1) {
-          data.more.notes.value.push(json)
+          data.notes.value.push(json)
           data = await data.save()
           return replyToMessage(ctx, langs.notesSaved.replace(/\{key\}/i, key), false)
         } else {
-          data.more.notes.value.splice(index, 1)
-          data.more.notes.value.push(json)
+          data.notes.value.splice(index, 1)
+          data.notes.value.push(json)
           data = await data.save()
           return replyToMessage(ctx, langs.notesUpdate.replace(/\{key\}/i, key), false)
         }
@@ -388,8 +388,8 @@ export async function handleNotes (ctx) {
           chat_id: ctx.chat.id
         })
         if (data !== null) {
-          if (data.more.connected !== 0) {
-            chat_id = data.more.connected
+          if (data.connected !== 0) {
+            chat_id = data.connected
             connected = true
           } else {
             return replyToMessage(ctx, langs.groupsOnly, false)
@@ -404,8 +404,8 @@ export async function handleNotes (ctx) {
       if (data == null) {
         return replyToMessage(ctx, langs.notesNotFound, false)
       }
-      if (!data.more.notes.status) return
-      let notes = data.more.notes.value
+      if (!data.notes.status) return
+      let notes = data.notes.value
       if (notes.length >= 1) {
         let result = langs.notesGet.replace(/\{title\}/i, ctx.chat.title)
         notes.sort()
@@ -430,8 +430,8 @@ export async function handleNotes (ctx) {
           chat_id: ctx.chat.id
         })
         if (data !== null) {
-          if (data.more.connected !== 0) {
-            chat_id = data.more.connected
+          if (data.connected !== 0) {
+            chat_id = data.connected
             connected = true
           } else {
             return replyToMessage(ctx, langs.groupsOnly, false)
@@ -454,12 +454,12 @@ export async function handleNotes (ctx) {
       if (!key) {
         return replyToMessage(ctx, langs.notesRmError, false)
       }
-      if (!data.more.notes.status) return
-      let notes = data.more.notes.value
+      if (!data.notes.status) return
+      let notes = data.notes.value
       if (notes.length >= 1) {
         let index = notes.findIndex((el)=> el.key == key)
         if (index !== -1) {
-          data.more.notes.value.splice(index, 1)
+          data.notes.value.splice(index, 1)
           data = await data.save()
           return replyToMessage(ctx, langs.notesRemove.replace(/\{key\}/i, key), false)
         }
@@ -480,8 +480,8 @@ export async function handleNotes (ctx) {
           chat_id: ctx.chat.id
         })
         if (data !== null) {
-          if (data.more.connected !== 0) {
-            chat_id = data.more.connected
+          if (data.connected !== 0) {
+            chat_id = data.connected
             connected = true
           } else {
             return replyToMessage(ctx, langs.groupsOnly, false)
@@ -500,10 +500,10 @@ export async function handleNotes (ctx) {
       if (data == null) {
         return replyToMessage(ctx, langs.notesNotFound, false)
       }
-      if (!data.more.notes.status) return
-      let notes = data.more.notes.value
+      if (!data.notes.status) return
+      let notes = data.notes.value
       if (notes.length >= 1) {
-        data.more.notes.value = new Array()
+        data.notes.value = new Array()
         data = await data.save()
         return replyToMessage(ctx, langs.notesRmAll, false)
       }
@@ -517,12 +517,12 @@ export async function handleNotes (ctx) {
     try {
       if (data) {
         if (msg) {
-          let domStatus = data.more.notes.deleteOldMessage.status
+          let domStatus = data.notes.deleteOldMessage.status
           if (domStatus) {
             try {
-              ctx.deleteMessage(data.more.notes.deleteOldMessage.message_id)
+              ctx.deleteMessage(data.notes.deleteOldMessage.message_id)
             }catch(error) {}
-            data.more.notes.deleteOldMessage.message_id = msg.message_id
+            data.notes.deleteOldMessage.message_id = msg.message_id
             data = await data.save()
           }
         }

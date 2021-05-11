@@ -20,8 +20,8 @@ export async function useLang(ctx) {
         chat_id: ctx.chat.id
       })
       if (data !== null) {
-        data.more.lang = lang
-        await data.save()
+        data.lang = lang
+        data = await data.save()
       }
     } else {
       if (!await isAdmin(ctx)) {
@@ -33,8 +33,8 @@ export async function useLang(ctx) {
         chat_id: ctx.chat.id
       })
       if (data !== null) {
-        data.more.lang = lang
-        await data.save()
+        data.lang = lang
+        data = await data.save()
       }
     }
     langs = await getLang(ctx)
@@ -75,57 +75,57 @@ export async function settingsCallback(ctx) {
       "3": "⚠️",
       "4": "✅"
     }
-    let value = ctx.callbackQuery.data.more.split(" ")
+    let value = ctx.callbackQuery.data.split(" ")
     let chat_id = Number(value[2])
     let data = await groups.findOne({
       chat_id: chat_id
     })
     if (data == null) return
-    let admin = data.more.admins.findIndex(el=>el.user.id == ctx.from.id)
+    let admin = data.admins.findIndex(el=>el.user.id == ctx.from.id)
     if (admin == -1) {
       return ctx.answerCbQuery(langs.userNonAdmin, {
         show_alert: true, cache_time: 60
       })
     }
     if (value[1] == "adminCache") {
-      let date = new Date(data.more.dateAdmin)
+      let date = new Date(data.dateAdmin)
       let now = new Date(Date.now())
       let abs = Math.abs(now.getMinutes() - date.getMinutes())
       if (now.getFullYear() > date.getFullYear()) {
-        data.more.admins = await ctx.telegram.getChatAdministrators(chat_id)
-        data.more.dateAdmin = Date.now()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
+        data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess, {
           show_alert: true
         })
       }
       if (now.getMonth() > date.getMonth()) {
-        data.more.admins = await ctx.telegram.getChatAdministrators(chat_id)
-        data.more.dateAdmin = Date.now()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
+        data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess, {
           show_alert: true
         })
       }
       if (now.getDay() > date.getDay()) {
-        data.more.admins = await ctx.telegram.getChatAdministrators(chat_id)
-        data.more.dateAdmin = Date.now()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
+        data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess, {
           show_alert: true
         })
       }
       if (now.getHours() > date.getHours()) {
-        data.more.admins = await ctx.telegram.getChatAdministrators(chat_id)
-        data.more.dateAdmin = Date.now()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
+        data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess, {
           show_alert: true
         })
       }
       if (abs >= 10) {
-        data.more.admins = await ctx.telegram.getChatAdministrators(chat_id)
-        data.more.dateAdmin = Date.now()
+        data.admins = await ctx.telegram.getChatAdministrators(chat_id)
+        data.dateAdmin = Date.now()
         data = await data.save()
         return ctx.answerCbQuery(langs.adminCacheSuccess, {
           show_alert: true
@@ -137,77 +137,77 @@ export async function settingsCallback(ctx) {
     }
     switch (value[1]) {
       case "welcome":
-        data.more.welcome.status = await parseBoolean(value[3])
+        data.welcome.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "welcome-dom":
-        data.more.welcome.deleteOldMessage.status = await parseBoolean(value[3])
+        data.welcome.deleteOldMessage.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "goodbye":
-        data.more.goodbye.status = await parseBoolean(value[3])
+        data.goodbye.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "goodbye-dom":
-        data.more.goodbye.deleteOldMessage.status = await parseBoolean(value[3])
+        data.goodbye.deleteOldMessage.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "notes":
-        data.more.notes.status = await parseBoolean(value[3])
+        data.notes.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "notes-dom":
-        data.more.notes.deleteOldMessage.status = await parseBoolean(value[3])
+        data.notes.deleteOldMessage.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "filters":
-        data.more.filters.status = await parseBoolean(value[3])
+        data.filters.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "filters-dom":
-        data.more.filters.deleteOldMessage.status = await parseBoolean(value[3])
+        data.filters.deleteOldMessage.status = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "das":
-        data.more.das = await parseBoolean(value[3])
+        data.das = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "duckbotmata":
-        data.more.duckbotmata = await parseBoolean(value[3])
+        data.duckbotmata = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "cleanEvent":
-        data.more.cleanEvent.status = await parseBoolean(value[3])
-        data.more.cleanEvent.pin = await parseBoolean(value[3])
-        data.more.cleanEvent.welcome = await parseBoolean(value[3])
-        data.more.cleanEvent.goodbye = await parseBoolean(value[3])
-        data.more.cleanEvent.voiceChat = await parseBoolean(value[3])
+        data.cleanEvent.status = await parseBoolean(value[3])
+        data.cleanEvent.pin = await parseBoolean(value[3])
+        data.cleanEvent.welcome = await parseBoolean(value[3])
+        data.cleanEvent.goodbye = await parseBoolean(value[3])
+        data.cleanEvent.voiceChat = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "pin":
-        data.more.cleanEvent.pin = await parseBoolean(value[3])
+        data.cleanEvent.pin = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "join":
-        data.more.cleanEvent.welcome = await parseBoolean(value[3])
+        data.cleanEvent.welcome = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "left":
-        data.more.cleanEvent.goodbye = await parseBoolean(value[3])
+        data.cleanEvent.goodbye = await parseBoolean(value[3])
         data = await data.save()
         break;
       case "voiceChat":
-        data.more.cleanEvent.voiceChat = await parseBoolean(value[3])
+        data.cleanEvent.voiceChat = await parseBoolean(value[3])
         data = await data.save()
         break;
       default:
       }
-      let event = data.more.cleanEvent
+      let event = data.cleanEvent
       if ((!event.pin) && (!event.welcome) && (!event.goodbye) && (!event.voiceChat)) {
-        data.more.cleanEvent.status = false
+        data.cleanEvent.status = false
         data = await data.save()
       } else {
-        data.more.cleanEvent.status = true
+        data.cleanEvent.status = true
         data = await data.save()
       }
       let active = 4
@@ -221,53 +221,53 @@ export async function settingsCallback(ctx) {
       if (active <= 0) active = 0
       let keyboard = [
         [{
-          text: `${json[String(data.more.welcome.status)]} Welcome`,
-          callback_data: `setting welcome ${chat_id} ${!data.more.welcome.status}`,
+          text: `${json[String(data.welcome.status)]} Welcome`,
+          callback_data: `setting welcome ${chat_id} ${!data.welcome.status}`,
           hide: true
         },
           {
-            text: `${json[String(data.more.goodbye.status)]} Goodbye`,
-            callback_data: `setting goodbye ${chat_id} ${!data.more.goodbye.status}`,
+            text: `${json[String(data.goodbye.status)]} Goodbye`,
+            callback_data: `setting goodbye ${chat_id} ${!data.goodbye.status}`,
             hide: true
           }],
         [{
-          text: `${json[String(data.more.welcome.deleteOldMessage.status)]} Clean Welcome`,
-          callback_data: `setting welcome-dom ${chat_id} ${!data.more.welcome.deleteOldMessage.status}`,
+          text: `${json[String(data.welcome.deleteOldMessage.status)]} Clean Welcome`,
+          callback_data: `setting welcome-dom ${chat_id} ${!data.welcome.deleteOldMessage.status}`,
           hide: true
         },
           {
-            text: `${json[String(data.more.goodbye.deleteOldMessage.status)]} Clean Goodbye`,
-            callback_data: `setting goodbye-dom ${chat_id} ${!data.more.goodbye.deleteOldMessage.status}`,
+            text: `${json[String(data.goodbye.deleteOldMessage.status)]} Clean Goodbye`,
+            callback_data: `setting goodbye-dom ${chat_id} ${!data.goodbye.deleteOldMessage.status}`,
             hide: true
           }],
         [{
-          text: `${json[String(data.more.notes.status)]} Notes`,
-          callback_data: `setting notes ${chat_id} ${!data.more.notes.status}`,
+          text: `${json[String(data.notes.status)]} Notes`,
+          callback_data: `setting notes ${chat_id} ${!data.notes.status}`,
           hide: true
         },
           {
-            text: `${json[String(data.more.filters.status)]} Filters`,
-            callback_data: `setting filters ${chat_id} ${!data.more.filters.status}`,
+            text: `${json[String(data.filters.status)]} Filters`,
+            callback_data: `setting filters ${chat_id} ${!data.filters.status}`,
             hide: true
           }],
         [{
-          text: `${json[String(data.more.notes.deleteOldMessage.status)]} Clean Notes`,
-          callback_data: `setting notes-dom ${chat_id} ${!data.more.notes.deleteOldMessage.status}`,
+          text: `${json[String(data.notes.deleteOldMessage.status)]} Clean Notes`,
+          callback_data: `setting notes-dom ${chat_id} ${!data.notes.deleteOldMessage.status}`,
           hide: true
         },
           {
-            text: `${json[String(data.more.filters.deleteOldMessage.status)]} Clean Filters`,
-            callback_data: `setting filters-dom ${chat_id} ${!data.more.filters.deleteOldMessage.status}`,
+            text: `${json[String(data.filters.deleteOldMessage.status)]} Clean Filters`,
+            callback_data: `setting filters-dom ${chat_id} ${!data.filters.deleteOldMessage.status}`,
             hide: true
           }],
         [{
-          text: `${json[String(data.more.das)]} Anti Spam`,
-          callback_data: `setting das ${chat_id} ${!data.more.das}`,
+          text: `${json[String(data.das)]} Anti Spam`,
+          callback_data: `setting das ${chat_id} ${!data.das}`,
           hide: true
         },
           {
-            text: `${json[String(data.more.duckbotmata)]} Duckbot Mata`,
-            callback_data: `setting duckbotmata ${chat_id} ${!data.more.duckbotmata}`,
+            text: `${json[String(data.duckbotmata)]} Duckbot Mata`,
+            callback_data: `setting duckbotmata ${chat_id} ${!data.duckbotmata}`,
             hide: true
           }],
         [{

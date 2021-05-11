@@ -25,8 +25,8 @@ export async function handleFilters(ctx) {
           chat_id: ctx.chat.id
         })
         if (data !== null) {
-          if (!data.more.filters.status) return
-          let list = data.more.filters.value
+          if (!data.filters.status) return
+          let list = data.filters.value
           if (list.length >= 1) {
             list.forEach(async (item, index)=> {
               let regex = new RegExp(item.key, "gmi")
@@ -179,8 +179,8 @@ export async function handleFilters(ctx) {
       if (!key) {
         return replyToMessage(ctx, langs.filtersSaveError, false)
       }
-      if (!data.more.filters.status) return
-      let index = data.more.filters.value.findIndex((item)=> item.key == key)
+      if (!data.filters.status) return
+      let index = data.filters.value.findIndex((item)=> item.key == key)
       if (ctx.message.reply_to_message) {
         if (ctx.message.reply_to_message.text) {
           let json = {
@@ -189,12 +189,12 @@ export async function handleFilters(ctx) {
             value: String(ctx.message.reply_to_message.text)
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -208,12 +208,12 @@ export async function handleFilters(ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -227,12 +227,12 @@ export async function handleFilters(ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -246,12 +246,12 @@ export async function handleFilters(ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -264,12 +264,12 @@ export async function handleFilters(ctx) {
             value: String(ctx.message.reply_to_message.sticker.file_id)
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -283,12 +283,12 @@ export async function handleFilters(ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -301,12 +301,12 @@ export async function handleFilters(ctx) {
             value: ctx.message.reply_to_message.video_note.file_id
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -320,12 +320,12 @@ export async function handleFilters(ctx) {
             caption: ctx.message.reply_to_message.caption || false
           }
           if (index == -1) {
-            data.more.filters.value.push(json)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
           } else {
-            data.more.filters.value.splice(index, 1)
-            data.more.filters.value.push(json)
+            data.filters.value.splice(index, 1)
+            data.filters.value.push(json)
             data = await data.save()
             return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
           }
@@ -346,12 +346,12 @@ export async function handleFilters(ctx) {
           value: String(valueText)
         }
         if (index == -1) {
-          data.more.filters.value.push(json)
+          data.filters.value.push(json)
           data = await data.save()
           return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
         } else {
-          data.more.filters.value.splice(index, 1)
-          data.more.filters.value.push(json)
+          data.filters.value.splice(index, 1)
+          data.filters.value.push(json)
           data = await data.save()
           return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
         }
@@ -373,8 +373,8 @@ export async function handleFilters(ctx) {
       if (data == null) {
         return replyToMessage(ctx, langs.filtersNotFound, false)
       }
-      if (!data.more.filters.status) return
-      let filters = data.more.filters.value
+      if (!data.filters.status) return
+      let filters = data.filters.value
       if (filters.length >= 1) {
         let result = langs.filtersGet.replace(/\{title\}/i, ctx.chat.title)
         filters.sort()
@@ -411,12 +411,12 @@ export async function handleFilters(ctx) {
       }
       key.splice(0, 1)
       key = key.join(" ")
-      if (!data.more.filters.status) return
-      let filters = data.more.filters.value
+      if (!data.filters.status) return
+      let filters = data.filters.value
       if (filters.length >= 1) {
         let index = filters.findIndex((el)=> el.key == key)
         if (index !== -1) {
-          data.more.filters.value.splice(index, 1)
+          data.filters.value.splice(index, 1)
           data = await data.save()
           return replyToMessage(ctx, langs.filtersRemove.replace(/\{key\}/i, key), false)
         }
@@ -443,10 +443,10 @@ export async function handleFilters(ctx) {
       if (data == null) {
         return replyToMessage(ctx, langs.filtersNotFound, false)
       }
-      if (!data.more.filters.status) return
-      let filters = data.more.filters.value
+      if (!data.filters.status) return
+      let filters = data.filters.value
       if (filters.length >= 1) {
-        data.more.filters.value = new Array()
+        data.filters.value = new Array()
         data = await data.save()
         return replyToMessage(ctx, langs.filtersRmAll, false)
       }
@@ -460,12 +460,12 @@ export async function handleFilters(ctx) {
     try {
       if (data) {
         if (msg) {
-          let domStatus = data.more.filters.deleteOldMessage.status
+          let domStatus = data.filters.deleteOldMessage.status
           if (domStatus) {
             try {
-              ctx.deleteMessage(data.more.filters.deleteOldMessage.message_id)
+              ctx.deleteMessage(data.filters.deleteOldMessage.message_id)
             }catch(error) {}
-            data.more.filters.deleteOldMessage.message_id = msg.message_id
+            data.filters.deleteOldMessage.message_id = msg.message_id
             data = await data.save()
           }
         }

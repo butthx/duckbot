@@ -651,7 +651,7 @@ export async function das(ctx) {
     if (swBan) {
       text += `\nThis user get banned on SpamWatch.`
     }
-    if ((cas.ok || swBan) && Boolean(data.more.das)) {
+    if ((cas.ok || swBan) && Boolean(data.das)) {
       text += `\nI suggest to ban this user from this groups!${admins}`
       ctx.restrictChatMember(ctx.from.id, {
         permissions: {
@@ -689,14 +689,14 @@ export async function duckbotmata(ctx) {
         if (data == null) {
           let Data = new privates()
           Data.chat_id = chat_id
-          Data.more.value = history.length
+          Data.value = history.length
           data = await Data.save()
         }
-        if (history.length > Number(data.more.value)) {
+        if (history.length > Number(data.value)) {
           let changeFirst_name = false
           let changeLast_name = false
           let changeUsername = false
-          let value = history[Number(data.more.value) -1]
+          let value = history[Number(data.value) -1]
           let first_name = msg.from.first_name
           let last_name = msg.from.last_name
           let username = msg.from.username
@@ -715,11 +715,11 @@ export async function duckbotmata(ctx) {
           if (changeUsername || changeLast_name || changeFirst_name) {
             replyToMessage(ctx, text, false)
           }
-          data.more.value = history.length
+          data.value = history.length
           data = await data.save()
         }
-        if (history.length < Number(data.more.value)) {
-          data.more.value = history.length
+        if (history.length < Number(data.value)) {
+          data.value = history.length
           data = await data.save()
         }
       } else {
@@ -731,11 +731,11 @@ export async function duckbotmata(ctx) {
         if (data == null) {
           let Data = new groups()
           Data.chat_id = chat_id
-          Data.more.admins = await ctx.getChatAdministrators()
+          Data.admins = await ctx.getChatAdministrators()
           data = await Data.save()
         }
-        let notif = Boolean(data.more.duckbotmata)
-        let users = data.more.users
+        let notif = Boolean(data.duckbotmata)
+        let users = data.users
         let index = users.findIndex((i)=> i.id == user_id)
         let obj = {
           id: user_id,
@@ -771,13 +771,13 @@ export async function duckbotmata(ctx) {
               replyToMessage(ctx, text, false)
             }
           }
-          data.more.users.splice(index, 1)
-          data.more.users.push(obj)
+          data.users.splice(index, 1)
+          data.users.push(obj)
           data = await data.save()
         }
         if (history.length < Number(user.value)) {
-          data.more.users.splice(index, 1)
-          data.more.users.push(obj)
+          data.users.splice(index, 1)
+          data.users.push(obj)
           data = await data.save()
         }
       }
@@ -950,7 +950,7 @@ export async function isAdmin(ctx) {
     if (sudo !== null) {
       sudoUser = sudo.value
     }
-    let admins = data.more.admins
+    let admins = data.admins
     if (ctx.callbackQuery) {
       let cb = ctx.callbackQuery
       let user_id = cb.from.id
@@ -984,7 +984,7 @@ export async function tagAdmins(ctx) {
       chat_id: ctx.chat.id
     })
     if (data !== null) {
-      let admins = data.more.admins
+      let admins = data.admins
       let results = ""
       admins.forEach((el, i)=> {
         results += `<a href="tg://user?id=${el.user.id}">&#x200b;</a>`
