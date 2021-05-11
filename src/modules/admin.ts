@@ -242,6 +242,7 @@ export async function connecting(ctx) {
     }
     data.more.connected = ctx.chat.id
     data = await data.save()
+    console.log(data)
     return replyToUser(ctx, langs.connectSuccess)
   }catch(error) {
     replyToUser(ctx, langs.connectError)

@@ -13,8 +13,8 @@ import privates from "./database/private"
 export async function useLang(ctx) {
   let langs = await getLang(ctx)
   try {
-    let data = ctx.callbackQuery.data
-    let lang = data.more.replace(/^setlang\s+/i, "").trim()
+    let cbdata = ctx.callbackQuery.data
+    let lang = cbdata.replace(/^setlang\s+/i, "").trim()
     if (ctx.chat.type == "private") {
       let data = await privates.findOne({
         chat_id: ctx.chat.id
