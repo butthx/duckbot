@@ -74,16 +74,24 @@ const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 const app = express()
 let port = Number(process.env["PORT"]) || 3000
 if (parseBoolean(process.env["WEBHOOK"])) {
-  app.get("/", (req, res)=> {
-    res.status(403).redirect("https://butthx.vercel.app")
+  cron.schedule('* * * * *', () => {
+    let url = String(process.env["URL"])
+    if (url.endsWith("/")) {
+      return fetch(`${url}cron`)
+    } else {
+      return fetch(`${url}/cron`)
+    }
+  });
+  app.get("/",
+    (req, res)=> {
+      res.status(403).redirect("https://butthx.vercel.app")
+    })
+  app.get("/cron"(req, res)=> {
+    res.status(200).send("Running..")
   })
   app.use(bot.webhookCallback("/"))
   bot.telegram.setWebhook(process.env["URL"] as string)
 }
-
-cron.schedule('* * * * * *', () => {
-  console.log("every second")
-});
 
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
