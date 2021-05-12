@@ -97,6 +97,11 @@ if (parseBoolean(process.env["WEBHOOK"])) {
   bot.telegram.setWebhook(process.env["URL"] as string)
 }
 
+let aliveTime = 0
+let aliveInterval = setInterval(()=> {
+  aliveTime ++
+}, 1000)
+
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
 bot.hears(new RegExp(`\#setusername(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`, ""), setUsername)
@@ -126,6 +131,9 @@ bot.command("tts", getTTS)
 bot.command("update", update)
 bot.command("purge", purge)
 bot.command("connect", connecting)
+bot.command("atime", async (ctx)=> {
+  return replyToMessage(ctx, `Alive ${aliveTime} seconds.`)
+})
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {
