@@ -1,4 +1,4 @@
-console.log("\x1b[36m", `[${new Date()}] STARTING BOT`)
+console.log("\x1b[36m%s\x1b[0m", `[${new Date()}] STARTING BOT`)
 import dotenv from 'dotenv'
 dotenv.config()
 import cron from "node-cron"
@@ -74,6 +74,7 @@ const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 const app = express()
 let port = Number(process.env["PORT"]) || 3000
 if (parseBoolean(process.env["WEBHOOK"])) {
+
   cron.schedule('* * * * *', () => {
     let url = String(process.env["URL"])
     if (url.endsWith("/")) {
@@ -82,6 +83,7 @@ if (parseBoolean(process.env["WEBHOOK"])) {
       return fetch(`${url}/cron`)
     }
   });
+
   app.get("/",
     (req, res)=> {
       res.status(403).redirect("https://butthx.vercel.app")
