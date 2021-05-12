@@ -2,6 +2,7 @@ console.log("\x1b[36m%s\x1b[0m", `[${new Date()}] STARTING BOT`)
 import dotenv from 'dotenv'
 dotenv.config()
 import cron from "node-cron"
+import fetch from "node-fetch"
 import {
   replyToMessage,
   connect,
