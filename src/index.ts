@@ -86,9 +86,10 @@ if (parseBoolean(process.env["WEBHOOK"])) {
     (req, res)=> {
       res.status(403).redirect("https://butthx.vercel.app")
     })
-  app.get("/cron"(req, res)=> {
-    res.status(200).send("Running..")
-  })
+  app.get("/cron",
+    (req, res)=> {
+      res.status(200).send("Running..")
+    })
   app.use(bot.webhookCallback("/"))
   bot.telegram.setWebhook(process.env["URL"] as string)
 }
