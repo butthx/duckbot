@@ -66,3 +66,5 @@ setUsername: "Bagaimana cara mengatur username?\n• Buka pengaturan dan isi use
 purgeSuccess: "Berhasil menghapus {success} pesan, gagal menghapus {failed} pesan"
 connectError: "Gagal menghubungkan anda dengan chat ini."
 connectSuccess: "Berhasil menghubungkan anda dengan chat ini."
+kangError: "Kang gagal dilakukan!"
+kangSuccess: "Kang <a href='https://t.me/addstickers/{packname}'>berhasil</a> di lakukan!"

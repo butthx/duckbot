@@ -69,6 +69,9 @@ import update from "./modules/update"
 import {
   purge
 } from "./modules/purge"
+import {
+  kang
+} from "./modules/kang"
 
 connect()
 const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
@@ -132,6 +135,7 @@ bot.command("tts", getTTS)
 bot.command("update", update)
 bot.command("purge", purge)
 bot.command("connect", connecting)
+bot.command(["kang", "copy"], kang)
 bot.command("atime", async (ctx)=> {
   return replyToMessage(ctx, `Alive ${aliveTime} seconds.\nAlive Date: ${aliveDate}`)
 })

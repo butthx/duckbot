@@ -66,3 +66,5 @@ setUsetname: "How to set username?\n• Goto settings and fill in the username\n
 purgeSuccess: "Successfully deleted {success} messages, failed to delete {failed} messages"
 connectError: "Failed to connect you to this chat."
 connectSuccess: "Successfully connected you to this chat."
+kangError: "Kang failed!"
+kangSuccess: "Kang <a href='https://t.me/addstickers/{packname}'>success!</a>"
