@@ -7,6 +7,7 @@ import {
   buildArray,
   getCurrentLang,
   isAdmin,
+  clearHTML,
   reportError
 } from "./misc"
 import https from "https"
@@ -157,7 +158,9 @@ export async function tesseract(ctx) {
             })
             return fs.unlinkSync(`./ocr/${filename}`)
           } else {
-            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, ocrText)
+            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, await clearHTML(ocrText), {
+              parse_mode: "HTML"
+            })
           }
         }catch(error) {
           return ctx.editMessageText(msg.message_id, undefined, langs.ocrError)
@@ -209,7 +212,9 @@ export async function ocr(ctx) {
             })
             return fs.unlinkSync(`./ocr/${filename}`)
           } else {
-            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, ocrText)
+            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, await clearHTML(ocrText), {
+              parse_mode: "HTML"
+            })
           }
         }catch(error) {
           return ctx.editMessageText(msg.message_id, undefined, langs.ocrError)
