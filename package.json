@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "google-tts-api": "^2.0.2",
     "mongoose": "^5.11.20",
+    "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "ocr-space-api-wrapper": "^1.0.5",
     "spamwatch": "^0.4.0",

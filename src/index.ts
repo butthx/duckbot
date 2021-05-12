@@ -1,6 +1,7 @@
 console.log("\x1b[36m", `[${new Date()}] STARTING BOT`)
 import dotenv from 'dotenv'
 dotenv.config()
+import cron from "node-cron"
 import {
   replyToMessage,
   connect,
@@ -79,6 +80,11 @@ if (parseBoolean(process.env["WEBHOOK"])) {
   app.use(bot.webhookCallback("/"))
   bot.telegram.setWebhook(process.env["URL"] as string)
 }
+
+cron.schedule('* * * * * *', () => {
+  console.log("every second")
+});
+
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
 bot.hears(new RegExp(`\#setusername(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`, ""), setUsername)
