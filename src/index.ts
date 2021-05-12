@@ -98,6 +98,7 @@ if (parseBoolean(process.env["WEBHOOK"])) {
 }
 
 let aliveTime = 0
+let aliveDate = new Date()
 let aliveInterval = setInterval(()=> {
   aliveTime ++
 }, 1000)
@@ -132,7 +133,7 @@ bot.command("update", update)
 bot.command("purge", purge)
 bot.command("connect", connecting)
 bot.command("atime", async (ctx)=> {
-  return replyToMessage(ctx, `Alive ${aliveTime} seconds.`)
+  return replyToMessage(ctx, `Alive ${aliveTime} seconds.\nAlive Date: ${aliveDate}`)
 })
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
