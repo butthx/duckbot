@@ -25,8 +25,7 @@
     "ocr-space-api-wrapper": "^1.0.5",
     "spamwatch": "^0.4.0",
     "telegraf": "^4.3.0",
-    "tesseract.js": "^2.1.4",
-    "webp-converter": "^2.3.3"
+    "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
     "@types/mongoose": "^5.10.4",
