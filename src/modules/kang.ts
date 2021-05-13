@@ -101,33 +101,6 @@ export async function kang(ctx) {
         }
       })
     })
-    /*if (found) {
-      let error = false
-      await ctx.telegram.addStickerToSet(ctx.from.id, packName, {
-        png_sticker: fs.createReadStream(`./download/${basename}`),
-        emojis: emoji
-      }).catch((e)=> {
-        error = true
-        return replyToMessage(ctx, langs.kangError)
-      })
-      if (!error) {
-        return replyToMessage(ctx, langs.kangSuccess.replace(/\{packaname\}/i, packName))
-      }
-    } else {
-      console.log(fs.readdirSync("./"))
-      console.log(fs.readFileSync(`./download/${basename}`))
-      let error = false
-      await ctx.telegram.createNewStickerSet(ctx.from.id, packName, `${ctx.from.first_name} Kang Pack Vol ${packNum +1}`, {
-        png_sticker: fs.readFileSync(`./download/${basename}`),
-        emojis: emoji
-      }).catch((e)=> {
-        error = true
-        return replyToMessage(ctx, langs.kangError)
-      })
-      if (!error) {
-        return replyToMessage(ctx, langs.kangSuccess.replace(/\{packaname\}/i, packName))
-      }
-    }*/
   }catch(error) {
     replyToMessage(ctx, langs.kangError)
     return reportError(error, ctx)
