@@ -1,4 +1,7 @@
-import mongoose,{Schema,Document} from "mongoose"
+import mongoose, {
+  Schema,
+  Document
+} from "mongoose"
 interface IUser extends Document {
   chat_id : number;
   lang : string;
@@ -244,5 +247,8 @@ export const groupsSchema = new Schema({
     }
   }
 })
-const groups = mongoose.model<IUser>("groups",groupsSchema)
+groupsSchema.set("strict",false)
+groupsSchema.set("iAmNotInTheSchema",false)
+groupsSchema.set("timestamps",true)
+const groups = mongoose.model < IUser > ("groups", groupsSchema)
 export default groups

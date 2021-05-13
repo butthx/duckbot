@@ -16,7 +16,7 @@ export default async function update(ctx) {
     })
     if (sudo == null) return replyToMessage(ctx, "command failed!")
     let data = sudo?.value
-    if (!data.includes(ctx.from.id)) replyToMessage(ctx, "command failed!")
+    if (!data.includes(ctx.from.id)) return replyToMessage(ctx, "command failed!")
     let beta = await parseBoolean(process.env["BETA"])
     let results = ""
     let done = []
@@ -44,13 +44,16 @@ export default async function update(ctx) {
     await exec("yarn build",
       (err, stdout, stderr)=> {
         results += "\n> yarn build\n"
+        let e = false
         if (err) {
           results += err.stack
         }
         if (stdout) {
           results += stdout
         }
-        results += `\nSuccessfully updated script. Please restart the application to get the results.`
+        if (!e) {
+          results += `\nSuccessfully updated script. Please restart the application to get the results.`
+        }
         return ctx.reply(results,
           {
             reply_to_message: ctx.message.message_id

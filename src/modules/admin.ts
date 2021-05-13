@@ -1,11 +1,13 @@
 import {
   replyToMessage,
+  replyToUser,
   isAdmin,
   getLang,
   reportError,
   tagAdmins
 } from "./misc"
 import groups from "./database/groups"
+import privates from "./database/private"
 import {
   Markup
 } from "telegraf"
@@ -214,6 +216,36 @@ export async function reportAdmin(ctx) {
     let admin = await tagAdmins(ctx)
     return replyToMessage(ctx, `${langs.report}${admin}`, false)
   }catch(error) {
+    return reportError(error, ctx)
+  }
+}
+export async function connecting(ctx) {
+  let langs = await getLang(ctx)
+  try {
+    if (ctx.chat.type == "private") {
+      return replyToMessage(ctx, langs.groupsOnly)
+    }
+    if (!ctx.message.reply_to_message) {
+      return replyToMessage(ctx, langs.mustReply)
+    }
+    if (!await isAdmin(ctx)) {
+      return replyToMessage(ctx, langs.userNonAdmin)
+    }
+    let data = await privates.findOne({
+      chat_id: ctx.message.reply_to_message.from.id
+    })
+    if(data == null){
+      return replyToUser(ctx,langs.pmMessage,[[{
+        text : langs.pmButton,
+        url : `https://t.me/${String(process.env["USERNAME"]).replace(/^\@/,"").trim()}`
+      }]])
+    }
+    data.connected = ctx.chat.id
+    data = await data.save()
+    console.log(data)
+    return replyToUser(ctx, langs.connectSuccess)
+  }catch(error) {
+    replyToUser(ctx, langs.connectError)
     return reportError(error, ctx)
   }
 }

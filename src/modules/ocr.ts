@@ -7,6 +7,7 @@ import {
   buildArray,
   getCurrentLang,
   isAdmin,
+  clearHTML,
   reportError
 } from "./misc"
 import https from "https"
@@ -140,7 +141,7 @@ export async function tesseract(ctx) {
       })
       file.on("finish", async ()=> {
         try {
-          let data = await Tesseract.recognize(`./ocr/${file_name}`, langOcr, {})
+          let data = await Tesseract.recognize(`./ocr/${file_name}`, langOcr)
           let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, langOcr)}\n${data.data.text}`
           /*{logger: m => {
             ctx.telegram.editMessageText(msg.chat.id,msg.message_id,undefined,`${langs.ocrLoading.replace(/\{langs\}/i,langOcr)}\nStatus: ${m.status}`,{parse_mode:"HTML"})
@@ -157,7 +158,7 @@ export async function tesseract(ctx) {
             })
             return fs.unlinkSync(`./ocr/${filename}`)
           } else {
-            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, ocrText, {
+            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, await clearHTML(ocrText), {
               parse_mode: "HTML"
             })
           }
@@ -211,7 +212,7 @@ export async function ocr(ctx) {
             })
             return fs.unlinkSync(`./ocr/${filename}`)
           } else {
-            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, ocrText, {
+            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, await clearHTML(ocrText), {
               parse_mode: "HTML"
             })
           }
