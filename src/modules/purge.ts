@@ -40,7 +40,6 @@ export async function purge(ctx) {
       }, (now, list)=> {
         ctx.telegram.deleteMessage(now.chat_id, now.message_id).catch((e)=> {
           failed ++
-          return e
         })
       })
     }

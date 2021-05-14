@@ -418,7 +418,7 @@ export async function settingsCallback(ctx) {
       let cbText = cb.message.text.split("\n")
       let spl = cbData.split(" ")
       if (cbText.length == 1) {
-        if (spl[1] == "clear" || spl[1] == "del" || spl[1] == "sum" || spl[2] == "-" || spl[2] == "+" || spl[2] == "×" || spl[2] == "÷") return
+        if (spl[1] == "clear" || spl[1] == "del" || spl[1] == "sum" || spl[2] == "-" || spl[2] == "+" || spl[2] == "×" || spl[2] == "÷" || spl[2] == ".") return
         let text = `${spl[2]}\n\n${cbText[0]}`
         return ctx.editMessageText(text, {
           reply_markup: {
@@ -460,7 +460,18 @@ export async function settingsCallback(ctx) {
             }
           })
         }
-        if (count[count.length -1] !== spl[2]) {
+        if (spl[2] == "-" || spl[2] == "+" || spl[2] == "×" || spl[2] == "÷" || spl[2] == ".") {
+          if (count[count.length -1].match(/(\÷)|(\×)|(\-)|(\+)|(\.)/)) {
+            return
+          } else {
+            let text = `${cbText[0]}${spl[2]}\n\n${cbText[2]}`
+            return ctx.editMessageText(text, {
+              reply_markup: {
+                inline_keyboard: keyboard
+              }
+            })
+          }
+        } else {
           let text = `${cbText[0]}${spl[2]}\n\n${cbText[2]}`
           return ctx.editMessageText(text, {
             reply_markup: {
