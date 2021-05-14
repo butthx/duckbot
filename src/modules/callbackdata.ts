@@ -308,3 +308,161 @@ export async function settingsCallback(ctx) {
       return reportError(error, ctx)
     }
   }
+
+  export async function handleCal(ctx) {
+    try {
+      let keyboard = [
+        [{
+          text: "Del",
+          callback_data: "cal del",
+          hide: true
+        },
+          {
+            text: "Clear",
+            callback_data: "cal clear",
+            hide: true
+          }],
+        [{
+          text: "(",
+          callback_data: "cal add (",
+          hide: true
+        },
+          {
+            text: ")",
+            callback_data: "cal add )",
+            hide: true
+          }],
+        [{
+          text: "7",
+          callback_data: "cal add 7",
+          hide: true
+        },
+          {
+            text: "8",
+            callback_data: "cal add 8",
+            hide: true
+          },
+          {
+            text: "9",
+            callback_data: "cal add 9",
+            hide: true
+          },
+          {
+            text: "÷",
+            callback_data: "cal add ÷",
+            hide: true
+          }],
+        [{
+          text: "4",
+          callback_data: "cal add 4",
+          hide: true
+        },
+          {
+            text: "5",
+            callback_data: "cal add 5",
+            hide: true
+          },
+          {
+            text: "6",
+            callback_data: "cal add 6",
+            hide: true
+          },
+          {
+            text: "×",
+            callback_data: "cal add ×",
+            hide: true
+          }],
+        [{
+          text: "1",
+          callback_data: "cal add 1",
+          hide: true
+        },
+          {
+            text: "2",
+            callback_data: "cal add 2",
+            hide: true
+          },
+          {
+            text: "3",
+            callback_data: "cal add 3",
+            hide: true
+          },
+          {
+            text: "-",
+            callback_data: "cal add -",
+            hide: true
+          }],
+        [{
+          text: ".",
+          callback_data: "cal add .",
+          hide: true
+        },
+          {
+            text: "0",
+            callback_data: "cal add 0",
+            hide: true
+          },
+          {
+            text: "=",
+            callback_data: "cal sum",
+            hide: true
+          },
+          {
+            text: "+",
+            callback_data: "cal add +",
+            hide: true
+          }]
+      ]
+      let cb = ctx.callbackQuery
+      let cbData = cb.data
+      let cbText = cb.message.text.split("\n")
+      let spl = cbData.split(" ")
+      if (cbText.length == 1) {
+        if (spl[1] == "clear" || spl[1] == "del" || spl[1] == "sum" || spl[2] == "-" || spl[2] == "+" || spl[2] == "×" || spl[2] == "÷") return
+        let text = `${spl[2]}\n\n${cbText[0]}`
+        return ctx.editMessageText(text, {
+          reply_markup: {
+            inline_keyboard: keyboard
+          }
+        })
+      }
+      if (cbText.length == 3) {
+        let count = cbText[0]
+        if (spl[1] == "clear") {
+          let text = `${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+        if (spl[1] == "del") {
+          let spliceText = count.replace(count[count.length -1], "")
+          let text = `${spliceText.trim()}\n\n${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+        if (spl[1] == "sum") {
+          let text = `${eval(cbText[0].replace(/\×/gm, "*").replace(/\÷/gm, "/"))}\n\n${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+        if (count[count.length -1] !== spl[2]) {
+          let text = `${cbText[0]}${spl[2]}\n\n${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+      }
+    }catch(error) {
+      return reportError(error, ctx)
+    }
+  }

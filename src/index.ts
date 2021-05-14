@@ -21,6 +21,7 @@ import {
 import {
   start,
   ping,
+  cal,
   setLang
 } from "./modules/start"
 import {
@@ -30,7 +31,8 @@ import {
 import {
   useLang,
   donate,
-  settingsCallback
+  settingsCallback,
+  handleCal
 } from "./modules/callbackdata"
 import {
   tr
@@ -111,6 +113,8 @@ bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, 
 bot.hears(new RegExp(`\#setusername(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`, ""), setUsername)
 bot.hears(new RegExp(`\@admin(s)?(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`), reportAdmin)
 bot.action(/setlang\s+(.*)$/i, useLang)
+bot.action("setlang", setLang)
+bot.action(/cal(.*)/, handleCal)
 bot.action("donate", donate)
 bot.action(/setting\s+(.*)/i, settingsCallback)
 bot.command("setlang", setLang)
@@ -135,10 +139,11 @@ bot.command("tts", getTTS)
 bot.command("update", update)
 bot.command("purge", purge)
 bot.command("connect", connecting)
-bot.command(["kang", "copy"], kang)
+bot.command(["kang", "curi"], kang)
 bot.command("atime", async (ctx)=> {
   return replyToMessage(ctx, `Alive ${aliveTime} seconds.\nAlive Date: ${aliveDate}`)
 })
+bot.command("cal", cal)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {
