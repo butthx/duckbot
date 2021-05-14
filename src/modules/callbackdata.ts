@@ -446,7 +446,14 @@ export async function settingsCallback(ctx) {
           })
         }
         if (spl[1] == "sum") {
-          let text = `${eval(cbText[0].replace(/\×/gm, "*").replace(/\÷/gm, "/"))}\n\n${cbText[2]}`
+          let sum = ""
+          try {
+            let ev = eval(cbText[0].replace(/\×/gm, "*").replace(/\÷/gm, "/"))
+            sum = ev
+          }catch(e) {
+            sum = ""
+          }
+          let text = `${sum}\n\n${cbText[2]}`
           return ctx.editMessageText(text, {
             reply_markup: {
               inline_keyboard: keyboard
