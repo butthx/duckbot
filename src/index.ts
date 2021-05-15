@@ -81,7 +81,7 @@ const app = express()
 let port = Number(process.env["PORT"]) || 3000
 if (parseBoolean(process.env["WEBHOOK"])) {
 
-  cron.schedule('30 * * * * *', () => {
+  cron.schedule('*/30 * * * * *', () => {
     let url = String(process.env["URL"])
     if (url.endsWith("/")) {
       return fetch(`${url}cron`)
