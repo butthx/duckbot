@@ -141,7 +141,7 @@ bot.command("purge", purge)
 bot.command("connect", connecting)
 bot.command(["kang", "curi"], kang)
 bot.command("atime", async (ctx)=> {
-  return replyToMessage(ctx, `Alive ${aliveTime} seconds.\nAlive Date: ${aliveDate}`)
+  return replyToMessage(ctx, `Alive ${new Date(aliveTime * 1000).toISOString().substr(11, 8)}\nAlive Date: ${aliveDate}`)
 })
 bot.command("cal", cal)
 //bot.on("inline_query", inline_query)

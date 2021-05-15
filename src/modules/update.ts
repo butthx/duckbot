@@ -21,6 +21,7 @@ export default async function update(ctx) {
     let beta = await parseBoolean(process.env['BETA']);
     let results = '';
     let done = [];
+    let msg = await replyToMessage(ctx, "Updating script..")
     if (beta) {
       await exec('git pull origin dev', (err, stdout, stderr) => {
         results += '\n> git pull origin dev\n';
@@ -65,9 +66,7 @@ export default async function update(ctx) {
         if (!e) {
           results += `\nSuccessfully updated script. Please restart the application to get the results.`;
         }
-        return ctx.reply(results, {
-          reply_to_message_id: ctx.message.message_id
-        });
+        return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, results)
       });
   } catch (error) {
     replyToMessage(ctx,
