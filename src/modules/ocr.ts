@@ -132,7 +132,7 @@ export async function tesseract(ctx) {
     let msg = await replyToMessage(ctx, langs.ocrLoading.replace(/\{langs\}/i, langOcr), false)
     let file_id = ctx.message.reply_to_message.photo[ctx.message.reply_to_message.photo.length -1].file_id
     let url = await ctx.telegram.getFileLink(file_id)
-    let file_name = await path.basename(url.href)
+    let file_name = `${Date.now()}.${await path.basename(url.href)}`
     https.get(url, async (res)=> {
       let file = fs.createWriteStream(`./ocr/${file_name}`)
       res.pipe(file)
@@ -142,7 +142,7 @@ export async function tesseract(ctx) {
       file.on("finish", async ()=> {
         try {
           let data = await Tesseract.recognize(`./ocr/${file_name}`, langOcr)
-          let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, langOcr)}\n${data.data.text}`
+          let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, langOcr)}\n${await clearHTML(data.data.text)}`
           /*{logger: m => {
             ctx.telegram.editMessageText(msg.chat.id,msg.message_id,undefined,`${langs.ocrLoading.replace(/\{langs\}/i,langOcr)}\nStatus: ${m.status}`,{parse_mode:"HTML"})
           }}*/
@@ -158,7 +158,7 @@ export async function tesseract(ctx) {
             })
             return fs.unlinkSync(`./ocr/${filename}`)
           } else {
-            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, await clearHTML(ocrText), {
+            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, ocrText, {
               parse_mode: "HTML"
             })
           }
@@ -184,7 +184,7 @@ export async function ocr(ctx) {
     let msg = await replyToMessage(ctx, langs.ocrLoading.replace(/\{langs\}/i, "auto"), false)
     let file_id = ctx.message.reply_to_message.photo[ctx.message.reply_to_message.photo.length -1].file_id
     let url = await ctx.telegram.getFileLink(file_id)
-    let file_name = await path.basename(url.href)
+    let file_name = `${Date.now()}.${await path.basename(url.href)}`
     https.get(url, async (res)=> {
       let file = fs.createWriteStream(`./ocr/${file_name}`)
       res.pipe(file)
@@ -198,7 +198,7 @@ export async function ocr(ctx) {
             apiKey: String(process.env.OCR_API)})
           data.ParsedResults.forEach((item, index)=> {
             let ParsedText = item.ParsedText || ""
-            ocrText += `\n${ParsedText.trim()}`
+            ocrText += await clearHTML(`\n${ParsedText.trim()}`)
           })
           fs.unlinkSync(`./ocr/${file_name}`)
           if (ocrText.length > 4096) {
@@ -212,12 +212,14 @@ export async function ocr(ctx) {
             })
             return fs.unlinkSync(`./ocr/${filename}`)
           } else {
-            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, await clearHTML(ocrText), {
+            return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, ocrText, {
               parse_mode: "HTML"
             })
           }
         }catch(error) {
-          return ctx.editMessageText(msg.message_id, undefined, langs.ocrError)
+          return ctx.editMessageText(msg.message_id, undefined, langs.ocrError, {
+            parse_mode: "HTML"
+          })
         }
       })
     })
