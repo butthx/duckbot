@@ -196,7 +196,7 @@ export async function ocr(ctx) {
           let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, "auto")}`
           let data = await ocrSpace(`./ocr/${file_name}`, {
             apiKey: String(process.env.OCR_API)})
-          data.ParsedResults.forEach((item, index)=> {
+          data.ParsedResults.forEach(async (item, index)=> {
             let ParsedText = item.ParsedText || ""
             ocrText += await clearHTML(`\n${ParsedText.trim()}`)
           })
