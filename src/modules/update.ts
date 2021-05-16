@@ -6,24 +6,26 @@ import sudos from './database/sudos';
 import {
   replyToMessage,
   reportError,
-  parseBoolean
+  parseBoolean,
+  getPing
 } from './misc';
 
 export default async function update(ctx) {
+  let c = await getPing(ctx)
   try {
     let sudo = await sudos.findOne({
       user: 'sudo'
     });
-    if (sudo == null) return replyToMessage(ctx, 'command failed!');
+    if (sudo == null) return replyToMessage(ctx, `command failed!\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
     let data = sudo.value;
     if (!data.includes(ctx.from.id))
-      return replyToMessage(ctx, 'command failed!');
+      return replyToMessage(ctx, `command failed!\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
     let beta = await parseBoolean(process.env['BETA']);
     let results = '';
     let done = [];
-    let msg = await replyToMessage(ctx, "Updating script..")
+    let msg = await replyToMessage(ctx, `Updating script..\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
     if (beta) {
-      await exec('git pull origin dev', (err, stdout, stderr) => {
+      await exec('git pull origin dev', async (err, stdout, stderr) => {
         results += '\n> git pull origin dev\n';
         if (err) {
           results += err.stack;
@@ -33,7 +35,7 @@ export default async function update(ctx) {
         }
       });
     } else {
-      await exec('git pull origin master', (err, stdout, stderr) => {
+      await exec('git pull origin master', async (err, stdout, stderr) => {
         results += '\n> git pull origin master\n';
         if (err) {
           results += err.stack;
@@ -44,7 +46,7 @@ export default async function update(ctx) {
       });
     }
     await exec('yarn install',
-      (err, stdout, stderr) => {
+      async (err, stdout, stderr) => {
         results += '\n> yarn install\n';
         if (err) {
           results += err.stack;
@@ -54,7 +56,7 @@ export default async function update(ctx) {
         }
       });
     await exec('yarn build',
-      (err, stdout, stderr) => {
+      async (err, stdout, stderr) => {
         results += '\n> yarn build\n';
         let e = false;
         if (err) {
@@ -64,13 +66,13 @@ export default async function update(ctx) {
           results += stdout;
         }
         if (!e) {
-          results += `\nSuccessfully updated script. Please restart the application to get the results.`;
+          results += `\nSuccessfully updated script. Please restart the application to get the results.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`;
         }
         return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, results)
       });
   } catch (error) {
     replyToMessage(ctx,
-      'command failed!');
+      `command failed!\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
     return reportError(error,
       ctx);
   }

@@ -10,7 +10,8 @@ import {
   reportError,
   buildKeyboard,
   parseBoolean,
-  handleEnv
+  handleEnv,
+  getPing
 } from "./modules/misc"
 handleEnv()
 import mongoose from "mongoose"
@@ -42,7 +43,7 @@ import {
   settings,
   handleSettings,
   reportAdmin,
-  connecting
+  connecting,
 } from "./modules/admin"
 import {
   getNotes,
@@ -80,16 +81,6 @@ const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 const app = express()
 let port = Number(process.env["PORT"]) || 3000
 if (parseBoolean(process.env["WEBHOOK"])) {
-
-  cron.schedule('*/30 * * * * *', () => {
-    let url = String(process.env["URL"])
-    if (url.endsWith("/")) {
-      return fetch(`${url}cron`)
-    } else {
-      return fetch(`${url}/cron`)
-    }
-  });
-
   app.get("/",
     (req, res)=> {
       res.status(403).redirect("https://butthx.vercel.app")
@@ -98,8 +89,17 @@ if (parseBoolean(process.env["WEBHOOK"])) {
     (req, res)=> {
       res.status(200).send("Running..")
     })
-  app.use(bot.webhookCallback("/"))
-  bot.telegram.setWebhook(process.env["URL"] as string)
+  //app.use(bot.webhookCallback("/"))
+  //bot.telegram.setWebhook(process.env["URL"] as string)
+
+  cron.schedule('*/5 * * * * *', () => {
+    let url = String(process.env["URL"])
+    if (url.endsWith("/")) {
+      return fetch(`${url}cron`)
+    } else {
+      return fetch(`${url}/cron`)
+    }
+  });
 }
 
 let aliveTime = 0
@@ -141,12 +141,15 @@ bot.command("purge", purge)
 bot.command("connect", connecting)
 bot.command(["kang", "curi"], kang)
 bot.command("atime", async (ctx)=> {
-  return replyToMessage(ctx, `Alive ${new Date(aliveTime * 1000).toISOString().substr(11, 8)}\nAlive Date: ${aliveDate}`)
+  let c = await getPing(ctx)
+  let d = new Date(aliveTime * 1000).toISOString().substr(11, 8).split(":")
+  return replyToMessage(ctx, `Alive <code>${d[0]}</code> Hours <code>${d[1]}</code> Minutes <code>${d[2]}</code> Seconds\nSince:\n<b>${aliveDate}</b>\n\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
 })
 bot.command("cal", cal)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {
+  bot.launch()
   app.listen(port, ()=> {
     console.log("\x1b[34m%s\x1b[0m", "[WEBHOOK] bot running..")
   })

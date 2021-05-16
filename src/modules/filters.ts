@@ -12,12 +12,14 @@ import {
   replyToUserSticker,
   replyToUserVideoNote,
   replyToUserAudio,
-  replyToUserDocument
+  replyToUserDocument,
+  getPing
 } from "./misc"
 import groups from "./database/groups"
 export async function handleFilters(ctx) {
   try {
     if ("message" in ctx.update) {
+      let c = await getPing(ctx)
       let langs = await getLang(ctx)
       let text: any = ctx.message.text || ctx.message.caption || false
       if (text) {
@@ -38,10 +40,10 @@ export async function handleFilters(ctx) {
                     let keyboard = parseJson.keyboard
                     let md = await parse(ctx, parseJson.text)
                     if (keyboard.length >= 1) {
-                      let msg = await  await   replyToUser(ctx, md, keyboard)
+                      let msg = await replyToUser(ctx, `${md}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, keyboard)
                       return domFilters(ctx, data, msg)
                     } else {
-                      let msg = await  await  replyToUser(ctx, md, false)
+                      let msg = await  replyToUser(ctx, `${md}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
                       return domFilters(ctx, data, msg)
                     }
                     break;
@@ -50,14 +52,14 @@ export async function handleFilters(ctx) {
                       if (item.caption) {
                         let parse = JSON.parse(await buildKeyboard(item.caption))
                         if (parse.keyboard.length >= 1) {
-                          let msg = await  await  replyToUserPhoto(ctx, item.value, parse.text, parse.keyboard)
+                          let msg = await  replyToUserPhoto(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, parse.keyboard)
                           return domFilters(ctx, data, msg)
                         } else {
-                          let msg = await  await  replyToUserPhoto(ctx, item.value, parse.text)
+                          let msg = await  replyToUserPhoto(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                           return domFilters(ctx, data, msg)
                         }
                       } else {
-                        let msg = await  await   replyToUserPhoto(ctx, item.value)
+                        let msg = await   replyToUserPhoto(ctx, item.value, `⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                         return domFilters(ctx, data, msg)
                       }
                     }
@@ -67,14 +69,14 @@ export async function handleFilters(ctx) {
                       if (item.caption) {
                         let parse = JSON.parse(await buildKeyboard(item.caption))
                         if (parse.keyboard.length >= 1) {
-                          let msg = await  await  replyToUserVideo(ctx, item.value, parse.text, parse.keyboard)
+                          let msg = await  replyToUserVideo(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, parse.keyboard)
                           return domFilters(ctx, data, msg)
                         } else {
-                          let msg = await  replyToUserVideo(ctx, item.value, parse.text)
+                          let msg = await  replyToUserVideo(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                           return domFilters(ctx, data, msg)
                         }
                       } else {
-                        let msg = await   replyToUserVideo(ctx, item.value)
+                        let msg = await   replyToUserVideo(ctx, item.value, `⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                         return domFilters(ctx, data, msg)
                       }
                     }
@@ -84,14 +86,14 @@ export async function handleFilters(ctx) {
                       if (item.caption) {
                         let parse = JSON.parse(await buildKeyboard(item.caption))
                         if (parse.keyboard.length >= 1) {
-                          let msg = await  replyToUserDocument(ctx, item.value, parse.text, parse.keyboard)
+                          let msg = await  replyToUserDocument(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, parse.keyboard)
                           return domFilters(ctx, data, msg)
                         } else {
-                          let msg = await  replyToUserDocument(ctx, item.value, parse.text)
+                          let msg = await  replyToUserDocument(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                           return domFilters(ctx, data, msg)
                         }
                       } else {
-                        let msg = await   replyToUserDocument(ctx, item.value)
+                        let msg = await   replyToUserDocument(ctx, item.value`⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                         return domFilters(ctx, data, msg)
                       }
                     }
@@ -101,14 +103,14 @@ export async function handleFilters(ctx) {
                       if (item.caption) {
                         let parse = JSON.parse(await buildKeyboard(item.caption))
                         if (parse.keyboard.length >= 1) {
-                          let msg = await  replyToUserAudio(ctx, item.value, parse.text, parse.keyboard)
+                          let msg = await  replyToUserAudio(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, parse.keyboard)
                           return domFilters(ctx, data, msg)
                         } else {
-                          let msg = await  replyToUserAudio(ctx, item.value, parse.text)
+                          let msg = await  replyToUserAudio(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                           return domFilters(ctx, data, msg)
                         }
                       } else {
-                        let msg = await   replyToUserAudio(ctx, item.value)
+                        let msg = await   replyToUserAudio(ctx, `${item.value}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                         return domFilters(ctx, data, msg)
                       }
                     }
@@ -118,14 +120,14 @@ export async function handleFilters(ctx) {
                       if (item.caption) {
                         let parse = JSON.parse(await buildKeyboard(item.caption))
                         if (parse.keyboard.length >= 1) {
-                          let msg = await  replyToUserVoice(ctx, item.value, parse.text, parse.keyboard)
+                          let msg = await  replyToUserVoice(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, parse.keyboard)
                           return domFilters(ctx, data, msg)
                         } else {
-                          let msg = await  replyToUserVoice(ctx, item.value, parse.text)
+                          let msg = await  replyToUserVoice(ctx, item.value, `${parse.text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                           return domFilters(ctx, data, msg)
                         }
                       } else {
-                        let msg = await   replyToUserVoice(ctx, item.value)
+                        let msg = await   replyToUserVoice(ctx, item.value, `⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
                         return domFilters(ctx, data, msg)
                       }
                     }
@@ -138,7 +140,7 @@ export async function handleFilters(ctx) {
                     break;
                   case "sticker":
                     if (item.value) {
-                      let msg = await  await replyToUserSticker(ctx, item.value)
+                      let msg = await replyToUserSticker(ctx, item.value)
                       return domFilters(ctx, data, msg)
                     }
                     break;
@@ -157,14 +159,15 @@ export async function handleFilters(ctx) {
     }
   }
   export async function saveFilters(ctx) {
+    let c = await getPing(ctx)
     let langs = await getLang(ctx)
     try {
       if (ctx.chat.type == "private") {
-        return replyToMessage(ctx, langs.groupsOnly, false)
+        return replyToMessage(ctx, `${langs.groupsOnly}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       }
       let admin = await isAdmin(ctx)
       if (!admin) {
-        return replyToMessage(ctx, langs.userNonAdmin, false)
+        return replyToMessage(ctx, `${langs.userNonAdmin}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       }
       let text = ctx.message.text
       let key = text.split(" ")
@@ -177,7 +180,7 @@ export async function handleFilters(ctx) {
         return
       }
       if (!key) {
-        return replyToMessage(ctx, langs.filtersSaveError, false)
+        return replyToMessage(ctx, `${langs.filtersSaveError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       }
       if (!data.filters.status) return
       let index = data.filters.value.findIndex((item)=> item.key == key)
@@ -191,12 +194,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
         // photo
@@ -210,12 +213,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
         //video
@@ -229,12 +232,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
         //document
@@ -248,12 +251,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
         //sticker
@@ -266,12 +269,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
         //audio
@@ -285,12 +288,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
         //video_note
@@ -303,12 +306,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
         //voice
@@ -322,12 +325,12 @@ export async function handleFilters(ctx) {
           if (index == -1) {
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           } else {
             data.filters.value.splice(index, 1)
             data.filters.value.push(json)
             data = await data.save()
-            return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+            return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
         }
       } else {
@@ -348,21 +351,22 @@ export async function handleFilters(ctx) {
         if (index == -1) {
           data.filters.value.push(json)
           data = await data.save()
-          return replyToMessage(ctx, langs.filtersSaved.replace(/\{key\}/i, key), false)
+          return replyToMessage(ctx, `${langs.filtersSaved.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
         } else {
           data.filters.value.splice(index, 1)
           data.filters.value.push(json)
           data = await data.save()
-          return replyToMessage(ctx, langs.filtersUpdate.replace(/\{key\}/i, key), false)
+          return replyToMessage(ctx, `${langs.filtersUpdate.replace(/\{key\}/i, key)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
         }
       }
     }catch(error) {
-      replyToMessage(ctx, langs.filtersSaveError, false)
+      replyToMessage(ctx, `${langs.filtersSaveError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       return reportError(error, ctx)
     }
   }
   export async function getFilters(ctx) {
     let langs = await getLang(ctx)
+    let c = await getPing(ctx)
     try {
       if (ctx.chat.type == "private") {
         return replyToMessage(ctx, langs.groupsOnly, false)
@@ -381,23 +385,24 @@ export async function handleFilters(ctx) {
         filters.forEach((item, index)=> {
           result += `<code>${item.key}</code>\n`
         })
-        return replyToMessage(ctx, result, false)
+        return replyToMessage(ctx, `${result}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       }
-      return replyToMessage(ctx, langs.filtersNotFound, false)
+      return replyToMessage(ctx, `${langs.filtersNotFound}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
     }catch(error) {
-      replyToMessage(ctx, langs.filtersGetError, false)
+      replyToMessage(ctx, `${langs.filtersGetError}`, false)
       return reportError(error, ctx)
     }
   }
   export async function removeFilters(ctx) {
     let langs = await getLang(ctx)
+    let c = await getPing(ctx)
     try {
       if (ctx.chat.type == "private") {
-        return replyToMessage(ctx, langs.groupsOnly, false)
+        return replyToMessage(ctx, `${langs.groupsOnly}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       }
       let admin = await isAdmin(ctx)
       if (!admin) {
-        return replyToMessage(ctx, langs.userNonAdmin, false)
+        return replyToMessage(ctx, `${langs.userNonAdmin}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       }
       let data = await groups.findOne({
         chat_id: ctx.chat.id

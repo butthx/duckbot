@@ -57,6 +57,7 @@ export async function ping(ctx) {
 }
 export async function setLang(ctx) {
   let langs = await getLang(ctx)
+  let c = await getLang(ctx)
   try {
     if (ctx.chat.type !== "private") {
       if (!await isAdmin(ctx)) {
@@ -79,9 +80,10 @@ export async function setLang(ctx) {
       button.push(json)
     }
     let keyboard = await buildArray(button, 2)
-    return replyToMessage(ctx, langs.langAvalible.replace(/\{lang\}/i, currentLang), keyboard)
+    return replyToMessage(ctx, `${langs.langAvalible.replace(/\{lang\}/i, currentLang)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, keyboard)
   }catch(error) {
-    replyToMessage(ctx, langs.getLangError, false)
+    replyToMessage(ctx, `${langs.getLangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
+    return reportError(error, ctx)
   }
 }
 

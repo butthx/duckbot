@@ -12,6 +12,7 @@ import groups from "./database/groups"
 import privates from "./database/private"
 export async function useLang(ctx) {
   let langs = await getLang(ctx)
+  let c = await getPing(ctx)
   try {
     let datas = ctx.callbackQuery.data
     let lang = datas.replace(/^setlang\s+/i, "").trim()
@@ -39,15 +40,16 @@ export async function useLang(ctx) {
     }
     langs = await getLang(ctx)
     let currentLang = await getCurrentLang(ctx)
-    return ctx.editMessageText(langs.useLang.replace(/\{lang\}/i, currentLang), {
+    return ctx.editMessageText(`${langs.useLang.replace(/\{lang\}/i, currentLang)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
       parse_mode: "HTML"
     })
   }catch(error) {
-    ctx.editMessageText(langs.useLangError)
+    ctx.editMessageText(`${langs.useLangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
     return reportError(error, ctx)
   }
 }
 export async function donate(ctx) {
+  let c = await getPing(ctx)
   try {
     let langs = await getLang(ctx)
     let keyboard = [[{
@@ -55,7 +57,7 @@ export async function donate(ctx) {
       url: "https://nyawer.co/Butthx",
       hide: true
     }]]
-    return ctx.editMessageText(langs.textDonate, {
+    return ctx.editMessageText(`${langs.textDonate}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
       reply_markup: {
         inline_keyboard: keyboard
       }})
@@ -65,6 +67,7 @@ export async function donate(ctx) {
 }
 export async function settingsCallback(ctx) {
   let langs = await getLang(ctx)
+  let c = await getPing(ctx)
   try {
     let json = {
       "true": "✅",
@@ -95,7 +98,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -103,7 +106,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -111,7 +114,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -119,7 +122,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -127,11 +130,11 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
-      return ctx.answerCbQuery(langs.adminCacheFailed, {
+      return ctx.answerCbQuery(`${langs.adminCacheFailed}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
         show_alert: true, cache_time: 60
       })
     }
@@ -310,6 +313,7 @@ export async function settingsCallback(ctx) {
   }
 
   export async function handleCal(ctx) {
+    let c = await getPing(ctx)
     try {
       let keyboard = [
         [{

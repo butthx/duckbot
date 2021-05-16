@@ -1,7 +1,8 @@
 import {
   replyToMessage,
   reportError,
-  getLang
+  getLang,
+  getPing
 } from './misc';
 import privates from './database/private';
 import https from 'https';
@@ -11,6 +12,7 @@ import Jimp from 'jimp';
 
 export async function kang(ctx) {
   let langs = await getLang(ctx);
+  let c = await getPing(ctx)
   try {
     if (!ctx.message.reply_to_message) {
       return replyToMessage(ctx, langs.mustReply);
@@ -26,7 +28,7 @@ export async function kang(ctx) {
       ].file_id;
     }
     if (!file_id) {
-      return replyToMessage(ctx, langs.mustReply);
+      return replyToMessage(ctx, `${langs.mustReply}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
     }
     if (ctx.message.reply_to_message.sticker?.is_animated) {
       let packName = `animate${ctx.from.id}_by_${String(process.env.USERNAME)
@@ -53,7 +55,7 @@ export async function kang(ctx) {
         }
       }
       let url = await ctx.telegram.getFileLink(file_id);
-      let basename = `kang-${await path.basename(url.href)}.tgs`;
+      let basename = `kang${Date.now()}-${await path.basename(url.href)}.tgs`;
       let spl = ctx.message.text.split(' ');
       let emoji = '❤️';
       if (spl[1]) {
@@ -66,8 +68,8 @@ export async function kang(ctx) {
       https.get(url, async res => {
         let file = fs.createWriteStream(`./download/${basename}`);
         res.pipe(file);
-        file.on('error', error => {
-          replyToMessage(ctx, langs.kangError);
+        file.on('error', async (error) => {
+          replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
           return reportError(error, ctx);
         });
         file.on('finish', async () => {
@@ -80,17 +82,16 @@ export async function kang(ctx) {
               },
               emojis: emoji
             })
-            .catch(e => {
-              console.log(e);
+            .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
-              return replyToMessage(ctx, langs.kangError);
+              return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {
               fs.unlinkSync(`./download/${basename}`);
               return replyToMessage(
                 ctx,
-                langs.kangSuccess.replace(/\{packname\}/i, packName)
+                `${langs.kangSuccess.replace(/\{packname\}/i, packName)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
               );
             }
           } else {
@@ -107,17 +108,16 @@ export async function kang(ctx) {
                 emojis: emoji
               }
             )
-            .catch(e => {
-              console.log(e);
+            .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
-              return replyToMessage(ctx, langs.kangError);
+              return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {
               fs.unlinkSync(`./download/${basename}`);
               return replyToMessage(
                 ctx,
-                langs.kangSuccess.replace(/\{packname\}/i, packName)
+                `${langs.kangSuccess.replace(/\{packname\}/i, packName)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
               );
             }
           }
@@ -148,7 +148,7 @@ export async function kang(ctx) {
         }
       }
       let url = await ctx.telegram.getFileLink(file_id);
-      let basename = `kang-${await path.basename(url.href)}.png`;
+      let basename = `kang${Date.now()}-${await path.basename(url.href)}.png`;
       let spl = ctx.message.text.split(' ');
       let emoji = '❤️';
       if (spl[1]) {
@@ -161,8 +161,8 @@ export async function kang(ctx) {
       https.get(url, async res => {
         let file = fs.createWriteStream(`./download/${basename}`);
         res.pipe(file);
-        file.on('error', error => {
-          replyToMessage(ctx, langs.kangError);
+        file.on('error', async (error) => {
+          replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
           return reportError(error, ctx);
         });
         file.on('finish', async () => {
@@ -180,17 +180,16 @@ export async function kang(ctx) {
               },
               emojis: emoji
             })
-            .catch(e => {
-              console.log(e);
+            .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
-              return replyToMessage(ctx, langs.kangError);
+              return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {
               fs.unlinkSync(`./download/${basename}`);
               return replyToMessage(
                 ctx,
-                langs.kangSuccess.replace(/\{packname\}/i, packName)
+                `${langs.kangSuccess.replace(/\{packname\}/i, packName)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
               );
             }
           } else {
@@ -214,17 +213,16 @@ export async function kang(ctx) {
                 emojis: emoji
               }
             )
-            .catch(e => {
-              console.log(e);
+            .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
-              return replyToMessage(ctx, langs.kangError);
+              return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {
               fs.unlinkSync(`./download/${basename}`);
               return replyToMessage(
                 ctx,
-                langs.kangSuccess.replace(/\{packname\}/i, packName)
+                `${langs.kangSuccess.replace(/\{packname\}/i, packName)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
               );
             }
           }
@@ -232,7 +230,7 @@ export async function kang(ctx) {
       });
     }
   } catch (error) {
-    replyToMessage(ctx, langs.kangError);
+    replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
     return reportError(error, ctx);
   }
 }

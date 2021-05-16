@@ -16,6 +16,7 @@ import path from "path"
 export async function tesseract(ctx) {
   let langs = await getLang(ctx)
   try {
+    let c = await getPing(ctx)
     let spl = ctx.message.text.split(" ")
     let langOcr = spl[1] || "eng"
     let onlyLang = ["afr",
@@ -129,7 +130,7 @@ export async function tesseract(ctx) {
     if (!onlyLang.includes(langOcr)) {
       return replyToMessage(ctx, langs.orcLangN.replace(/\{langs\}/i, langOcr), false)
     }
-    let msg = await replyToMessage(ctx, langs.ocrLoading.replace(/\{langs\}/i, langOcr), false)
+    let msg = await replyToMessage(ctx, `${langs.ocrLoading.replace(/\{langs\}/i, langOcr)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
     let file_id = ctx.message.reply_to_message.photo[ctx.message.reply_to_message.photo.length -1].file_id
     let url = await ctx.telegram.getFileLink(file_id)
     let file_name = `${Date.now()}.${await path.basename(url.href)}`
@@ -142,7 +143,7 @@ export async function tesseract(ctx) {
       file.on("finish", async ()=> {
         try {
           let data = await Tesseract.recognize(`./ocr/${file_name}`, langOcr)
-          let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, langOcr)}\n${await clearHTML(data.data.text)}`
+          let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, langOcr)}\n${await clearHTML(data.data.text)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
           /*{logger: m => {
             ctx.telegram.editMessageText(msg.chat.id,msg.message_id,undefined,`${langs.ocrLoading.replace(/\{langs\}/i,langOcr)}\nStatus: ${m.status}`,{parse_mode:"HTML"})
           }}*/
@@ -175,13 +176,14 @@ export async function tesseract(ctx) {
 export async function ocr(ctx) {
   let langs = await getLang(ctx)
   try {
+    let c = await getPing(ctx)
     if (!ctx.message.reply_to_message) {
       return replyToMessage(ctx, langs.ocrReply, false)
     }
     if (!ctx.message.reply_to_message.photo) {
       return replyToMessage(ctx, langs.ocrReply, false)
     }
-    let msg = await replyToMessage(ctx, langs.ocrLoading.replace(/\{langs\}/i, "auto"), false)
+    let msg = await replyToMessage(ctx, `${langs.ocrLoading.replace(/\{langs\}/i, "auto")}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
     let file_id = ctx.message.reply_to_message.photo[ctx.message.reply_to_message.photo.length -1].file_id
     let url = await ctx.telegram.getFileLink(file_id)
     let file_name = `${Date.now()}.${await path.basename(url.href)}`
@@ -194,12 +196,15 @@ export async function ocr(ctx) {
       file.on("finish", async ()=> {
         try {
           let ocrText = `${langs.ocrSuccess.replace(/\{langs\}/i, "auto")}`
+          let ocrRes = ""
           let data = await ocrSpace(`./ocr/${file_name}`, {
             apiKey: String(process.env.OCR_API)})
-          data.ParsedResults.forEach(async (item, index)=> {
+          data.ParsedResults.forEach((item, index)=> {
             let ParsedText = item.ParsedText || ""
-            ocrText += await clearHTML(`\n${ParsedText.trim()}`)
+            ocrRes += `\n${ParsedText.trim()}`
           })
+          ocrText += await clearHTML(ocrRes)
+          ocrText += `\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
           fs.unlinkSync(`./ocr/${file_name}`)
           if (ocrText.length > 4096) {
             let filename = `ocr-${file_name}.txt`
