@@ -57,7 +57,7 @@ export async function ping(ctx) {
 }
 export async function setLang(ctx) {
   let langs = await getLang(ctx)
-  let c = await getLang(ctx)
+  let c = await getPing(ctx)
   try {
     if (ctx.chat.type !== "private") {
       if (!await isAdmin(ctx)) {

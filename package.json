@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "google-tts-api": "^2.0.2",
     "jimp": "^0.16.1",
+    "lipo": "^2.0.0",
     "mongoose": "^5.11.20",
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
