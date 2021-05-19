@@ -75,7 +75,9 @@ import {
 import {
   kang
 } from "./modules/kang"
-
+import {
+  people
+} from "./modules/people"
 connect()
 const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 const app = express()
@@ -92,13 +94,17 @@ if (parseBoolean(process.env["WEBHOOK"])) {
   //app.use(bot.webhookCallback("/"))
   //bot.telegram.setWebhook(process.env["URL"] as string)
 
-  cron.schedule('*/5 * * * * *', () => {
+  cron.schedule('*/3 * * * * *', () => {
     let url = String(process.env["URL"])
     if (url.endsWith("/")) {
-      return fetch(`${url}cron`)
+      fetch(`${url}cron`)
     } else {
-      return fetch(`${url}/cron`)
+      fetch(`${url}/cron`)
     }
+    if(process.env["APIURL"]) {
+      fetch(process.env["APIURL"])
+    }
+    return 
   });
 }
 
@@ -140,6 +146,7 @@ bot.command("update", update)
 bot.command("purge", purge)
 bot.command("connect", connecting)
 bot.command(["kang", "curi"], kang)
+bot.command("people",people)
 bot.command("atime", async (ctx)=> {
   let c = await getPing(ctx)
   let d = new Date(aliveTime * 1000).toISOString().substr(11, 8).split(":")
