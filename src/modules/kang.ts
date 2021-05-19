@@ -154,7 +154,7 @@ export async function kang(ctx) {
       if (spl[1]) {
         emoji = spl[1];
       } else {
-        if (ctx.message.reply_to_message.sticker.emoji) {
+        if (ctx.message.reply_to_message.sticker?.emoji) {
           emoji = ctx.message.reply_to_message.sticker.emoji;
         }
       }

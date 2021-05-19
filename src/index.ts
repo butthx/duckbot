@@ -89,24 +89,12 @@ if (parseBoolean(process.env["WEBHOOK"])) {
     })
   app.get("/cron",
     (req, res)=> {
-      cron.schedule('*/5 * * * * *', () => {
-        let url = String(process.env["URL"])
-        if (url.endsWith("/")) {
-          fetch(`${url}cron`)
-        } else {
-          fetch(`${url}/cron`)
-        }
-        if(process.env["APIURL"]) {
-          fetch(process.env["APIURL"])
-        }
-        return 
-      });
       res.status(200).send("Running..")
     })
   app.use(bot.webhookCallback("/"))
   bot.telegram.setWebhook(process.env["URL"] as string)
 
-  cron.schedule('*/5 * * * * *', () => {
+  cron.schedule('*/3 * * * * *', () => {
     let url = String(process.env["URL"])
     if (url.endsWith("/")) {
       fetch(`${url}cron`)
