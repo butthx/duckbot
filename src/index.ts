@@ -91,10 +91,10 @@ if (parseBoolean(process.env["WEBHOOK"])) {
     (req, res)=> {
       res.status(200).send("Running..")
     })
-  app.use(bot.webhookCallback("/"))
-  bot.telegram.setWebhook(process.env["URL"] as string)
+  //app.use(bot.webhookCallback("/"))
+  //bot.telegram.setWebhook(process.env["URL"] as string)
 
-  cron.schedule('*/3 * * * * *', () => {
+  /*cron.schedule('* * * * * *', () => {
     let url = String(process.env["URL"])
     if (url.endsWith("/")) {
       fetch(`${url}cron`)
@@ -105,7 +105,7 @@ if (parseBoolean(process.env["WEBHOOK"])) {
       fetch(process.env["APIURL"])
     }
     return 
-  });
+  });*/
 }
 
 let aliveTime = 0
@@ -156,7 +156,7 @@ bot.command("cal", cal)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
 if (parseBoolean(process.env["WEBHOOK"])) {
-  //bot.launch() // uncommand this line if you need deploy in glitch.com 
+  bot.launch() // uncommand this line if you need deploy in glitch.com 
   app.listen(port, ()=> {
     console.log("\x1b[34m%s\x1b[0m", "[WEBHOOK] bot running..")
   })
