@@ -17,7 +17,7 @@ export async function people(ctx){
     if(!process.env["APIURL"]) return
     if(!process.env["APITOKEN"]) return
     if(ctx.chat.type == "private") return
-    let msg = await replyToMessage(ctx,"Checking out all people in here!")
+    let msg = await replyToMessage(ctx,`Checking out all people in here!\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
     let res = await fetch(process.env["APIURL"] as string,{
       method: "POST",
       headers: {
@@ -42,11 +42,10 @@ export async function people(ctx){
     Within month  : ${json.results.within_month} People,
     Long time ago : ${json.results.long_time_ago} People,
     restricted    : ${json.results.restricted} People,
-    Ghost         : ${json.results.ghost} People.</code>
-    `
+    Ghost         : ${json.results.ghost} People.</code>\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
     return ctx.telegram.editMessageText(msg.chat.id,msg.message_id,undefined,text,{parse_mode : "HTML"})
   }catch(error){
-    reportError(error,ctx)
+    return reportError(error,ctx)
   }
 }
 
