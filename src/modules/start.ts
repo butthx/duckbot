@@ -196,16 +196,35 @@ export async function all(ctx){
   let langs = await getLang(ctx)
   let c = await getPing(ctx)
   try{
-    let text = "Hey All Member!"
-    let mention = ""
+    let msg = await replyToMessage(ctx,`WARNING! I will probably spam to mentioning all members in this group.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
+    //let mention = ""
     let count = await ctx.getChatMembersCount()
     let result = await client.getParticipants(ctx.chat.id,{
         limit : count
       })
+    let arr = new Array()
     for(let i=0; i< result.length; i++){
-      mention += `<a href="tg://user?id=${result[i].id}">&#x200b;</a>`
+      if(!result[i].bot){
+        arr.push(result[i])
+      }
     }
-    return ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>${mention}`)
+    let final = await buildArray(arr,5)
+    for(let i=0; i<final.length; i++){
+      let d = final[i]
+      let mention = ""
+      for(let e=0; e< d.length; e++){
+        let f = d[e]
+        if(f.username){
+          mention += `@${f.username} `
+        }else{
+          mention +=`<a href="tg://user?id=${f.id}">${f.firstName}</a> `
+        }
+      }
+      ctx.replyWithHTML(`<b>Hey All Member!</b>\n\n${mention}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,{
+        reply_to_message_id : msg.message_id
+      })
+    }
+    //return ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>${mention}`)
   }catch(error){
     return reportError(error,ctx)
   }
