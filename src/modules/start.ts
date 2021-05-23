@@ -199,12 +199,11 @@ export async function all(ctx){
     let text = "Hey All Member!"
     let mention = ""
     let count = await ctx.getChatMembersCount()
-    for(let i = 0; i < count; i++){
-      let result = await client.getParticipants(ctx.chat.id,{
-          limit : 1
-        })
-      let user_id = result[0].id
-      mention += `<a href="tg://user?id=${user_id}">&#x200b;</a>`
+    let result = await client.getParticipants(ctx.chat.id,{
+        limit : count
+      })
+    for(let i=0; i< result.length; i++){
+      mention += `<a href="tg://user?id=${result[i].id}">&#x200b;</a>`
     }
     return ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>${mention}`)
   }catch(error){

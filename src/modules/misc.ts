@@ -1429,6 +1429,12 @@ export function parseBoolean(_string) {
     if (!process.env["BETA"]) {
       none.push("BETA")
     }
+    if (!process.env["API_ID"]) {
+      none.push("API_ID")
+    }
+    if (!process.env["API_HASH"]) {
+      none.push("API_HASH")
+    }
     if (!process.env["USERNAME"]) {
       none.push("USERNAME")
     }

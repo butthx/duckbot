@@ -41,6 +41,16 @@
     "OWNER_ID" : {
       "description":"USER_ID FROM OWNER BOT. THIS WILL MAKE OWNER AS A SUDO USER.",
       "required":true
+    },
+    "BETA":{
+      "description" : "VERSION",
+      "value" : "false"
+    },
+    "API_HASH": {
+      "required": true
+    },
+    "API_ID": {
+      "required": true
     }
   }
 }
