@@ -1,12 +1,7 @@
-import {
-  replyToMessage,
-  getPing,
-  getLang,
-  buildArray,
-  getCurrentLang,
-  isAdmin,
-  reportError
-} from "./misc"
+import {replyToMessage,getPing,getLang,buildArray,getCurrentLang,isAdmin,reportError} from "./misc"
+import {client} from "../"
+import {Api} from "telegram";
+
 export async function start(ctx) {
   let c = await getPing(ctx)
   let langs = await getLang(ctx)
@@ -194,5 +189,25 @@ export async function cal(ctx) {
     return replyToMessage(ctx, "...This is a simple calculator that you can use to calculate...", keyboard)
   }catch(error) {
     return reportError(error, ctx)
+  }
+}
+
+export async function all(ctx){
+  let langs = await getLang(ctx)
+  let c = await getPing(ctx)
+  try{
+    let text = "Hey All Member!"
+    let mention = ""
+    let count = await ctx.getChatMembersCount()
+    for(let i = 0; i < count; i++){
+      let result = await client.getParticipants(ctx.chat.id,{
+          limit : 1
+        })
+      let user_id = result[0].id
+      mention += `<a href="tg://user?id=${user_id}">&#x200b;</a>`
+    }
+    return ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>${mention}`)
+  }catch(error){
+    return reportError(error,ctx)
   }
 }
