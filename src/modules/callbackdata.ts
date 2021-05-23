@@ -12,6 +12,7 @@ import groups from "./database/groups"
 import privates from "./database/private"
 export async function useLang(ctx) {
   let langs = await getLang(ctx)
+  let c = await getPing(ctx)
   try {
     let datas = ctx.callbackQuery.data
     let lang = datas.replace(/^setlang\s+/i, "").trim()
@@ -39,15 +40,16 @@ export async function useLang(ctx) {
     }
     langs = await getLang(ctx)
     let currentLang = await getCurrentLang(ctx)
-    return ctx.editMessageText(langs.useLang.replace(/\{lang\}/i, currentLang), {
+    return ctx.editMessageText(`${langs.useLang.replace(/\{lang\}/i, currentLang)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
       parse_mode: "HTML"
     })
   }catch(error) {
-    ctx.editMessageText(langs.useLangError)
+    ctx.editMessageText(`${langs.useLangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
     return reportError(error, ctx)
   }
 }
 export async function donate(ctx) {
+  let c = await getPing(ctx)
   try {
     let langs = await getLang(ctx)
     let keyboard = [[{
@@ -55,7 +57,7 @@ export async function donate(ctx) {
       url: "https://nyawer.co/Butthx",
       hide: true
     }]]
-    return ctx.editMessageText(langs.textDonate, {
+    return ctx.editMessageText(`${langs.textDonate}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
       reply_markup: {
         inline_keyboard: keyboard
       }})
@@ -65,6 +67,7 @@ export async function donate(ctx) {
 }
 export async function settingsCallback(ctx) {
   let langs = await getLang(ctx)
+  let c = await getPing(ctx)
   try {
     let json = {
       "true": "✅",
@@ -95,7 +98,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -103,7 +106,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -111,7 +114,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -119,7 +122,7 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
@@ -127,11 +130,11 @@ export async function settingsCallback(ctx) {
         data.admins = await ctx.telegram.getChatAdministrators(chat_id)
         data.dateAdmin = Date.now()
         data = await data.save()
-        return ctx.answerCbQuery(langs.adminCacheSuccess, {
+        return ctx.answerCbQuery(`${langs.adminCacheSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
           show_alert: true
         })
       }
-      return ctx.answerCbQuery(langs.adminCacheFailed, {
+      return ctx.answerCbQuery(`${langs.adminCacheFailed}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, {
         show_alert: true, cache_time: 60
       })
     }
@@ -304,6 +307,183 @@ export async function settingsCallback(ctx) {
       return ctx.editMessageReplyMarkup({
         inline_keyboard: keyboard
       })
+    }catch(error) {
+      return reportError(error, ctx)
+    }
+  }
+
+  export async function handleCal(ctx) {
+    let c = await getPing(ctx)
+    try {
+      let keyboard = [
+        [{
+          text: "Del",
+          callback_data: "cal del",
+          hide: true
+        },
+          {
+            text: "Clear",
+            callback_data: "cal clear",
+            hide: true
+          }],
+        [{
+          text: "(",
+          callback_data: "cal add (",
+          hide: true
+        },
+          {
+            text: ")",
+            callback_data: "cal add )",
+            hide: true
+          }],
+        [{
+          text: "7",
+          callback_data: "cal add 7",
+          hide: true
+        },
+          {
+            text: "8",
+            callback_data: "cal add 8",
+            hide: true
+          },
+          {
+            text: "9",
+            callback_data: "cal add 9",
+            hide: true
+          },
+          {
+            text: "÷",
+            callback_data: "cal add ÷",
+            hide: true
+          }],
+        [{
+          text: "4",
+          callback_data: "cal add 4",
+          hide: true
+        },
+          {
+            text: "5",
+            callback_data: "cal add 5",
+            hide: true
+          },
+          {
+            text: "6",
+            callback_data: "cal add 6",
+            hide: true
+          },
+          {
+            text: "×",
+            callback_data: "cal add ×",
+            hide: true
+          }],
+        [{
+          text: "1",
+          callback_data: "cal add 1",
+          hide: true
+        },
+          {
+            text: "2",
+            callback_data: "cal add 2",
+            hide: true
+          },
+          {
+            text: "3",
+            callback_data: "cal add 3",
+            hide: true
+          },
+          {
+            text: "-",
+            callback_data: "cal add -",
+            hide: true
+          }],
+        [{
+          text: ".",
+          callback_data: "cal add .",
+          hide: true
+        },
+          {
+            text: "0",
+            callback_data: "cal add 0",
+            hide: true
+          },
+          {
+            text: "=",
+            callback_data: "cal sum",
+            hide: true
+          },
+          {
+            text: "+",
+            callback_data: "cal add +",
+            hide: true
+          }]
+      ]
+      let cb = ctx.callbackQuery
+      let cbData = cb.data
+      let cbText = cb.message.text.split("\n")
+      let spl = cbData.split(" ")
+      if (cbText.length == 1) {
+        if (spl[1] == "clear" || spl[1] == "del" || spl[1] == "sum" || spl[2] == "-" || spl[2] == "+" || spl[2] == "×" || spl[2] == "÷" || spl[2] == ".") return
+        let text = `${spl[2]}\n\n${cbText[0]}`
+        return ctx.editMessageText(text, {
+          reply_markup: {
+            inline_keyboard: keyboard
+          }
+        })
+      }
+      if (cbText.length == 3) {
+        let count = cbText[0]
+        if (spl[1] == "clear") {
+          let text = `${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+        if (spl[1] == "del") {
+          let spliceText = count.replace(count[count.length -1], "")
+          let text = `${spliceText.trim()}\n\n${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+        if (spl[1] == "sum") {
+          let sum = ""
+          try {
+            let ev = eval(cbText[0].replace(/\×/gm, "*").replace(/\÷/gm, "/"))
+            sum = ev
+          }catch(e) {
+            sum = ""
+          }
+          let text = `${sum}\n\n${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+        if (spl[2] == "-" || spl[2] == "+" || spl[2] == "×" || spl[2] == "÷" || spl[2] == ".") {
+          if (count[count.length -1].match(/(\÷)|(\×)|(\-)|(\+)|(\.)/)) {
+            return
+          } else {
+            let text = `${cbText[0]}${spl[2]}\n\n${cbText[2]}`
+            return ctx.editMessageText(text, {
+              reply_markup: {
+                inline_keyboard: keyboard
+              }
+            })
+          }
+        } else {
+          let text = `${cbText[0]}${spl[2]}\n\n${cbText[2]}`
+          return ctx.editMessageText(text, {
+            reply_markup: {
+              inline_keyboard: keyboard
+            }
+          })
+        }
+      }
     }catch(error) {
       return reportError(error, ctx)
     }

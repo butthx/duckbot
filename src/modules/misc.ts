@@ -19,10 +19,24 @@ import sudos from "./database/sudos"
 dotenv.config()
 export const swClient = new Spamwatch.Client(process.env.SPAMWATCH_TOKEN as string)
 export function getPing(ctx) {
-  let date = Date.now() / 1000
-  let msgd = ctx.message.date
-  let p = date - msgd
-  return `${p.toFixed(3)} s`
+  if (ctx.message) {
+    let date = Date.now() / 1000
+    let msgd = ctx.message.date
+    let p = date - msgd
+    return `${p.toFixed(3)} s`
+  }
+  if (ctx.callbackQuery) {
+    let date = Date.now() / 1000
+    let msgd = ctx.callbackQuery.message.date
+    let p = date - msgd
+    return `${p.toFixed(3)} s`
+  }
+  if (ctx.edited_message) {
+    let date = Date.now() / 1000
+    let msgd = ctx.edited_message.date
+    let p = date - msgd
+    return `${p.toFixed(3)} s`
+  }
 }
 export function replyToMessage(ctx, text, keyboard: any = false, parse_mode = "HTML", web = true) {
   if (ctx.message) {
@@ -628,6 +642,7 @@ export async function das(ctx) {
     let cas = await rCas.json()
     let swBan = await swClient.getBan(ctx.from.id)
     let admins = await tagAdmins(ctx)
+    let c = await getPing(ctx)
     let data = await groups.findOne({
       chat_id: ctx.chat.id
     })
@@ -665,7 +680,7 @@ export async function das(ctx) {
           can_pin_messages: false
         }
       })
-      return replyToMessage(ctx, text)
+      return replyToMessage(ctx, `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
     }
   }catch(error) {
     return
@@ -675,6 +690,7 @@ export async function duckbotmata(ctx) {
   try {
     if ("message" in ctx.update) {
       let msg = ctx.update.message
+      let c = await getPing(ctx)
       let chat_id = msg.chat.id
       let user_id = msg.from.id
       let api = await check(msg)
@@ -713,7 +729,7 @@ export async function duckbotmata(ctx) {
             changeUsername = true
           }
           if (changeUsername || changeLast_name || changeFirst_name) {
-            replyToMessage(ctx, text, false)
+            replyToMessage(ctx, `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
           }
           data.value = history.length
           data = await data.save()
@@ -768,7 +784,7 @@ export async function duckbotmata(ctx) {
           }
           if (changeUsername || changeLast_name || changeFirst_name) {
             if (notif) {
-              replyToMessage(ctx, text, false)
+              replyToMessage(ctx, `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
             }
           }
           data.users.splice(index, 1)
@@ -1412,6 +1428,12 @@ export function parseBoolean(_string) {
     }
     if (!process.env["BETA"]) {
       none.push("BETA")
+    }
+    if (!process.env["API_ID"]) {
+      none.push("API_ID")
+    }
+    if (!process.env["API_HASH"]) {
+      none.push("API_HASH")
     }
     if (!process.env["USERNAME"]) {
       none.push("USERNAME")

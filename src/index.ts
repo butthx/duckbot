@@ -3,91 +3,41 @@ import dotenv from 'dotenv'
 dotenv.config()
 import cron from "node-cron"
 import fetch from "node-fetch"
-import {
-  replyToMessage,
-  connect,
-  saveUser,
-  reportError,
-  buildKeyboard,
-  parseBoolean,
-  handleEnv
-} from "./modules/misc"
-handleEnv()
+import {Logger} from "telegram/extensions";
+import {TelegramClient} from "telegram";
+import {StringSession} from "telegram/sessions";
+import {NewMessage} from "telegram/events";
+import {NewMessageEvent} from "telegram/events/NewMessage";
+import {Message} from 'telegram/tl/custom/message';
 import mongoose from "mongoose"
 import express from "express"
-import {
-  Telegraf
-} from 'telegraf'
-import {
-  start,
-  ping,
-  setLang
-} from "./modules/start"
-import {
-  tesseract,
-  ocr
-} from "./modules/ocr"
-import {
-  useLang,
-  donate,
-  settingsCallback
-} from "./modules/callbackdata"
-import {
-  tr
-} from "./modules/translate"
-import {
-  adminCache,
-  settings,
-  handleSettings,
-  reportAdmin,
-  connecting
-} from "./modules/admin"
-import {
-  getNotes,
-  saveNotes,
-  removeNotes,
-  removeNotesAll
-} from "./modules/notes"
-import {
-  getFilters,
-  saveFilters,
-  removeFilters,
-  removeFiltersAll
-} from "./modules/filters"
-
-import {
-  npm
-} from "./modules/npm"
-
-import {
-  getTTS
-} from "./modules/tts"
-import {
-  setUsername
-} from "./modules/setusername"
+import {Telegraf} from 'telegraf'
+import {replyToMessage,connect,saveUser,reportError,buildKeyboard,parseBoolean,handleEnv,getPing} from "./modules/misc"
+handleEnv()
+import {start,ping,cal,setLang,all} from "./modules/start"
+import {tesseract,ocr} from "./modules/ocr"
+import {useLang,donate,settingsCallback,handleCal} from "./modules/callbackdata"
+import {tr} from "./modules/translate"
+import {adminCache,settings,handleSettings,reportAdmin,connecting} from "./modules/admin"
+import {getNotes,saveNotes,removeNotes,removeNotesAll} from "./modules/notes"
+import {getFilters,saveFilters,removeFilters,removeFiltersAll} from "./modules/filters"
+import {npm} from "./modules/npm"
+import {getTTS} from "./modules/tts"
+import {setUsername} from "./modules/setusername"
 import update from "./modules/update"
-import {
-  purge
-} from "./modules/purge"
-import {
-  kang
-} from "./modules/kang"
-
+import {purge} from "./modules/purge"
+import {kang} from "./modules/kang"
+//import {people} from "./modules/people"
 connect()
+
 const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
+let session = ""
+Logger.setLevel("warn")
+export const client = new TelegramClient(new StringSession(session),Number(process.env.API_ID),String(process.env.API_HASH),{connectionRetries: 5})
+
 const app = express()
 let port = Number(process.env["PORT"]) || 3000
 if (parseBoolean(process.env["WEBHOOK"])) {
-
-  cron.schedule('30 * * * * *', () => {
-    let url = String(process.env["URL"])
-    if (url.endsWith("/")) {
-      return fetch(`${url}cron`)
-    } else {
-      return fetch(`${url}/cron`)
-    }
-  });
-
   app.get("/",
     (req, res)=> {
       res.status(403).redirect("https://butthx.vercel.app")
@@ -96,8 +46,21 @@ if (parseBoolean(process.env["WEBHOOK"])) {
     (req, res)=> {
       res.status(200).send("Running..")
     })
-  app.use(bot.webhookCallback("/"))
-  bot.telegram.setWebhook(process.env["URL"] as string)
+  //app.use(bot.webhookCallback("/"))
+  //bot.telegram.setWebhook(process.env["URL"] as string)
+
+  /*cron.schedule('* * * * * *', () => {
+    let url = String(process.env["URL"])
+    if (url.endsWith("/")) {
+      fetch(`${url}cron`)
+    } else {
+      fetch(`${url}/cron`)
+    }
+    if(process.env["APIURL"]) {
+      fetch(process.env["APIURL"])
+    }
+    return 
+  });*/
 }
 
 let aliveTime = 0
@@ -108,9 +71,12 @@ let aliveInterval = setInterval(()=> {
 
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
+bot.hears(new RegExp(`^\@all`,"i"),all)
 bot.hears(new RegExp(`\#setusername(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`, ""), setUsername)
 bot.hears(new RegExp(`\@admin(s)?(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`), reportAdmin)
 bot.action(/setlang\s+(.*)$/i, useLang)
+bot.action("setlang", setLang)
+bot.action(/cal(.*)/, handleCal)
 bot.action("donate", donate)
 bot.action(/setting\s+(.*)/i, settingsCallback)
 bot.command("setlang", setLang)
@@ -135,18 +101,31 @@ bot.command("tts", getTTS)
 bot.command("update", update)
 bot.command("purge", purge)
 bot.command("connect", connecting)
-bot.command(["kang", "copy"], kang)
+bot.command(["kang", "curi"], kang)
+//bot.command("people",people)
 bot.command("atime", async (ctx)=> {
-  return replyToMessage(ctx, `Alive ${aliveTime} seconds.\nAlive Date: ${aliveDate}`)
+  let c = await getPing(ctx)
+  let date = new Date(aliveTime * 1000).toUTCString().split(" ")
+  let d = date[4].split(":")
+  let e = date[1]
+  return replyToMessage(ctx, `Alive <code>${Number(e) -1}</code> Day <code>${d[0]}</code> Hours <code>${d[1]}</code> Minutes <code>${d[2]}</code> Seconds\nSince:\n<b>${aliveDate}</b>\nServer Uptime : <code>${Math.floor(process.uptime())}</code> Seconds\n\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
 })
+bot.command("cal", cal)
 //bot.on("inline_query", inline_query)
 bot.catch(reportError)
+async function run(){
+  
+}
+client.start({
+  botAuthToken : String(process.env.BOT_TOKEN)
+})
 if (parseBoolean(process.env["WEBHOOK"])) {
+  bot.launch(/*{dropPendingUpdates:true}*/) // uncommand this line if you need deploy in glitch.com 
   app.listen(port, ()=> {
     console.log("\x1b[34m%s\x1b[0m", "[WEBHOOK] bot running..")
   })
 } else {
-  bot.launch().then(()=> {
+  bot.launch({dropPendingUpdates:true}).then(()=> {
     console.log("\x1b[35m%s\x1b[0m", "[POLLING] bot running..")
   })
 }

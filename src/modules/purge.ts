@@ -12,22 +12,25 @@ import {
   reportError,
   getLang,
   replyToMessage,
-  isAdmin
+  isAdmin,
+  getPing,
+  parseBoolean
 } from "./misc"
 
 let jobs = new Queue() // defines the constructor of the duckbot queue
 
 export async function purge(ctx) {
   let langs = await getLang(ctx)
+  let c = await getPing(ctx)
   try {
     if (!ctx.message.reply_to_message) return replyToMessage(ctx, langs.mustReply)
     if (ctx.chat.type !== "private") {
       if (!await isAdmin(ctx)) {
-        return replyToMessage(ctx, langs.userNonAdmin)
+        return replyToMessage(ctx, `${langs.userNonAdmin}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
       }
     }
     let split = ctx.message.text.split(" ")
-    let silent = split[1] || false
+    let silent = await parseBoolean(split[1])
     let now = ctx.message.message_id
     let yesterday = ctx.message.reply_to_message.message_id
     let abs = Math.abs(now - yesterday)
@@ -40,12 +43,14 @@ export async function purge(ctx) {
       }, (now, list)=> {
         ctx.telegram.deleteMessage(now.chat_id, now.message_id).catch((e)=> {
           failed ++
-          return e
         })
       })
     }
     if (!silent) {
-      return replyToMessage(ctx, langs.purgeSuccess.replace(/\{success\}/gmi, Math.floor(abs - failed)).replace(/\{failed\}/gmi, failed))
+      let msg = await ctx.replyWithHTML(`${langs.purgeSuccess.replace(/\{success\}/gmi, Math.floor(abs - failed)).replace(/\{failed\}/gmi, failed)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
+      setTimeout(()=> {
+        ctx.deleteMessage(msg.message_id)
+      }, 2000)
     }
     return
   }catch(error) {

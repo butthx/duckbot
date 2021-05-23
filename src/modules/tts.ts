@@ -4,7 +4,8 @@ import {
   reportError,
   replyToMessage,
   getCurrentLang,
-  isIso
+  isIso,
+  getPing
 } from "./misc"
 import https from "https"
 import fs from "fs"
@@ -12,9 +13,10 @@ import path from "path"
 
 export async function getTTS(ctx) {
   let langs = await getLang(ctx)
+  let c = await getPing(ctx)
   try {
-    if (!ctx.message.reply_to_message) return replyToMessage(ctx, langs.mustReply, false)
-    if (!ctx.message.reply_to_message.text) return replyToMessage(ctx, langs.mustReply, false)
+    if (!ctx.message.reply_to_message) return replyToMessage(ctx, `${langs.mustReply}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
+    if (!ctx.message.reply_to_message.text) return replyToMessage(ctx, `${langs.mustReply}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
     let text = ctx.message.text.split(" ")
     let lang = text[1] || await getCurrentLang(ctx)
     let slow = Boolean(text[2]) || false
@@ -27,7 +29,7 @@ export async function getTTS(ctx) {
         slow = Boolean(lang)
         lang = await getCurrentLang(ctx)
       } else {
-        return replyToMessage(ctx, langs.orcLangN.replace(/\{langs\}/gmi, lang), false)
+        return replyToMessage(ctx, `${langs.orcLangN.replace(/\{langs\}/gmi, lang)}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       }
     }
     let textTts = ctx.message.reply_to_message.text
@@ -41,7 +43,7 @@ export async function getTTS(ctx) {
       let file = fs.createWriteStream(`./download/${file_name}`)
       res.pipe(file)
       file.on("error", async (error)=> {
-        return replyToMessage(ctx, langs.ocrError, false)
+        return replyToMessage(ctx, `${langs.ttsError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
       })
       file.on("finish", async ()=> {
         await ctx.replyWithAudio({
@@ -54,7 +56,7 @@ export async function getTTS(ctx) {
     })
     return
   }catch(error) {
-    replyToMessage(ctx, langs.ttsError, false)
+    replyToMessage(ctx, `${langs.ttsError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
     return reportError(error, ctx)
   }
 }
