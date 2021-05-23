@@ -29,9 +29,8 @@
       "description":"API KEY FROM OCR SPACE",
       "required":true
     },
-    "WEBHOOK_URL":{
+    "URL":{
       "description":"URL FROM YOUR APPS TO SET WEBHOOK. CHANGE <your app name> WITH YOUR HEROKU APP NAME.",
-      "required":true,
       "value":"https://<your app name>.herokuapp.com"
     },
     "WEBHOOK" : {
@@ -51,6 +50,10 @@
     },
     "API_ID": {
       "required": true
+    },
+    "USERNAME":{
+      "description":"YOUR BOT USERNAME.",
+      "required":true
     }
   }
 }
