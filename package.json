@@ -12,6 +12,7 @@
   "author": "butthx",
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/vision": "^2.3.2",
     "@vitalets/google-translate-api": "^7.0.0",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.6",
@@ -19,6 +20,7 @@
     "express": "^4.17.1",
     "google-tts-api": "^2.0.2",
     "jimp": "^0.16.1",
+    "js-yaml": "^4.0.0",
     "lipo": "^2.0.0",
     "mongoose": "^5.11.20",
     "node-cron": "^3.0.0",
@@ -27,8 +29,7 @@
     "spamwatch": "^0.4.0",
     "telegraf": "^4.3.0",
     "telegram": "^1.5.16",
-    "tesseract.js": "^2.1.4",
-    "js-yaml": "^4.0.0"
+    "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
     "@types/mongoose": "^5.10.4",

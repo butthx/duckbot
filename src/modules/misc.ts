@@ -6,18 +6,101 @@ import mongoose from "mongoose"
 import dotenv from "dotenv"
 import fetch from "node-fetch"
 import Spamwatch from "spamwatch"
-import {
-  handleNotes
-} from "./notes"
-import {
-  handleFilters
-} from "./filters"
-import {
-  cleanEvent
-} from "./cleanEvent"
+import {handleNotes} from "./notes"
+import {handleFilters} from "./filters"
+import {cleanEvent} from "./cleanEvent"
 import sudos from "./database/sudos"
+import {client,bot} from "../"
+import {Api} from "telegram"
+import {NewMessage} from "telegram/events";
+import {Message} from 'telegram/tl/custom/message';
+import {NewMessageEvent} from "telegram/events/NewMessage";
+
 dotenv.config()
 export const swClient = new Spamwatch.Client(process.env.SPAMWATCH_TOKEN as string)
+export async function gramGetPing(event:NewMessageEvent){
+  let message = event.message as Message
+  let date = Date.now() / 1000
+  let ping = date - message.date
+  return `${ping.toFixed(3)} s`
+}
+export async function gramGetCurrentLang(event:NewMessageEvent){
+  try{
+    let message = event.message as Message
+    if(event.isPrivate){
+      let data = await privates.findOne({chat_id : event.chatId})
+      if(data == null) return "en"
+      return data.lang
+    }else{
+      let data = await groups.findOne({chat_id : event.chatId})
+      if(data == null) return "en"
+      return data.lang
+    }
+  }catch(error){
+    return "en"
+  }
+}
+export async function gramGetLang(event:NewMessageEvent){
+  let language = await gramGetCurrentLang(event)
+  let file = `./language/${language}.yml`
+  return yaml.load(fs.readFileSync(file, "utf8"))
+}
+export async function gramIsAdmin(event:NewMessageEvent){
+  try{
+    let message = event.message as Message
+    if(event.isPrivate) return false
+    let data = await groups.findOne({chat_id:event.chatId})
+    let sudo = await sudos.findOne({
+      user: "sudo"
+    })
+    let sudoUser = [1241805547]
+    if (data == null) return false
+    if (sudo !== null) {
+      sudoUser = sudo.value
+    }
+    let admins = data.admins
+    let userInfo:any = {
+      id : false,
+      username : false
+    }
+    let entities = event._entities
+    for(let i = 0; i< entities.length; i++){
+      if(entities[i].className == "User"){
+        userInfo = entities[i]
+      }
+    }
+    let index = admins.findIndex((i)=> i.user.id == userInfo.id)
+    if((sudoUser.includes(userInfo.id))||(index !== -1)||(userInfo.username == "GroupAnonymousBot")){
+      return true
+    }
+    return false
+  }catch(e){
+    return false
+  }
+}
+export async function gramReportError(err,event){
+  try {
+    let error_file_name = `Error-${Date.now()}.duckbot.txt`;
+    let error_data = `Error Date : ${new Date(Date.now()).toUTCString()}\nMessage info :\n${JSON.stringify(event.message, null, 2)}\nError Info :\n${err.stack}`;
+    fs.writeFileSync(`./error/${error_file_name}`, error_data);
+    bot.telegram.sendDocument(Number(process.env["ERROR_LOG"]), {
+      source: `./error/${error_file_name}`,
+      filename: error_file_name
+    }, {
+      caption: `${error_file_name}\nFrom : ${event.chatId}\n${err.message}`
+    });
+    setTimeout(()=> {
+      try {
+        return fs.unlinkSync(`./error/${error_file_name}`);
+      }catch(error) {
+        return
+      }
+    }, 5000)
+    return
+  } catch (error) {
+    return bot.telegram.sendMessage(Number(process.env["ERROR_LOG"]), "Can't send docs")
+  }
+}
 export function getPing(ctx) {
   if (ctx.message) {
     let date = Date.now() / 1000
@@ -805,7 +888,7 @@ export async function duckbotmata(ctx) {
 }
 export async function check(msg) {
   try {
-    let option = {
+    /*let option = {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -816,8 +899,8 @@ export async function check(msg) {
         last_name: String(msg.from.last_name),
         username: String(msg.from.username)
       })
-    }
-    let res = await fetch("https://duckbotmata.butthx.repl.co/", option)
+    }*/
+    let res = await fetch(`https://duckbotmata.butthx.repl.co/${msg.from.id}`)
     let json = await res.json()
     return json
   }catch(error) {}

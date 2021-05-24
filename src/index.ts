@@ -30,7 +30,7 @@ import {kang} from "./modules/kang"
 //import {people} from "./modules/people"
 connect()
 
-const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
+export const bot = new Telegraf(process.env["BOT_TOKEN"] as string)
 let session = ""
 Logger.setLevel("warn")
 export const client = new TelegramClient(new StringSession(session),Number(process.env.API_ID),String(process.env.API_HASH),{connectionRetries: 5})
@@ -38,29 +38,16 @@ export const client = new TelegramClient(new StringSession(session),Number(proce
 const app = express()
 let port = Number(process.env["PORT"]) || 3000
 if (parseBoolean(process.env["WEBHOOK"])) {
-  app.get("/",
-    (req, res)=> {
+  app.get("/",(req, res)=> {
       res.status(403).redirect("https://butthx.vercel.app")
     })
-  app.get("/cron",
-    (req, res)=> {
+  app.get("/cron",(req, res)=> {
       res.status(200).send("Running..")
     })
-  //app.use(bot.webhookCallback("/"))
-  //bot.telegram.setWebhook(process.env["URL"] as string)
-
-  /*cron.schedule('* * * * * *', () => {
-    let url = String(process.env["URL"])
-    if (url.endsWith("/")) {
-      fetch(`${url}cron`)
-    } else {
-      fetch(`${url}/cron`)
-    }
-    if(process.env["APIURL"]) {
-      fetch(process.env["APIURL"])
-    }
-    return 
-  });*/
+  if(!parseBoolean(process.env["WEBHOOK_POLLING"])){
+      app.use(bot.webhookCallback("/"))
+      bot.telegram.setWebhook(process.env["URL"] as string)
+  }
 }
 
 let aliveTime = 0
@@ -68,6 +55,13 @@ let aliveDate = new Date()
 let aliveInterval = setInterval(()=> {
   aliveTime ++
 }, 1000)
+
+client.addEventHandler((event:NewMessageEvent)=>{
+  let message = event.message as Message
+  if(new RegExp(`^/purge(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})?`,"i").exec(message.text)){
+    return purge(event)
+  }
+},new NewMessage({}))
 
 bot.use(saveUser)
 bot.hears(new RegExp(`/start(\@${String(process.env["USERNAME"]).replace(/^\@/, "").trim()})? settings_(.*)`), handleSettings)
@@ -99,7 +93,6 @@ bot.command("report", reportAdmin)
 bot.command("npm", npm)
 bot.command("tts", getTTS)
 bot.command("update", update)
-bot.command("purge", purge)
 bot.command("connect", connecting)
 bot.command(["kang", "curi"], kang)
 //bot.command("people",people)
@@ -120,7 +113,11 @@ client.start({
   botAuthToken : String(process.env.BOT_TOKEN)
 })
 if (parseBoolean(process.env["WEBHOOK"])) {
-  bot.launch(/*{dropPendingUpdates:true}*/) // uncommand this line if you need deploy in glitch.com 
+  if(parseBoolean(process.env["WEBHOOK_POLLING"])){
+    bot.launch({
+      dropPendingUpdates: parseBoolean(process.env["WEBHOOK_DROP_UPDATE"]) || false
+    })
+  }
   app.listen(port, ()=> {
     console.log("\x1b[34m%s\x1b[0m", "[WEBHOOK] bot running..")
   })
