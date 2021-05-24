@@ -777,6 +777,7 @@ export async function duckbotmata(ctx) {
       let chat_id = msg.chat.id
       let user_id = msg.from.id
       let api = await check(msg)
+      //console.log(api)
       let history = api.history
       let mention = `<a href="tg://user?id=${user_id}">${user_id}</a>`
       if (msg.chat.type == "private") {
@@ -791,6 +792,7 @@ export async function duckbotmata(ctx) {
           Data.value = history.length
           data = await Data.save()
         }
+        //console.log(data)
         if (history.length > Number(data.value)) {
           let changeFirst_name = false
           let changeLast_name = false
@@ -812,7 +814,7 @@ export async function duckbotmata(ctx) {
             changeUsername = true
           }
           if (changeUsername || changeLast_name || changeFirst_name) {
-            replyToMessage(ctx, `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
+            ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
           }
           data.value = history.length
           data = await data.save()
@@ -833,6 +835,7 @@ export async function duckbotmata(ctx) {
           Data.admins = await ctx.getChatAdministrators()
           data = await Data.save()
         }
+        //console.log(data)
         let notif = Boolean(data.duckbotmata)
         let users = data.users
         let index = users.findIndex((i)=> i.id == user_id)
@@ -867,7 +870,7 @@ export async function duckbotmata(ctx) {
           }
           if (changeUsername || changeLast_name || changeFirst_name) {
             if (notif) {
-              replyToMessage(ctx, `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`, false)
+              ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
             }
           }
           data.users.splice(index, 1)
@@ -883,7 +886,7 @@ export async function duckbotmata(ctx) {
     }
     return;
   }catch(error) {
-    return;
+    return reportError(error,ctx)
   }
 }
 export async function check(msg) {

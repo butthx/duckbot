@@ -29,7 +29,7 @@ adminCacheFailed : "Tidak dapat memperbaharui admin cache. Kamu hanya dapat memp
 adminCacheSuccess: "Berhasil memperbaharui admin cache"
 changeText: "Saya melihat {mention} merubah :"
 changeFirst_name: "\nNama depan dari <b>{old}</b> menjadi <b>{new}</b>"
-changeLirst_name: "\nNama belakang dari <b>{old}</b> menjadi <b>{new}</b>"
+changeLast_name: "\nNama belakang dari <b>{old}</b> menjadi <b>{new}</b>"
 changeUsername: "\nUsername dari <b>{old}</b> menjadi <b>{new}</b>"
 btnSetlang: "Atur bahasa"
 textDonate: "Terimakasih telah mau berdonasi. Donasi ini akan di gunakan untuk memelihara bot dan mengembangkan. Untuk saat ini donasi dapat melalui nyawer.co (IDR)."

@@ -85,6 +85,7 @@ export async function kang(ctx) {
             .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
+              reportError(e,ctx)
               return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {
@@ -111,6 +112,7 @@ export async function kang(ctx) {
             .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
+              reportError(e,ctx)
               return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {
@@ -183,6 +185,7 @@ export async function kang(ctx) {
             .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
+              reportError(e,ctx)
               return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {
@@ -216,6 +219,7 @@ export async function kang(ctx) {
             .catch(async (e) => {
               error = true;
               fs.unlinkSync(`./download/${basename}`);
+              reportError(e,ctx)
               return replyToMessage(ctx, `${langs.kangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`);
             });
             if (!error) {

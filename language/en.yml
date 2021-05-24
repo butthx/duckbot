@@ -29,7 +29,7 @@ adminCacheFailed : "Unable to update admin cache.  You only can update once ever
 adminCacheSuccess : "Successfully updated the admin cache"
 changeText: "I see {mention} change :"
 changeFirst_name: "\nFirst name from <b>{old}</b> to <b>{new}</b>"
-changeLirst_name: "\nLast name from <b>{old}</b> to <b>{new}</b>"
+changeLast_name: "\nLast name from <b>{old}</b> to <b>{new}</b>"
 changeUsername: "\nUsername from <b>{old}</b> to <b>{new}</b>"
 btnSetlang: "Setting language"
 textDonate: "Thank you for donating.  This donation will be used to maintain the bot and develop.  For now, donations can be done via nyawer.co (IDR)."
