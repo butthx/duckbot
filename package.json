@@ -22,7 +22,7 @@
     "jimp": "^0.16.1",
     "js-yaml": "^4.0.0",
     "lipo": "^2.0.0",
-    "mongoose": "^5.11.20",
+    "mongoose": "^5.12.10",
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "ocr-space-api-wrapper": "^1.0.5",
