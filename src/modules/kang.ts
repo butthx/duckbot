@@ -170,7 +170,7 @@ export async function kang(ctx) {
             let error = false;
             if (ctx.message.reply_to_message.photo) {
               let image = await Jimp.read(`./download/${basename}`)
-              await image.resize(512, image.bitmap.height)
+              await image.resize(512, image.bitmap.height).quality(40)
               await image.writeAsync(`./download/${basename}`)
             }
             await ctx.telegram
