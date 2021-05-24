@@ -17,7 +17,7 @@ export async function kang(ctx) {
     if (!ctx.message.reply_to_message) {
       return replyToMessage(ctx, langs.mustReply);
     }
-    let data = await privates.findOne({chat_id:ctx.chat.id})
+    let data = await privates.findOne({chat_id:ctx.from.id})
     if(data == null){
       return replyToMessage(ctx,langs.kangPm,[[{
         text : langs.pmButton,
