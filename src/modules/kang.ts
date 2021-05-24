@@ -17,6 +17,14 @@ export async function kang(ctx) {
     if (!ctx.message.reply_to_message) {
       return replyToMessage(ctx, langs.mustReply);
     }
+    let data = await privates.findOne({chat_id:ctx.chat.id})
+    if(data == null){
+      return replyToMessage(ctx,langs.kangPm,[[{
+        text : langs.pmButton,
+        url : `https://t.me/${ctx.botInfo.username}?start`,
+        hide : true
+      }]])
+    }
     let file_id: any = false;
     if (ctx.message.reply_to_message.sticker) {
       file_id = ctx.message.reply_to_message.sticker.file_id;
