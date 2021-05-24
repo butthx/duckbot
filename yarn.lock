@@ -2353,10 +2353,10 @@ telegraf@^4.3.0:
     sandwich-stream "^2.0.2"
     typegram "^3.2.0"
 
-telegram@^1.5.16:
-  version "1.5.16"
-  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.5.16.tgz#5a60e6ac4af7ded0a62dcd2ae772c546fd561cdb"
-  integrity sha512-+lVdVnUALpSe02mVAWBAp+Cx96+uiCqUpFjOJs6L2ZuRZmdY/23wRmX66Vbxz5e2EW07Se2li6QW8ugAXvc4xA==
+telegram@^1.5.23:
+  version "1.5.23"
+  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.5.23.tgz#afd450b9c2cf20b34d0cc6c8d77b8577c44a0494"
+  integrity sha512-0nh9iA1ufSeLYC8BvEYRFcTUU578zEafN5hDJT2bVGQzImuhZj53Oeb5lE1lx4R2kcaPEHmDR70XDsLVLUJj2w==
   dependencies:
     "@cryptography/aes" "^0.1.1"
     async-mutex "^0.3.0"
