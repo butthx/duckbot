@@ -850,6 +850,7 @@ export async function duckbotmata(ctx) {
         if (index == -1) {
           users.push(obj)
           data = await data.save()
+          index = data.users.findIndex((i)=> i.id == user_id)
         }
         let user = users[index]
         if (history.length > Number(user.value)) {
