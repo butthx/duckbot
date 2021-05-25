@@ -798,6 +798,9 @@ export async function duckbotmata(ctx) {
           let changeLast_name = false
           let changeUsername = false
           let value = history[Number(data.value) -1]
+          if(data.value == 0){
+            value = history[0]
+          }
           let first_name = String(msg.from.first_name)
           let last_name = String(msg.from.last_name)
           let username = String(msg.from.username)
@@ -853,6 +856,9 @@ export async function duckbotmata(ctx) {
           let changeLast_name = false
           let changeUsername = false
           let value = history[Number(user.value) -1]
+          if(user.value == 0){
+            value = history[0]
+          }
           let first_name = String(msg.from.first_name)
           let last_name = String(msg.from.last_name)
           let username = String(msg.from.username)
