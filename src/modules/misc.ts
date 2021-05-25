@@ -777,6 +777,7 @@ export async function duckbotmata(ctx) {
       let chat_id = msg.chat.id
       let user_id = msg.from.id
       let api = await check(msg)
+      if(!api.ok) return
       //console.log(api)
       let history = api.history
       let mention = `<a href="tg://user?id=${user_id}">${user_id}</a>`
@@ -897,7 +898,19 @@ export async function duckbotmata(ctx) {
 }
 export async function check(msg) {
   try {
-    let res = await fetch(`https://duckbotmata.butthx.repl.co/${msg.from.id}`)
+    let option = {
+      method : "POST",
+      headers : {
+        "Content-Type":"application/json"
+      },
+      body : JSON.stringify({
+          id: String(msg.from.id),
+          first_name: String(msg.from.first_name),
+          last_name: String(msg.from.last_name),
+          username: String(msg.from.username)
+        })
+    }
+    let res = await fetch(`https://duckbotmata.butthx.repl.co/`,option)
     let json = await res.json()
     return json
   }catch(error) {}
