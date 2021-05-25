@@ -798,9 +798,9 @@ export async function duckbotmata(ctx) {
           let changeLast_name = false
           let changeUsername = false
           let value = history[Number(data.value) -1]
-          let first_name = msg.from.first_name
-          let last_name = msg.from.last_name
-          let username = msg.from.username
+          let first_name = String(msg.from.first_name)
+          let last_name = String(msg.from.last_name)
+          let username = String(msg.from.username)
           if (String(value.first_name) !== String(first_name)) {
             text += langs.changeFirst_name.replace(/\{old\}/i, String(value.first_name)).replace(/\{new\}/i, String(first_name))
             changeFirst_name = true
@@ -853,9 +853,9 @@ export async function duckbotmata(ctx) {
           let changeLast_name = false
           let changeUsername = false
           let value = history[Number(user.value) -1]
-          let first_name = msg.from.first_name
-          let last_name = msg.from.last_name
-          let username = msg.from.username
+          let first_name = String(msg.from.first_name)
+          let last_name = String(msg.from.last_name)
+          let username = String(msg.from.username)
           if (String(value.first_name) !== String(first_name)) {
             text += langs.changeFirst_name.replace(/\{old\}/i, String(value.first_name)).replace(/\{new\}/i, String(first_name))
             changeFirst_name = true
@@ -891,18 +891,6 @@ export async function duckbotmata(ctx) {
 }
 export async function check(msg) {
   try {
-    /*let option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        id: String(msg.from.id),
-        first_name: String(msg.from.first_name),
-        last_name: String(msg.from.last_name),
-        username: String(msg.from.username)
-      })
-    }*/
     let res = await fetch(`https://duckbotmata.butthx.repl.co/${msg.from.id}`)
     let json = await res.json()
     return json
