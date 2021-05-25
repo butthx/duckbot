@@ -777,6 +777,7 @@ export async function duckbotmata(ctx) {
       let chat_id = msg.chat.id
       let user_id = msg.from.id
       let api = await check(msg)
+      if(!api.ok) return
       //console.log(api)
       let history = api.history
       let mention = `<a href="tg://user?id=${user_id}">${user_id}</a>`
@@ -798,9 +799,12 @@ export async function duckbotmata(ctx) {
           let changeLast_name = false
           let changeUsername = false
           let value = history[Number(data.value) -1]
-          let first_name = msg.from.first_name
-          let last_name = msg.from.last_name
-          let username = msg.from.username
+          if(data.value == 0){
+            value = history[0]
+          }
+          let first_name = String(msg.from.first_name)
+          let last_name = String(msg.from.last_name)
+          let username = String(msg.from.username)
           if (String(value.first_name) !== String(first_name)) {
             text += langs.changeFirst_name.replace(/\{old\}/i, String(value.first_name)).replace(/\{new\}/i, String(first_name))
             changeFirst_name = true
@@ -853,9 +857,12 @@ export async function duckbotmata(ctx) {
           let changeLast_name = false
           let changeUsername = false
           let value = history[Number(user.value) -1]
-          let first_name = msg.from.first_name
-          let last_name = msg.from.last_name
-          let username = msg.from.username
+          if(user.value == 0){
+            value = history[0]
+          }
+          let first_name = String(msg.from.first_name)
+          let last_name = String(msg.from.last_name)
+          let username = String(msg.from.username)
           if (String(value.first_name) !== String(first_name)) {
             text += langs.changeFirst_name.replace(/\{old\}/i, String(value.first_name)).replace(/\{new\}/i, String(first_name))
             changeFirst_name = true
@@ -891,19 +898,19 @@ export async function duckbotmata(ctx) {
 }
 export async function check(msg) {
   try {
-    /*let option = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
+    let option = {
+      method : "POST",
+      headers : {
+        "Content-Type":"application/json"
       },
-      body: JSON.stringify({
-        id: String(msg.from.id),
-        first_name: String(msg.from.first_name),
-        last_name: String(msg.from.last_name),
-        username: String(msg.from.username)
-      })
-    }*/
-    let res = await fetch(`https://duckbotmata.butthx.repl.co/${msg.from.id}`)
+      body : JSON.stringify({
+          id: String(msg.from.id),
+          first_name: String(msg.from.first_name),
+          last_name: String(msg.from.last_name),
+          username: String(msg.from.username)
+        })
+    }
+    let res = await fetch(`https://duckbotmata.butthx.repl.co/`,option)
     let json = await res.json()
     return json
   }catch(error) {}

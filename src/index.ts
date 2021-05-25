@@ -14,7 +14,7 @@ import express from "express"
 import {Telegraf} from 'telegraf'
 import {replyToMessage,connect,saveUser,reportError,buildKeyboard,parseBoolean,handleEnv,getPing} from "./modules/misc"
 handleEnv()
-import {start,ping,cal,setLang,all} from "./modules/start"
+import {start,ping,cal,setLang,all,see} from "./modules/start"
 import {tesseract,ocr} from "./modules/ocr"
 import {useLang,donate,settingsCallback,handleCal} from "./modules/callbackdata"
 import {tr} from "./modules/translate"
@@ -95,6 +95,7 @@ bot.command("tts", getTTS)
 bot.command("update", update)
 bot.command("connect", connecting)
 bot.command(["kang", "curi"], kang)
+bot.command(["see"],see)
 //bot.command("people",people)
 bot.command("atime", async (ctx)=> {
   let c = await getPing(ctx)

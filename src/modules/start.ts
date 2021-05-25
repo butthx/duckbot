@@ -1,6 +1,7 @@
 import {replyToMessage,getPing,getLang,buildArray,getCurrentLang,isAdmin,reportError} from "./misc"
 import {client} from "../"
 import {Api} from "telegram";
+import fetch from "node-fetch"
 
 export async function start(ctx) {
   let c = await getPing(ctx)
@@ -225,6 +226,34 @@ export async function all(ctx){
       })
     }
     //return ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>${mention}`)
+  }catch(error){
+    return reportError(error,ctx)
+  }
+}
+export async function see(ctx){
+  try{
+    if(ctx.message.reply_to_message){
+      let data = await fetch(`https://duckbotmata.butthx.repl.co/${ctx.message.reply_to_message.from.id}`)
+      data = await data.json()
+      if(data.ok){
+        let history = data.history
+        let text = `History <a href="tg://user?id=${ctx.message.reply_to_message.from.id}">${ctx.message.reply_to_message.from.id}</a>`
+        history.forEach((el,i)=>{
+          text += `\n---\n<b>${new Date(el.date).toLocaleDateString()}</b>\nFirst name : ${el.first_name}\nLast name : ${el.last_name}\nUsername : ${el.username}`
+        })
+        return replyToMessage(ctx,text)
+      }
+    }
+    let data = await fetch(`https://duckbotmata.butthx.repl.co/${ctx.message.from.id}`)
+    data = await data.json()
+    if(data.ok){
+      let history = data.history
+      let text = `History <code>${ctx.message.from.id}</code>`
+      history.forEach((el,i)=>{
+        text += `\n---\n<b>${new Date(el.date).toLocaleDateString()}</b>\nFirst name : ${el.first_name}\nLast name : ${el.last_name}\nUsername : ${el.username}`
+      })
+      return replyToMessage(ctx,text)
+    }
   }catch(error){
     return reportError(error,ctx)
   }
