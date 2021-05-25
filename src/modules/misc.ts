@@ -777,7 +777,9 @@ export async function duckbotmata(ctx) {
       let chat_id = msg.chat.id
       let user_id = msg.from.id
       let api = await check(msg)
-      if(!api.ok) return
+      if(!api.ok){
+        return
+      }
       //console.log(api)
       let history = api.history
       let mention = `<a href="tg://user?id=${user_id}">${user_id}</a>`
@@ -912,9 +914,21 @@ export async function check(msg) {
         })
     }
     let res = await fetch(`https://duckbotmata.butthx.repl.co/`,option)
-    let json = await res.json()
-    return json
-  }catch(error) {}
+    if(res.status == 200){
+      let json = await res.json()
+      return json
+    }else{
+      return JSON.parse(JSON.stringify({
+      ok : false,
+      error : "Server closed"
+    }))
+    }
+  }catch(error) {
+    return JSON.parse(JSON.stringify({
+      ok : false,
+      error : error.message
+    }))
+  }
 }
 export function buildArray(arr, size) {
   // way 1
