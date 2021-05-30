@@ -2343,10 +2343,10 @@ telegraf@^4.3.0:
     sandwich-stream "^2.0.2"
     typegram "^3.2.0"
 
-telegram@^1.5.23:
-  version "1.5.23"
-  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.5.23.tgz#afd450b9c2cf20b34d0cc6c8d77b8577c44a0494"
-  integrity sha512-0nh9iA1ufSeLYC8BvEYRFcTUU578zEafN5hDJT2bVGQzImuhZj53Oeb5lE1lx4R2kcaPEHmDR70XDsLVLUJj2w==
+telegram@^1.5.27:
+  version "1.5.27"
+  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.5.27.tgz#880efbe15831cbbecc7bbd8bdf13d56fcfc0ff48"
+  integrity sha512-9/fvAa5cO6Jng3A+M8FrTC62KPACjWokJOr8oe68IqJXe9M5vNCOuLGQsbDg6tdnCyf7U3QaZ8QpZVK+tC+dgg==
   dependencies:
     "@cryptography/aes" "^0.1.1"
     async-mutex "^0.3.0"
@@ -2463,10 +2463,10 @@ typegram@^3.2.0:
   resolved "https://registry.yarnpkg.com/typegram/-/typegram-3.3.1.tgz#af1ca857350a270ed065fb708c19bab36e0d61a7"
   integrity sha512-Y1bR17IZ9Shj1Ih8wTLtrmOOMHJ20ve0Bd5SPymmw53uO4WLp/JjNM55s2b6PEziBvMISRdCQSZ+m6JiUKEobA==
 
-typescript@^4.2.3:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
-  integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
+typescript@^4.3.2:
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.2.tgz#399ab18aac45802d6f2498de5054fcbbe716a805"
+  integrity sha512-zZ4hShnmnoVnAHpVHWpTcxdv7dWP60S2FsydQLV8V5PbS3FifjWFFRiHSWpDJahly88PRyV5teTSLoq4eG7mKw==
 
 unique-string@^2.0.0:
   version "2.0.0"
