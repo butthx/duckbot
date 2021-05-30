@@ -19,8 +19,10 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "google-tts-api": "^2.0.2",
+    "husky": "^6.0.0",
     "jimp": "^0.16.1",
     "js-yaml": "^4.0.0",
+    "lint-staged": "^11.0.0",
     "lipo": "^2.0.0",
     "mongoose": "^5.12.11",
     "node-cron": "^3.0.0",
@@ -34,11 +36,27 @@
   "devDependencies": {
     "@types/mongoose": "^5.10.4",
     "@types/node": "^15.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "eslint": "^7.27.0",
+    "eslint-config-google": "^0.14.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.2"
   },
   "engines": {
     "node": "<= 14.x",
     "yarn": "<= 1.x"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
