@@ -6,7 +6,13 @@
   "scripts": {
     "dev": "ts-node ./src/index.ts --unhandled-rejections=strict",
     "build": "tsc",
-    "start": "node ./build/index.js --unhandled-rejections=strict"
+    "start": "node ./build/index.js --unhandled-rejections=strict",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "repository": "github:butthx/duckbot",
   "author": "butthx",
@@ -46,11 +52,6 @@
   "engines": {
     "node": "<= 14.x",
     "yarn": "<= 1.x"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,ts}": [
