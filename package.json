@@ -50,8 +50,8 @@
     "yarn": "<= 1.x"
   },
   "lint-staged": {
-    "*.{js,ts}": [
-      "prettier --write",
+    "*/*.{js,ts}": [
+      "prettier --write src",
       "eslint --fix"
     ]
   }
