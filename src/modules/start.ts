@@ -1,17 +1,25 @@
-import {replyToMessage,getPing,getLang,buildArray,getCurrentLang,isAdmin,reportError,} from './misc'
-import { client } from '../'
-import { Api } from 'telegram'
-import fetch from 'node-fetch'
-import groups from "./database/groups"
-import privates from "./database/private"
+import {
+  replyToMessage,
+  getPing,
+  getLang,
+  buildArray,
+  getCurrentLang,
+  isAdmin,
+  reportError,
+} from './misc';
+import {client} from '../';
+import {Api} from 'telegram';
+import fetch from 'node-fetch';
+import groups from './database/groups';
+import privates from './database/private';
 
 export async function start(ctx) {
-  let c = await getPing(ctx)
-  let langs = await getLang(ctx)
-  let first_name = ctx.from.first_name
-  let last_name = ctx.from.last_name || ''
-  let mention = `<a href="tg://user?id=${ctx.from.id}">${first_name} ${last_name}</a>`.trim()
-  let keyboard = [
+  const c = await getPing(ctx);
+  const langs = await getLang(ctx);
+  const first_name = ctx.from.first_name;
+  const last_name = ctx.from.last_name || '';
+  const mention = `<a href="tg://user?id=${ctx.from.id}">${first_name} ${last_name}</a>`.trim();
+  const keyboard = [
     [
       {
         text: `🧚🏻‍♂️ ${langs.addGroup}`,
@@ -50,79 +58,79 @@ export async function start(ctx) {
         hide: true,
       },
     ],
-  ]
+  ];
   if (ctx.chat.type !== 'private') {
     return replyToMessage(
-      ctx,
-      `${langs.pmMessage}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
-      [
+        ctx,
+        `${langs.pmMessage}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
         [
-          {
-            text: langs.pmButton,
-            url: `https://t.me/${ctx.botInfo.username}?start`,
-          },
+          [
+            {
+              text: langs.pmButton,
+              url: `https://t.me/${ctx.botInfo.username}?start`,
+            },
+          ],
         ],
-      ]
-    )
+    );
   }
   return replyToMessage(
-    ctx,
-    `${langs.start.replace(
-      /\{mention\}/i,
-      mention
-    )}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
-    keyboard
-  )
+      ctx,
+      `${langs.start.replace(
+          /\{mention\}/i,
+          mention,
+      )}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
+      keyboard,
+  );
 }
 export async function ping(ctx) {
-  let c = await getPing(ctx)
-  let text = `🏓<b>PONG!</b>\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
-  return replyToMessage(ctx, text, false)
+  const c = await getPing(ctx);
+  const text = `🏓<b>PONG!</b>\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`;
+  return replyToMessage(ctx, text, false);
 }
 export async function setLang(ctx) {
-  let langs = await getLang(ctx)
-  let c = await getPing(ctx)
+  const langs = await getLang(ctx);
+  const c = await getPing(ctx);
   try {
     if (ctx.chat.type !== 'private') {
       if (!(await isAdmin(ctx))) {
-        return replyToMessage(ctx, langs.userNonAdmin, false)
+        return replyToMessage(ctx, langs.userNonAdmin, false);
       }
     }
-    let data = ['en', 'id']
-    let textData = ['🇬🇧 English', '🇮🇩 Indonesia']
-    let button = new Array()
-    let currentLang = await getCurrentLang(ctx)
+    const data = ['en', 'id'];
+    const textData = ['🇬🇧 English', '🇮🇩 Indonesia'];
+    const button = new Array();
+    const currentLang = await getCurrentLang(ctx);
     for (let i = 0; i < data.length; i++) {
-      let key = data[i]
-      let json = {
+      const key = data[i];
+      const json = {
         text: textData[i],
         callback_data: `setlang ${key}`,
         hide: true,
-      }
-      button.push(json)
+      };
+      button.push(json);
     }
-    let keyboard = await buildArray(button, 2)
+    const keyboard = await buildArray(button, 2);
     return replyToMessage(
-      ctx,
-      `${langs.langAvalible.replace(
-        /\{lang\}/i,
-        currentLang
-      )}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
-      keyboard
-    )
+        ctx,
+        `${langs.langAvalible.replace(
+            /\{lang\}/i,
+            currentLang,
+        )}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
+        keyboard,
+    );
   } catch (error) {
     replyToMessage(
-      ctx,
-      `${langs.getLangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
-      false
-    )
-    return reportError(error, ctx)
+        ctx,
+        `${langs.getLangError}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
+        false,
+    );
+    return reportError(error, ctx);
   }
 }
 
 export async function cal(ctx) {
   try {
-    let keyboard = [
+    const keyboard = [
       [
         {
           text: 'Del',
@@ -235,91 +243,104 @@ export async function cal(ctx) {
           hide: true,
         },
       ],
-    ]
+    ];
     return replyToMessage(
-      ctx,
-      '...This is a simple calculator that you can use to calculate...',
-      keyboard
-    )
+        ctx,
+        '...This is a simple calculator that you can use to calculate...',
+        keyboard,
+    );
   } catch (error) {
-    return reportError(error, ctx)
+    return reportError(error, ctx);
   }
 }
 
 export async function all(ctx) {
-  let langs = await getLang(ctx)
-  let c = await getPing(ctx)
+  const langs = await getLang(ctx);
+  const c = await getPing(ctx);
   try {
-    let msg = await replyToMessage(
-      ctx,
-      `WARNING! I will probably spam to mentioning all members in this group.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
-        ctx
-      )}</code>`
-    )
-    //let mention = ""
-    let count = await ctx.getChatMembersCount()
-    let result = await client.getParticipants(ctx.chat.id, {
+    const msg = await replyToMessage(
+        ctx,
+        `WARNING! I will probably spam to mentioning all members in this group.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
+            ctx,
+        )}</code>`,
+    );
+    // let mention = ""
+    const count = await ctx.getChatMembersCount();
+    const result = await client.getParticipants(ctx.chat.id, {
       limit: count,
-    })
-    let arr = new Array()
+    });
+    const arr = new Array();
     for (let i = 0; i < result.length; i++) {
       if (!result[i].bot) {
-        arr.push(result[i])
+        arr.push(result[i]);
       }
     }
-    let final = await buildArray(arr, 5)
+    const final = await buildArray(arr, 5);
     for (let i = 0; i < final.length; i++) {
-      let d = final[i]
-      let mention = ''
+      const d = final[i];
+      let mention = '';
       for (let e = 0; e < d.length; e++) {
-        let f = d[e]
+        const f = d[e];
         if (f.username) {
-          mention += `@${f.username} `
+          mention += `@${f.username} `;
         } else {
-          mention += `<a href="tg://user?id=${f.id}">${f.firstName}</a> `
+          mention += `<a href="tg://user?id=${f.id}">${f.firstName}</a> `;
         }
       }
       ctx.replyWithHTML(
-        `<b>Hey All Member!</b>\n\n${mention}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
-        {
-          reply_to_message_id: msg.message_id,
-        }
-      )
+          `<b>Hey All Member!</b>\n\n${mention}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
+              ctx,
+          )}</code>`,
+          {
+            reply_to_message_id: msg.message_id,
+          },
+      );
     }
-    //return ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>${mention}`)
+    // return ctx.replyWithHTML(`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>${mention}`)
   } catch (error) {
-    return reportError(error, ctx)
+    return reportError(error, ctx);
   }
 }
 export async function see(ctx) {
-  let c = await getPing(ctx)
+  const c = await getPing(ctx);
   try {
-    let data = await groups.find()
-    if(ctx.chat.type === "private"){
-      let pData = await privates.findOne({chat_id : ctx.from.id})
-      let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${ctx.from.last_name?ctx.from.last_name:""}\nId : <code>${ctx.from.id}</code>`
-      let msg = await replyToMessage(ctx,`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
-      let join:any = 0
-      let connected:any = 0
-      let warn:any = 0
-      if(data !== null){
-        for(let i = 0; i< data.length; i++){
-          let users = data[i].users
-          for(let j = 0; j < users.length; j++){
-            if(users[j].id == ctx.from.id){
-              join ++
+    const data = await groups.find();
+    if (ctx.chat.type === 'private') {
+      const pData = await privates.findOne({chat_id: ctx.from.id});
+      let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${
+        ctx.from.last_name ? ctx.from.last_name : ''
+      }\nId : <code>${ctx.from.id}</code>`;
+      const msg = await replyToMessage(
+          ctx,
+          `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
+      );
+      let join: any = 0;
+      let connected: any = 0;
+      let warn: any = 0;
+      if (data !== null) {
+        for (let i = 0; i < data.length; i++) {
+          const users = data[i].users;
+          for (let j = 0; j < users.length; j++) {
+            if (users[j].id == ctx.from.id) {
+              join++;
             }
           }
         }
       }
-      if(pData !== null){
-        connected = pData.connected
-        warn = pData.warns?.length
+      if (pData !== null) {
+        connected = pData.connected;
+        warn = pData.warns?.length;
       }
-      text +=`\nConnected Chat : <code>${connected}</code>\nWarn in All Group: <code>${warn}</code>\nDuckbot Mata : <a href="https://duckbot.vercel.app/tools/duckbotmata?id=${ctx.from.id}">View On Website</a>\nSee on <code>${join}</code> Groups.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
-      return ctx.telegram.editMessageText(msg.chat.id,msg.message_id, undefined,text,{parse_mode:"HTML"})
+      text += `\nConnected Chat : <code>${connected}</code>\nWarn in All Group: <code>${warn}</code>\nDuckbot Mata : <a href="https://duckbot.vercel.app/tools/duckbotmata?id=${
+        ctx.from.id
+      }">View On Website</a>\nSee on <code>${join}</code> Groups.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
+          ctx,
+      )}</code>`;
+      return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, text, {
+        parse_mode: 'HTML',
+      });
     }
   } catch (error) {
-    return reportError(error, ctx)
+    return reportError(error, ctx);
   }
 }
