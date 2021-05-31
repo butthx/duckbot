@@ -63,10 +63,9 @@ export async function gramIsAdmin(event: NewMessageEvent) {
       id: false,
       username: false,
     }
-    let entities = event._entities
-    for (let i = 0; i < entities.length; i++) {
-      if (entities[i].className == 'User') {
-        userInfo = entities[i]
+    for (let entities of event._entities) {
+      if (entities[1].className == 'User') {
+        userInfo = entities[1]
       }
     }
     let index = admins.findIndex((i) => i.user.id == userInfo.id)

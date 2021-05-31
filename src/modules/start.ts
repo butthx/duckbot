@@ -1,15 +1,9 @@
-import {
-  replyToMessage,
-  getPing,
-  getLang,
-  buildArray,
-  getCurrentLang,
-  isAdmin,
-  reportError,
-} from './misc'
+import {replyToMessage,getPing,getLang,buildArray,getCurrentLang,isAdmin,reportError,} from './misc'
 import { client } from '../'
 import { Api } from 'telegram'
 import fetch from 'node-fetch'
+import groups from "./database/groups"
+import privates from "./database/private"
 
 export async function start(ctx) {
   let c = await getPing(ctx)
@@ -286,9 +280,7 @@ export async function all(ctx) {
         }
       }
       ctx.replyWithHTML(
-        `<b>Hey All Member!</b>\n\n${mention}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
-          ctx
-        )}</code>`,
+        `<b>Hey All Member!</b>\n\n${mention}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
         {
           reply_to_message_id: msg.message_id,
         }
@@ -300,34 +292,32 @@ export async function all(ctx) {
   }
 }
 export async function see(ctx) {
+  let c = await getPing(ctx)
   try {
-    if (ctx.message.reply_to_message) {
-      let data = await fetch(
-        `https://duckbotmata.butthx.repl.co/${ctx.message.reply_to_message.from.id}`
-      )
-      data = await data.json()
-      if (data.ok) {
-        let history = data.history
-        let text = `History <a href="tg://user?id=${ctx.message.reply_to_message.from.id}">${ctx.message.reply_to_message.from.id}</a>`
-        history.forEach((el, i) => {
-          text += `\n---\n<b>${new Date(el.date).toLocaleDateString()}</b>\nFirst name : ${
-            el.first_name
-          }\nLast name : ${el.last_name}\nUsername : ${el.username}`
-        })
-        return replyToMessage(ctx, text)
+    let data = await groups.find()
+    if(ctx.chat.type === "private"){
+      let pData = await privates.findOne({chat_id : ctx.from.id})
+      let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${ctx.from.last_name?ctx.from.last_name:""}\nId : <code>${ctx.from.id}</code>`
+      let msg = await replyToMessage(ctx,`${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`)
+      let join:any = 0
+      let connected:any = 0
+      let warn:any = 0
+      if(data !== null){
+        for(let i = 0; i< data.length; i++){
+          let users = data[i].users
+          for(let j = 0; j < users.length; j++){
+            if(users[j].id == ctx.from.id){
+              join ++
+            }
+          }
+        }
       }
-    }
-    let data = await fetch(`https://duckbotmata.butthx.repl.co/${ctx.message.from.id}`)
-    data = await data.json()
-    if (data.ok) {
-      let history = data.history
-      let text = `History <code>${ctx.message.from.id}</code>`
-      history.forEach((el, i) => {
-        text += `\n---\n<b>${new Date(el.date).toLocaleDateString()}</b>\nFirst name : ${
-          el.first_name
-        }\nLast name : ${el.last_name}\nUsername : ${el.username}`
-      })
-      return replyToMessage(ctx, text)
+      if(pData !== null){
+        connected = pData.connected
+        warn = pData.warns?.length
+      }
+      text +=`\nConnected Chat : <code>${connected}</code>\nWarn in All Group: <code>${warn}</code>\nDuckbot Mata : <a href="https://duckbot.vercel.app/tools/duckbotmata?id=${ctx.from.id}">View On Website</a>\nSee on <code>${join}</code> Groups.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`
+      return ctx.telegram.editMessageText(msg.chat.id,msg.message_id, undefined,text,{parse_mode:"HTML"})
     }
   } catch (error) {
     return reportError(error, ctx)
