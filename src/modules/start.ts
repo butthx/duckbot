@@ -306,11 +306,11 @@ export async function see(ctx) {
   try {
     const data = await groups.find();
     if (ctx.chat.type === 'private') {
-      const pData = await privates.findOne({chat_id: ctx.from.id});
+      let pData = await privates.findOne({chat_id: ctx.from.id});
       let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${
         ctx.from.last_name ? ctx.from.last_name : ''
       }\nId : <code>${ctx.from.id}</code>`;
-      const msg = await replyToMessage(
+      let msg = await replyToMessage(
           ctx,
           `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
       );
@@ -340,6 +340,76 @@ export async function see(ctx) {
         parse_mode: 'HTML',
       });
     }
+    
+    if(ctx.message.reply_to_message){
+      let pData = await privates.findOne({chat_id: ctx.message.reply_to_message.from.id});
+      let text = `<b>UserInfo</b>\nName : ${ctx.message.reply_to_message.from.first_name} ${
+        ctx.message.reply_to_message.from.last_name ? ctx.message.reply_to_message.from.last_name : ''
+      }\nId : <code>${ctx.message.reply_to_message.from.id}</code>\nChat Id : <code>${ctx.chat.id}</code>`;
+      let msg = await replyToMessage(
+          ctx,
+          `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
+      );
+      let join: any = 0;
+      let connected: any = 0;
+      let warn: any = 0;
+      if (data !== null) {
+        for (let i = 0; i < data.length; i++) {
+          const users = data[i].users;
+          for (let j = 0; j < users.length; j++) {
+            if (users[j].id == ctx.message.reply_to_message.from.id) {
+              join++;
+            }
+          }
+        }
+      }
+      if (pData !== null) {
+        connected = pData.connected;
+        warn = pData.warns?.length;
+      }
+      text += `\nConnected Chat : <code>${connected}</code>\nWarn in All Group: <code>${warn}</code>\nDuckbot Mata : <a href="https://duckbot.vercel.app/tools/duckbotmata?id=${
+        ctx.message.reply_to_message.from.id
+      }">View On Website</a>\nSee on <code>${join}</code> Groups.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
+          ctx,
+      )}</code>`;
+      return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, text, {
+        parse_mode: 'HTML',
+      });
+    }
+    
+    let pData = await privates.findOne({chat_id: ctx.from.id});
+    let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${
+      ctx.from.last_name ? ctx.from.last_name : ''
+    }\nId : <code>${ctx.from.id}</code>\nChat Id : <code>${ctx.chat.id}</code>`;
+    let msg = await replyToMessage(
+        ctx,
+        `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
+    );
+    let join: any = 0;
+    let connected: any = 0;
+    let warn: any = 0;
+    if (data !== null) {
+      for (let i = 0; i < data.length; i++) {
+        const users = data[i].users;
+        for (let j = 0; j < users.length; j++) {
+          if (users[j].id == ctx.from.id) {
+            join++;
+          }
+        }
+      }
+    }
+    if (pData !== null) {
+      connected = pData.connected;
+      warn = pData.warns?.length;
+    }
+    text += `\nConnected Chat : <code>${connected}</code>\nWarn in All Group: <code>${warn}</code>\nDuckbot Mata : <a href="https://duckbot.vercel.app/tools/duckbotmata?id=${
+      ctx.from.id
+    }">View On Website</a>\nSee on <code>${join}</code> Groups.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
+        ctx,
+    )}</code>`;
+    return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, text, {
+      parse_mode: 'HTML',
+    });
   } catch (error) {
     return reportError(error, ctx);
   }

@@ -24,7 +24,7 @@ import {
 } from './modules/misc';
 handleEnv();
 import {start, ping, cal, setLang, all, see} from './modules/start';
-import {tesseract, ocr} from './modules/ocr';
+import {tesseract, ocr /* ,ocrVision*/} from './modules/ocr';
 import {useLang, donate, settingsCallback, handleCal} from './modules/callbackdata';
 import {tr} from './modules/translate';
 import {adminCache, settings, handleSettings, reportAdmin, connecting} from './modules/admin';
@@ -41,7 +41,7 @@ connect();
 
 export const bot = new Telegraf(process.env['BOT_TOKEN'] as string);
 const session = '';
-Logger.setLevel('warn');
+Logger.setLevel('none');
 export const client = new TelegramClient(
     new StringSession(session),
     Number(process.env.API_ID),
@@ -144,8 +144,10 @@ bot.command('atime', async (ctx) => {
   );
 });
 bot.command('cal', cal);
+// bot.command("vision",ocrVision)
 // bot.on("inline_query", inline_query)
 bot.catch(reportError);
+process.on('unhandledRejection', () => {});
 async function run() {}
 client.start({
   botAuthToken: String(process.env.BOT_TOKEN),

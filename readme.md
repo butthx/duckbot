@@ -16,7 +16,7 @@ and any more.
 - Anti Spam  
 and any more.  
 ## Docs
-Available on [https://butthx.now.sh](https://butthx.now.sh/)
+Available on [https://duckbot.now.sh](https://duckbot.now.sh/)
 ## Deploy
 - `git clone https://github.com/butthx/duckbot`  
 - `cd duckbot`  
