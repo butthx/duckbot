@@ -12,7 +12,7 @@
   "author": "butthx",
   "license": "MIT",
   "dependencies": {
-    "@google-cloud/vision": "^2.3.2",
+    "@google-cloud/vision": "^2.3.3",
     "@vitalets/google-translate-api": "^7.0.0",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.6",

@@ -19,10 +19,10 @@
   resolved "https://registry.yarnpkg.com/@google-cloud/promisify/-/promisify-2.0.3.tgz#f934b5cdc939e3c7039ff62b9caaf59a9d89e3a8"
   integrity sha512-d4VSA86eL/AFTe5xtyZX+ePUjE8dIFu2T8zmdeNBSa5/kNgXPCx/o/wbFNHAGLJdGnk1vddRuMESD9HbOC8irw==
 
-"@google-cloud/vision@^2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@google-cloud/vision/-/vision-2.3.2.tgz#f65f5c2d13aac4fba04c9f7011ebd0c288c838ff"
-  integrity sha512-vQnbz2wDihZ8bhzccshyt38y22+1Rq87NhmEbav170M7SGX8GLcUOYI6H8ZfpdEbNF94PYP4/eco6XCnuhQySQ==
+"@google-cloud/vision@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@google-cloud/vision/-/vision-2.3.3.tgz#547a499e0316fa29e96090c0a4960fd4d976d751"
+  integrity sha512-el7OKjegHvMRWv3uygUYexUeM4+yxHhf9W2A8F4DdRevec6WjxdE7w2bz19c/bNvchRKc/9ZMGlZ+CMUbza8+A==
   dependencies:
     "@google-cloud/promisify" "^2.0.0"
     google-gax "^2.12.0"
