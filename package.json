@@ -32,8 +32,8 @@
     "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
-    "@types/mongoose": "^5.11.19",
-    "@types/node": "^15.9.0",
+    "@types/mongoose": "^5.11.68",
+    "@types/node": "^15.6.1",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.2"
   },
