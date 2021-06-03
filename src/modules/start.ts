@@ -35,7 +35,7 @@ export async function start(ctx) {
       },
       {
         text: `📖 ${langs.docsButton}`,
-        callback_data: 'help',
+        url: 'https://duckbot.vercel.app',
         hide: true,
       },
     ],
@@ -306,11 +306,11 @@ export async function see(ctx) {
   try {
     const data = await groups.find();
     if (ctx.chat.type === 'private') {
-      let pData = await privates.findOne({chat_id: ctx.from.id});
+      const pData = await privates.findOne({chat_id: ctx.from.id});
       let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${
         ctx.from.last_name ? ctx.from.last_name : ''
       }\nId : <code>${ctx.from.id}</code>`;
-      let msg = await replyToMessage(
+      const msg = await replyToMessage(
           ctx,
           `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
       );
@@ -322,7 +322,7 @@ export async function see(ctx) {
           const users = data[i].users;
           for (let j = 0; j < users.length; j++) {
             if (users[j].id == ctx.from.id) {
-              join++;
+              join = join + 1;
             }
           }
         }
@@ -340,13 +340,17 @@ export async function see(ctx) {
         parse_mode: 'HTML',
       });
     }
-    
-    if(ctx.message.reply_to_message){
-      let pData = await privates.findOne({chat_id: ctx.message.reply_to_message.from.id});
+
+    if (ctx.message.reply_to_message) {
+      const pData = await privates.findOne({chat_id: ctx.message.reply_to_message.from.id});
       let text = `<b>UserInfo</b>\nName : ${ctx.message.reply_to_message.from.first_name} ${
-        ctx.message.reply_to_message.from.last_name ? ctx.message.reply_to_message.from.last_name : ''
-      }\nId : <code>${ctx.message.reply_to_message.from.id}</code>\nChat Id : <code>${ctx.chat.id}</code>`;
-      let msg = await replyToMessage(
+        ctx.message.reply_to_message.from.last_name ?
+          ctx.message.reply_to_message.from.last_name :
+          ''
+      }\nId : <code>${ctx.message.reply_to_message.from.id}</code>\nChat Id : <code>${
+        ctx.chat.id
+      }</code>`;
+      const msg = await replyToMessage(
           ctx,
           `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
       );
@@ -358,7 +362,7 @@ export async function see(ctx) {
           const users = data[i].users;
           for (let j = 0; j < users.length; j++) {
             if (users[j].id == ctx.message.reply_to_message.from.id) {
-              join++;
+              join = join + 1;
             }
           }
         }
@@ -376,12 +380,12 @@ export async function see(ctx) {
         parse_mode: 'HTML',
       });
     }
-    
-    let pData = await privates.findOne({chat_id: ctx.from.id});
+
+    const pData = await privates.findOne({chat_id: ctx.from.id});
     let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${
       ctx.from.last_name ? ctx.from.last_name : ''
     }\nId : <code>${ctx.from.id}</code>\nChat Id : <code>${ctx.chat.id}</code>`;
-    let msg = await replyToMessage(
+    const msg = await replyToMessage(
         ctx,
         `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
     );
@@ -393,7 +397,7 @@ export async function see(ctx) {
         const users = data[i].users;
         for (let j = 0; j < users.length; j++) {
           if (users[j].id == ctx.from.id) {
-            join++;
+            join = join + 1;
           }
         }
       }

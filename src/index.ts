@@ -53,7 +53,7 @@ const app = express();
 const port = Number(process.env['PORT']) || 3000;
 if (parseBoolean(process.env['WEBHOOK'])) {
   app.get('/', (req, res) => {
-    res.status(403).redirect('https://butthx.vercel.app');
+    res.status(403).redirect('https://duckbot.vercel.app');
   });
   app.get('/cron', (req, res) => {
     res.status(200).send('Running..');
