@@ -448,10 +448,10 @@
   dependencies:
     mongoose "*"
 
-"@types/node@*", "@types/node@>=12.12.47", "@types/node@>=13.7.0", "@types/node@^15.6.1":
-  version "15.6.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.6.1.tgz#32d43390d5c62c5b6ec486a9bc9c59544de39a08"
-  integrity sha512-7EIraBEyRHEe7CH+Fm1XvgqU6uwZN8Q7jppJGcqjROMT29qhAuuOxYB1uEY5UMYQKEmA5D+5tBnhdaPXSsLONA==
+"@types/node@*", "@types/node@>=12.12.47", "@types/node@>=13.7.0", "@types/node@^15.9.0":
+  version "15.9.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.9.0.tgz#0b7f6c33ca5618fe329a9d832b478b4964d325a8"
+  integrity sha512-AR1Vq1Ei1GaA5FjKL5PBqblTZsL5M+monvGSZwe6sSIdGiuu7Xr/pNwWJY+0ZQuN8AapD/XMB5IzBAyYRFbocA==
 
 "@vitalets/google-translate-api@^7.0.0":
   version "7.0.0"
@@ -2342,10 +2342,10 @@ telegraf@^4.3.0:
     sandwich-stream "^2.0.2"
     typegram "^3.2.0"
 
-telegram@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.6.1.tgz#dc32c8cc18eb98ac95687204f6b36b9b9d2b3c80"
-  integrity sha512-h2q/p6O/4OrPBUSV63mP2YA6QyA6mtyo/SpxxEPVt1MKDjrYwT07VC46Lh7YQWTqw9Nxm7owEd82bLqCoHQWgw==
+telegram@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.6.5.tgz#437f617576969cbee67008cedfa204b2e31c4c17"
+  integrity sha512-TBegR+sOBh2jY7cPdFsuFQQITVP9vk2tIpt+1ML5raY/kgX4FPZbauMVXymayiuC7jDcHAewuJgXbBrFhh1J6Q==
   dependencies:
     "@cryptography/aes" "^0.1.1"
     async-mutex "^0.3.0"
