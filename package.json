@@ -13,7 +13,7 @@
   "author": "butthx",
   "license": "MIT",
   "dependencies": {
-    "@google-cloud/vision": "^2.3.2",
+    "@google-cloud/vision": "^2.3.3",
     "@vitalets/google-translate-api": "^7.0.0",
     "axios": "^0.21.1",
     "cheerio": "^1.0.0-rc.6",
@@ -32,11 +32,11 @@
     "ocr-space-api-wrapper": "^1.0.5",
     "spamwatch": "^0.4.0",
     "telegraf": "^4.3.0",
-    "telegram": "^1.6.0",
+    "telegram": "^1.6.5",
     "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
-    "@types/mongoose": "^5.10.4",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
     "@typescript-eslint/parser": "^4.25.0",
