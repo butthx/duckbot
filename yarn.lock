@@ -2347,16 +2347,17 @@ telegraf@^4.3.0:
     sandwich-stream "^2.0.2"
     typegram "^3.2.0"
 
-telegram@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.6.5.tgz#437f617576969cbee67008cedfa204b2e31c4c17"
-  integrity sha512-TBegR+sOBh2jY7cPdFsuFQQITVP9vk2tIpt+1ML5raY/kgX4FPZbauMVXymayiuC7jDcHAewuJgXbBrFhh1J6Q==
+telegram@^1.6.9:
+  version "1.6.9"
+  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.6.9.tgz#209abaad0732df8b571835da399c4ba7b0869867"
+  integrity sha512-v+N85Qgh3jDlFjsZFeO6jsaKGoC3eKjjjCMWmzCnK68GMNO4qyPbvLlgsM5xGlLQOwzar57jpX03GtsXOP0SWQ==
   dependencies:
     "@cryptography/aes" "^0.1.1"
     async-mutex "^0.3.0"
     big-integer "^1.6.48"
     browser-or-node "^1.3.0"
     buffer "^6.0.3"
+    htmlparser2 "^6.1.0"
     mime-types "^2.1.30"
     node-localstorage "^2.1.6"
     os-browserify "^0.3.0"
