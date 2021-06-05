@@ -24,7 +24,7 @@ import {
 } from './modules/misc';
 handleEnv();
 import {start, ping, cal, setLang, all, see} from './modules/start';
-import {tesseract, ocr /* ,ocrVision*/} from './modules/ocr';
+import {tesseract, ocr} from './modules/ocr';
 import {useLang, donate, settingsCallback, handleCal} from './modules/callbackdata';
 import {tr} from './modules/translate';
 import {adminCache, settings, handleSettings, reportAdmin, connecting} from './modules/admin';
