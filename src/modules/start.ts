@@ -329,7 +329,7 @@ export async function see(ctx) {
       }
       if (pData !== null) {
         connected = pData.connected;
-        warn = pData.warns?.length;
+        warn = pData.warns.length;
       }
       text += `\nConnected Chat : <code>${connected}</code>\nWarn in All Group: <code>${warn}</code>\nDuckbot Mata : <a href="https://duckbot.vercel.app/tools/duckbotmata?id=${
         ctx.from.id
