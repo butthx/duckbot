@@ -26,13 +26,13 @@
     "js-yaml": "^4.0.0",
     "lint-staged": "^11.0.0",
     "lipo": "^2.0.0",
-    "mongoose": "^5.12.12",
+    "mongoose": "^5.12.13",
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "ocr-space-api-wrapper": "^1.0.5",
     "spamwatch": "^0.4.0",
     "telegraf": "^4.3.0",
-    "telegram": "^1.6.9",
+    "telegram": "^1.6.12",
     "tesseract.js": "^2.1.4"
   },
   "devDependencies": {
