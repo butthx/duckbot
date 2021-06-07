@@ -3735,10 +3735,11 @@ telegraf@^4.3.0:
     safe-compare "^1.1.4"
     sandwich-stream "^2.0.2"
     typegram "^3.2.0"
-telegram@^1.6.5:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.6.8.tgz#aff0b2e01d122bfb8a63a23d7d773c6fc252dd28"
-  integrity sha512-IvL/m1yMTfnUyhIVmmEBQl+kTbonJQva7N9Fy46PAWUiMT7N1EWgNp/GW8A0MkrMS0Nl6HdqVB1xNZ3NVJRzxw==
+
+telegram@^1.6.12:
+  version "1.6.12"
+  resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.6.12.tgz#19bc7d7abca583069a643e2c2a9b5b58d170a397"
+  integrity sha512-W/iVHW6V2YzvUSmV+CSQ66VhWIHJ8kVLX1dsaDtRI9D6fy0xKFkS8BGhQur87kdvc3CvszkK+J4UrzPZ2D0X3g==
   dependencies:
     "@cryptography/aes" "^0.1.1"
     async-mutex "^0.3.0"
