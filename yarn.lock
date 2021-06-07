@@ -3736,7 +3736,7 @@ telegraf@^4.3.0:
     sandwich-stream "^2.0.2"
     typegram "^3.2.0"
 
-telegram@^1.6.9:
+telegram@^1.6.12:
   version "1.6.12"
   resolved "https://registry.yarnpkg.com/telegram/-/telegram-1.6.12.tgz#19bc7d7abca583069a643e2c2a9b5b58d170a397"
   integrity sha512-W/iVHW6V2YzvUSmV+CSQ66VhWIHJ8kVLX1dsaDtRI9D6fy0xKFkS8BGhQur87kdvc3CvszkK+J4UrzPZ2D0X3g==
