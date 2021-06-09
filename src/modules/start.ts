@@ -96,8 +96,8 @@ export async function setLang(ctx) {
         return replyToMessage(ctx, langs.userNonAdmin, false);
       }
     }
-    const data = ['en', 'id'];
-    const textData = ['🇬🇧 English', '🇮🇩 Indonesia'];
+    const data = ['en', 'id', 'ja'];
+    const textData = ['🇬🇧 English', '🇮🇩 Indonesia', '🇯🇵 Japanese'];
     const button = new Array();
     const currentLang = await getCurrentLang(ctx);
     for (let i = 0; i < data.length; i++) {

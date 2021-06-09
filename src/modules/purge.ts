@@ -66,8 +66,7 @@ export async function purge(event: NewMessageEvent) {
     );
     setTimeout(() => {
       return bot.telegram.deleteMessage(msgSend.chat.id, msgSend.message_id);
-    }, 5000);
-    return;
+    }, 3000);
   } catch (error) {
     return gramReportError(error, event);
   }
