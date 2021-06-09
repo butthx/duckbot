@@ -6,14 +6,14 @@ import {NewMessageEvent} from 'telegram/events/NewMessage';
 import {gramGetPing, gramGetLang, gramIsAdmin, gramReportError} from './misc';
 
 export async function purge(event: NewMessageEvent) {
-  const message = event.message as Message;
-  const c = await gramGetPing(event);
-  const langs = await gramGetLang(event);
+  let message = event.message as Message;
+  let c = await gramGetPing(event);
+  let langs = await gramGetLang(event);
   try {
     let rplMsgId: any = message.replyTo?.replyToMsgId;
-    const msgId: any = message.id;
-    const abs: any = Math.abs(msgId - rplMsgId);
-    const arr: any = new Array();
+    let msgId: any = message.id;
+    let abs: any = Math.abs(msgId - rplMsgId);
+    let arr: any = new Array();
     if (!message.replyTo) {
       return bot.telegram.sendMessage(
           Number(event.chatId),
@@ -31,11 +31,11 @@ export async function purge(event: NewMessageEvent) {
     if (event.isPrivate) {
       for (let i = 0; i < arr.length; i++) {
         try {
-          const res = await bot.telegram.deleteMessage(Number(event.chatId), arr[i]);
+          let res = await bot.telegram.deleteMessage(Number(event.chatId), arr[i]);
         } catch (error) {}
       }
     } else {
-      const admin = await gramIsAdmin(event);
+      let admin = await gramIsAdmin(event);
       if (!admin) {
         return bot.telegram.sendMessage(
             Number(event.chatId),
@@ -49,7 +49,7 @@ export async function purge(event: NewMessageEvent) {
         );
       }
       try {
-        const res: Api.messages.AffectedMessages = await client.invoke(
+        let res: Api.messages.AffectedMessages = await client.invoke(
             new Api.channels.DeleteMessages({
               channel: message.inputChat,
               id: arr,
@@ -57,7 +57,7 @@ export async function purge(event: NewMessageEvent) {
         );
       } catch (e) {}
     }
-    const msgSend = await bot.telegram.sendMessage(
+    let msgSend = await bot.telegram.sendMessage(
         Number(event.chatId),
         `${langs.purgeSuccess}\n⏱ <code>${c}</code> | ⏳ <code>${await gramGetPing(event)}</code>`,
         {
@@ -65,7 +65,11 @@ export async function purge(event: NewMessageEvent) {
         },
     );
     setTimeout(() => {
-      return bot.telegram.deleteMessage(msgSend.chat.id, msgSend.message_id);
+      try {
+        return bot.telegram.deleteMessage(msgSend.chat.id, msgSend.message_id);
+      } catch (error) {
+        return gramReportError(error, event);
+      }
     }, 3000);
   } catch (error) {
     return gramReportError(error, event);

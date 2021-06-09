@@ -39,18 +39,18 @@ import {kang} from './modules/kang';
 // import {people} from "./modules/people"
 connect();
 
-export const bot = new Telegraf(process.env['BOT_TOKEN'] as string);
-const session = '';
+export let bot = new Telegraf(process.env['BOT_TOKEN'] as string);
+let session = '';
 Logger.setLevel('none');
-export const client = new TelegramClient(
+export let client = new TelegramClient(
     new StringSession(session),
     Number(process.env.API_ID),
     String(process.env.API_HASH),
     {connectionRetries: 5},
 );
 
-const app = express();
-const port = Number(process.env['PORT']) || 3000;
+let app = express();
+let port = Number(process.env['PORT']) || 3000;
 if (parseBoolean(process.env['WEBHOOK'])) {
   app.get('/', (req, res) => {
     res.status(403).redirect('https://duckbot.vercel.app');
@@ -65,13 +65,13 @@ if (parseBoolean(process.env['WEBHOOK'])) {
 }
 
 let aliveTime = 0;
-const aliveDate = new Date();
-const aliveInterval = setInterval(() => {
+let aliveDate = new Date();
+let aliveInterval = setInterval(() => {
   aliveTime++;
 }, 1000);
 
 client.addEventHandler((event: NewMessageEvent) => {
-  const message = event.message as Message;
+  let message = event.message as Message;
   if (
     new RegExp(
         `^/purge(\@${String(process.env['USERNAME']).replace(/^\@/, '').trim()})?`,
@@ -128,10 +128,10 @@ bot.command(['kang', 'curi'], kang);
 bot.command(['see', 'info', 'id'], see);
 // bot.command("people",people)
 bot.command('atime', async (ctx) => {
-  const c = await getPing(ctx);
-  const date = new Date(aliveTime * 1000).toUTCString().split(' ');
-  const d = date[4].split(':');
-  const e = date[1];
+  let c = await getPing(ctx);
+  let date = new Date(aliveTime * 1000).toUTCString().split(' ');
+  let d = date[4].split(':');
+  let e = date[1];
   return replyToMessage(
       ctx,
       `Alive <code>${Number(e) - 1}</code> Day <code>${d[0]}</code> Hours <code>${

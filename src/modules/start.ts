@@ -14,12 +14,12 @@ import groups from './database/groups';
 import privates from './database/private';
 
 export async function start(ctx) {
-  const c = await getPing(ctx);
-  const langs = await getLang(ctx);
-  const first_name = ctx.from.first_name;
-  const last_name = ctx.from.last_name || '';
-  const mention = `<a href="tg://user?id=${ctx.from.id}">${first_name} ${last_name}</a>`.trim();
-  const keyboard = [
+  let c = await getPing(ctx);
+  let langs = await getLang(ctx);
+  let first_name = ctx.from.first_name;
+  let last_name = ctx.from.last_name || '';
+  let mention = `<a href="tg://user?id=${ctx.from.id}">${first_name} ${last_name}</a>`.trim();
+  let keyboard = [
     [
       {
         text: `🧚🏻‍♂️ ${langs.addGroup}`,
@@ -83,33 +83,33 @@ export async function start(ctx) {
   );
 }
 export async function ping(ctx) {
-  const c = await getPing(ctx);
-  const text = `🏓<b>PONG!</b>\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`;
+  let c = await getPing(ctx);
+  let text = `🏓<b>PONG!</b>\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`;
   return replyToMessage(ctx, text, false);
 }
 export async function setLang(ctx) {
-  const langs = await getLang(ctx);
-  const c = await getPing(ctx);
+  let langs = await getLang(ctx);
+  let c = await getPing(ctx);
   try {
     if (ctx.chat.type !== 'private') {
       if (!(await isAdmin(ctx))) {
         return replyToMessage(ctx, langs.userNonAdmin, false);
       }
     }
-    const data = ['en', 'id', 'ja'];
-    const textData = ['🇬🇧 English', '🇮🇩 Indonesia', '🇯🇵 Japanese'];
-    const button = new Array();
-    const currentLang = await getCurrentLang(ctx);
+    let data = ['en', 'id', 'ja'];
+    let textData = ['🇬🇧 English', '🇮🇩 Indonesia', '🇯🇵 Japanese'];
+    let button = new Array();
+    let currentLang = await getCurrentLang(ctx);
     for (let i = 0; i < data.length; i++) {
-      const key = data[i];
-      const json = {
+      let key = data[i];
+      let json = {
         text: textData[i],
         callback_data: `setlang ${key}`,
         hide: true,
       };
       button.push(json);
     }
-    const keyboard = await buildArray(button, 2);
+    let keyboard = await buildArray(button, 2);
     return replyToMessage(
         ctx,
         `${langs.langAvalible.replace(
@@ -130,7 +130,7 @@ export async function setLang(ctx) {
 
 export async function cal(ctx) {
   try {
-    const keyboard = [
+    let keyboard = [
       [
         {
           text: 'Del',
@@ -255,32 +255,32 @@ export async function cal(ctx) {
 }
 
 export async function all(ctx) {
-  const langs = await getLang(ctx);
-  const c = await getPing(ctx);
+  let langs = await getLang(ctx);
+  let c = await getPing(ctx);
   try {
-    const msg = await replyToMessage(
+    let msg = await replyToMessage(
         ctx,
         `WARNING! I will probably spam to mentioning all members in this group.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
             ctx,
         )}</code>`,
     );
     // let mention = ""
-    const count = await ctx.getChatMembersCount();
-    const result = await client.getParticipants(ctx.chat.id, {
+    let count = await ctx.getChatMembersCount();
+    let result = await client.getParticipants(ctx.chat.id, {
       limit: count,
     });
-    const arr = new Array();
+    let arr = new Array();
     for (let i = 0; i < result.length; i++) {
       if (!result[i].bot) {
         arr.push(result[i]);
       }
     }
-    const final = await buildArray(arr, 5);
+    let final = await buildArray(arr, 5);
     for (let i = 0; i < final.length; i++) {
-      const d = final[i];
+      let d = final[i];
       let mention = '';
       for (let e = 0; e < d.length; e++) {
-        const f = d[e];
+        let f = d[e];
         if (f.username) {
           mention += `@${f.username} `;
         } else {
@@ -302,15 +302,15 @@ export async function all(ctx) {
   }
 }
 export async function see(ctx) {
-  const c = await getPing(ctx);
+  let c = await getPing(ctx);
   try {
-    const data = await groups.find();
+    let data = await groups.find();
     if (ctx.chat.type === 'private') {
-      const pData = await privates.findOne({chat_id: ctx.from.id});
+      let pData = await privates.findOne({chat_id: ctx.from.id});
       let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${
         ctx.from.last_name ? ctx.from.last_name : ''
       }\nId : <code>${ctx.from.id}</code>`;
-      const msg = await replyToMessage(
+      let msg = await replyToMessage(
           ctx,
           `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
       );
@@ -319,7 +319,7 @@ export async function see(ctx) {
       let warn: any = 0;
       if (data !== null) {
         for (let i = 0; i < data.length; i++) {
-          const users = data[i].users;
+          let users = data[i].users;
           for (let j = 0; j < users.length; j++) {
             if (users[j].id == ctx.from.id) {
               join = join + 1;
@@ -342,7 +342,7 @@ export async function see(ctx) {
     }
 
     if (ctx.message.reply_to_message) {
-      const pData = await privates.findOne({chat_id: ctx.message.reply_to_message.from.id});
+      let pData = await privates.findOne({chat_id: ctx.message.reply_to_message.from.id});
       let text = `<b>UserInfo</b>\nName : ${ctx.message.reply_to_message.from.first_name} ${
         ctx.message.reply_to_message.from.last_name ?
           ctx.message.reply_to_message.from.last_name :
@@ -350,7 +350,7 @@ export async function see(ctx) {
       }\nId : <code>${ctx.message.reply_to_message.from.id}</code>\nChat Id : <code>${
         ctx.chat.id
       }</code>`;
-      const msg = await replyToMessage(
+      let msg = await replyToMessage(
           ctx,
           `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
       );
@@ -359,7 +359,7 @@ export async function see(ctx) {
       let warn: any = 0;
       if (data !== null) {
         for (let i = 0; i < data.length; i++) {
-          const users = data[i].users;
+          let users = data[i].users;
           for (let j = 0; j < users.length; j++) {
             if (users[j].id == ctx.message.reply_to_message.from.id) {
               join = join + 1;
@@ -381,11 +381,11 @@ export async function see(ctx) {
       });
     }
 
-    const pData = await privates.findOne({chat_id: ctx.from.id});
+    let pData = await privates.findOne({chat_id: ctx.from.id});
     let text = `<b>UserInfo</b>\nName : ${ctx.from.first_name} ${
       ctx.from.last_name ? ctx.from.last_name : ''
     }\nId : <code>${ctx.from.id}</code>\nChat Id : <code>${ctx.chat.id}</code>`;
-    const msg = await replyToMessage(
+    let msg = await replyToMessage(
         ctx,
         `${text}\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(ctx)}</code>`,
     );
@@ -394,7 +394,7 @@ export async function see(ctx) {
     let warn: any = 0;
     if (data !== null) {
       for (let i = 0; i < data.length; i++) {
-        const users = data[i].users;
+        let users = data[i].users;
         for (let j = 0; j < users.length; j++) {
           if (users[j].id == ctx.from.id) {
             join = join + 1;

@@ -17,5 +17,7 @@ module.exports = {
     'camelcase': 'off',
     'require-jsdoc': 'off',
     'max-len': 'off',
+    'prefer-const': 'off',
+    'new-cap': 'off',
   },
 };
