@@ -30,6 +30,7 @@
     "node-cron": "^3.0.0",
     "node-fetch": "^2.6.1",
     "ocr-space-api-wrapper": "^1.0.5",
+    "ocrad.js": "^0.0.1",
     "spamwatch": "^0.4.0",
     "telegraf": "^4.3.0",
     "telegram": "^1.6.12",

@@ -2945,6 +2945,11 @@ ocr-space-api-wrapper@^1.0.5:
     axios "^0.21.0"
     form-data "^3.0.0"
 
+ocrad.js@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/ocrad.js/-/ocrad.js-0.0.1.tgz#cd9aa3e63171ebc315a0e0109b3c024b2a52248e"
+  integrity sha1-zZqj5jFx68MVoOAQmzwCSypSJI4=
+
 omggif@^1.0.10, omggif@^1.0.9:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/omggif/-/omggif-1.0.10.tgz#ddaaf90d4a42f532e9e7cb3a95ecdd47f17c7b19"

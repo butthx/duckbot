@@ -96,8 +96,8 @@ export async function setLang(ctx) {
         return replyToMessage(ctx, langs.userNonAdmin, false);
       }
     }
-    let data = ['en', 'id', 'ja'];
-    let textData = ['🇬🇧 English', '🇮🇩 Indonesia', '🇯🇵 Japanese'];
+    let data = ['en', 'id', 'jw', 'ja'];
+    let textData = ['🇬🇧 English', '🇮🇩 Indonesia', '🇮🇩 Javanese', '🇯🇵 Japanese'];
     let button = new Array();
     let currentLang = await getCurrentLang(ctx);
     for (let i = 0; i < data.length; i++) {

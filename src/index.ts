@@ -41,7 +41,7 @@ connect();
 
 export let bot = new Telegraf(process.env['BOT_TOKEN'] as string);
 let session = '';
-Logger.setLevel('none');
+Logger.setLevel('warn');
 export let client = new TelegramClient(
     new StringSession(session),
     Number(process.env.API_ID),
@@ -147,7 +147,7 @@ bot.command('cal', cal);
 // bot.command("vision",ocrVision)
 // bot.on("inline_query", inline_query)
 bot.catch(reportError);
-process.on('unhandledRejection', () => {});
+// process.on('unhandledRejection', () => {});
 async function run() {}
 client.start({
   botAuthToken: String(process.env.BOT_TOKEN),
