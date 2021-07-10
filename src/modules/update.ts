@@ -37,8 +37,12 @@ export default async function update(ctx) {
           results += stdout;
         }
       });
+      results += `\nSuccessfully updated script. Please restart the application to get the results.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
+          ctx,
+      )}</code>`;
+      return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, results);
     } else {
-      exec('sh ./download/update-stable.sh', async (err, stdout, stderr) => {
+      await exec('sh ./download/update-stable.sh', async (err, stdout, stderr) => {
         if (err) {
           results += err;
         }
@@ -46,6 +50,10 @@ export default async function update(ctx) {
           results += stdout;
         }
       });
+      results += `\nSuccessfully updated script. Please restart the application to get the results.\n⏱ <code>${c}</code> | ⏳ <code>${await getPing(
+          ctx,
+      )}</code>`;
+      return ctx.telegram.editMessageText(msg.chat.id, msg.message_id, undefined, results);
     }
   } catch (error) {
     replyToMessage(
