@@ -237,9 +237,9 @@ export async function kang(ctx) {
                           // fit: 'contain',
                           // background: { r: 225, g: 225, b: 225, alpha: 0 }
                         })
-                        .jpeg({
-                          quality: quality,
-                        })
+                    // .jpeg({
+                    //  quality: quality,
+                    // })
                         .toBuffer(),
                   },
                   emojis: emoji,
@@ -300,9 +300,9 @@ export async function kang(ctx) {
                               // fit: 'contain',
                               // background: { r: 255, g: 225, b: 255, alpha: 0 }
                             })
-                            .jpeg({
-                              quality: quality,
-                            })
+                        // .jpeg({
+                        //  quality: quality,
+                        // })
                             .toBuffer(),
                       },
                       emojis: emoji,
