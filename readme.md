@@ -54,7 +54,5 @@ To keep the bot active and not sleeping I recommend using [uptimerobot](https://
 You can submit a pull request or an opened issue.
 
 
-[![corwdin](https://img.shields.io/badge/Translate%20This%20Bot-success.svg?style=flat-square&logo=crowdin)](https://crowdin.com/project/missduckbot)
-
 ## Notes
 This repo is still in **beta dev** if there are bugs or incomplete features please understand!
